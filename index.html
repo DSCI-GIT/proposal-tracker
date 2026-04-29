@@ -1,1324 +1,1455 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DSCI Job & Proposal Tracker</title>
   <style>
-    :root {
-      --bg: #f5f7fa;
-      --panel: #ffffff;
-      --text: #1f2933;
-      --muted: #64748b;
-      --border: #d7dee8;
-      --border-strong: #b8c2d0;
-      --accent: #1f6feb;
-      --accent-dark: #174ea6;
-      --green: #0f8a5f;
-      --red: #b42318;
-      --yellow: #9a6700;
-      --blue: #155eef;
-      --purple: #6941c6;
-      --gray: #475467;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-      --radius: 16px;
+    :root{
+      --bg:#fff7f7;
+      --panel:#ffffff;
+      --panel-2:#fff0f1;
+      --line:#f0cfd2;
+      --line-strong:#e6b1b8;
+      --text:#2a1f23;
+      --muted:#7a656a;
+      --accent:#d64252;
+      --accent-2:#b8263e;
+      --accent-soft:#ffe5e8;
+      --good:#1f8f56;
+      --warn:#c17a00;
+      --bad:#c03d3d;
+      --shadow:0 10px 30px rgba(182,38,62,.10);
+      --radius:16px;
+      --radius-sm:12px;
+      --toolbar-h:74px;
+      --logo-data-uri:"data:image/webp;base64,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";
     }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: linear-gradient(180deg, #eef3f9 0%, var(--bg) 260px);
-      color: var(--text);
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,sans-serif;
+      background:linear-gradient(180deg,#fff8f8 0%,#fff4f5 100%);
+      color:var(--text);
     }
-
-    header {
-      padding: 28px clamp(18px, 4vw, 46px) 18px;
-      border-bottom: 1px solid rgba(215, 222, 232, 0.8);
+    button,input,select,textarea{font:inherit}
+    .app{
+      max-width:1600px;
+      margin:0 auto;
+      padding:18px;
     }
-
-    .header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 18px;
-      max-width: 1560px;
-      margin: 0 auto;
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      background:rgba(255,247,247,.88);
+      backdrop-filter:blur(10px);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 16px;
+      min-height:var(--toolbar-h);
     }
-
-    .brand h1 {
-      margin: 0;
-      font-size: clamp(26px, 3vw, 42px);
-      letter-spacing: -0.04em;
-      line-height: 1.05;
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
     }
-
-    .brand p {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      max-width: 820px;
+    .brand-logo{
+      width:170px;
+      height:56px;
+      background-image:var(--logo-data-uri);
+      background-repeat:no-repeat;
+      background-size:contain;
+      background-position:left center;
+      flex:0 0 auto;
     }
-
-    .header-actions, .inline-actions, .form-actions, .client-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+    .brand-text{min-width:0}
+    .brand-text h1{
+      margin:0;
+      font-size:1.18rem;
+      line-height:1.1;
     }
-
-    .header-actions { justify-content: flex-end; }
-
-    main {
-      max-width: 1560px;
-      margin: 0 auto;
-      padding: 22px clamp(18px, 4vw, 46px) 46px;
+    .brand-text p{
+      margin:3px 0 0;
+      color:var(--muted);
+      font-size:.89rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-
-    button, .button-label {
-      border: 1px solid var(--border-strong);
-      background: #fff;
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 650;
-      cursor: pointer;
-      transition: 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      line-height: 1;
-      user-select: none;
+    .toolbar{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
-
-    button:hover, .button-label:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    .icon-btn{
+      height:44px;
+      min-width:44px;
+      border:none;
+      border-radius:14px;
+      background:var(--panel);
+      color:var(--text);
+      box-shadow:0 0 0 1px var(--line) inset;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:0 12px;
+      cursor:pointer;
+      transition:.18s ease;
     }
-
-    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    button.primary:hover { background: var(--accent-dark); }
-    button.danger { border-color: #f3b4ae; color: var(--red); background: #fff7f6; }
-    button.small { padding: 7px 10px; border-radius: 10px; font-size: 12px; }
-    input[type="file"] { display: none; }
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 14px;
-      margin-bottom: 18px;
+    .icon-btn:hover{transform:translateY(-1px); box-shadow:0 8px 18px rgba(182,38,62,.08),0 0 0 1px var(--line) inset;}
+    .icon-btn.primary{
+      background:linear-gradient(180deg,#e45363,#c92f47);
+      color:#fff;
+      box-shadow:none;
     }
-
-    .stat-card {
-      background: rgba(255, 255, 255, 0.86);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
-      min-height: 96px;
+    .icon-btn.settings{
+      background:var(--accent-soft);
+      color:var(--accent-2);
+      box-shadow:0 0 0 1px #f2b9c0 inset;
     }
-
-    .stat-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 750;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+    .icon-btn[disabled]{
+      opacity:.45;
+      cursor:not-allowed;
+      transform:none;
+      box-shadow:0 0 0 1px var(--line) inset;
     }
-
-    .stat-card strong {
-      display: block;
-      margin-top: 8px;
-      font-size: 29px;
-      line-height: 1;
-      letter-spacing: -0.04em;
+    .icon-btn svg{width:18px;height:18px;display:block;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .spacer{width:8px}
+    .content{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
     }
-
-    .stat-card em {
-      display: block;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 13px;
-      font-style: normal;
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
     }
-
-    .layout {
-      display: grid;
-      grid-template-columns: minmax(390px, 460px) minmax(0, 1fr);
-      gap: 18px;
-      align-items: start;
+    .card{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:16px;
+      box-shadow:var(--shadow);
     }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
+    .card .label{
+      color:var(--muted);
+      font-size:.86rem;
+      margin-bottom:8px;
     }
-
-    .panel-header {
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(180deg, #ffffff, #f8fafc);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
+    .card .value{
+      font-size:1.6rem;
+      font-weight:700;
+      line-height:1.1;
     }
-
-    .panel-header h2 { margin: 0; font-size: 18px; letter-spacing: -0.02em; }
-    .panel-header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
-    .form-body { padding: 18px; }
-
-    .section-title {
-      margin: 20px 0 10px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border);
-      color: #334155;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+    .card .sub{
+      color:var(--muted);
+      font-size:.84rem;
+      margin-top:6px;
     }
-
-    .section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
-
-    .field-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-
-    .field-grid.one { grid-template-columns: 1fr; }
-
-    label {
-      display: grid;
-      gap: 5px;
-      font-size: 12px;
-      font-weight: 750;
-      color: #475569;
+    .panel-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:16px 18px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#fffdfd,#fff5f6);
     }
-
-    input, select, textarea {
-      width: 100%;
-      border: 1px solid var(--border-strong);
-      border-radius: 11px;
-      padding: 10px 11px;
-      font-size: 14px;
-      color: var(--text);
-      background: #fff;
-      outline: none;
-      transition: 0.12s ease;
+    .panel-head h2{
+      margin:0;
+      font-size:1.05rem;
     }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+    .filters{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
     }
-
-    textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
-
-    .client-summary, .client-editor, .sync-status {
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      border-radius: 14px;
-      padding: 12px;
-      margin-top: 12px;
+    .filters .field{
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
-
-    .client-summary strong, .sync-status strong {
-      display: block;
-      font-size: 14px;
-      color: #111827;
+    .search{
+      min-width:260px;
+      flex:1 1 280px;
     }
-
-    .client-summary span, .sync-status span {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.35;
+    .input, .select, .textarea{
+      width:100%;
+      border:1px solid var(--line-strong);
+      background:#fff;
+      border-radius:12px;
+      padding:10px 12px;
+      color:var(--text);
+      outline:none;
     }
-
-    .client-editor {
-      background: #fff;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    .textarea{min-height:96px; resize:vertical}
+    .input:focus,.select:focus,.textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(214,66,82,.10);
     }
-
-    .client-editor h3 {
-      margin: 0 0 12px;
-      font-size: 15px;
-      letter-spacing: -0.01em;
+    .table-wrap{
+      overflow:auto;
+      max-height:calc(100vh - 280px);
     }
-
-    .sync-panel { margin-bottom: 18px; }
-
-    .sync-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 12px;
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      min-width:1200px;
     }
-
-    .form-actions { margin-top: 18px; }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr auto;
-      gap: 10px;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-      background: #fbfcfe;
+    thead th{
+      position:sticky;
+      top:0;
+      z-index:3;
+      background:#fff7f8;
+      color:#5d4a4f;
+      text-align:left;
+      font-size:.83rem;
+      font-weight:700;
+      letter-spacing:.02em;
+      border-bottom:1px solid var(--line);
+      padding:12px 10px;
+      white-space:nowrap;
     }
-
-    .table-wrap {
-      overflow: auto;
-      max-height: calc(100vh - 365px);
-      min-height: 420px;
+    tbody td{
+      padding:12px 10px;
+      border-bottom:1px solid #f3dfe2;
+      vertical-align:top;
+      font-size:.93rem;
     }
-
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-      min-width: 1180px;
-      font-size: 13px;
+    tbody tr{cursor:pointer}
+    tbody tr:hover{background:#fff6f7}
+    tbody tr.selected{background:#ffecef}
+    th.sticky, td.sticky{
+      position:sticky;
+      left:0;
+      background:inherit;
+      z-index:2;
     }
-
-    thead th {
-      position: sticky;
-      top: 0;
-      z-index: 2;
-      background: #f8fafc;
-      color: #475569;
-      text-align: left;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 11px 12px;
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-      cursor: pointer;
+    thead th.sticky{z-index:4}
+    .checkbox-cell{width:48px}
+    .checkbox{
+      width:18px;height:18px;
+      accent-color:var(--accent);
     }
-
-    tbody td {
-      padding: 12px;
-      border-bottom: 1px solid #e9eef5;
-      vertical-align: top;
-      color: #263445;
+    .status-pill, .accept-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 9px;
+      border-radius:999px;
+      font-size:.78rem;
+      font-weight:700;
+      border:1px solid transparent;
+      white-space:nowrap;
     }
-
-    tbody tr:hover { background: #f8fbff; }
-
-    .client-cell strong { display: block; font-size: 14px; color: #111827; }
-    .client-cell span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      padding: 5px 9px;
-      font-size: 11px;
-      font-weight: 800;
-      white-space: nowrap;
-      border: 1px solid transparent;
+    .status-lead{background:#f5eef1;color:#7a4f5b;border-color:#ead6db}
+    .status-proposal{background:#fff1e0;color:#9b6200;border-color:#f2d3a5}
+    .status-awarded{background:#eaf8ef;color:#217544;border-color:#b9e2c7}
+    .status-booked{background:#eceffc;color:#465db8;border-color:#c8d1f3}
+    .status-capture{background:#eaf9fd;color:#0f728f;border-color:#bfe8f2}
+    .status-processing{background:#f5f1ff;color:#6d4cd1;border-color:#d8cdfb}
+    .status-delivered{background:#eaf8ef;color:#217544;border-color:#b9e2c7}
+    .status-closed{background:#f3f3f4;color:#68686d;border-color:#dddddf}
+    .accept-yes{background:#ebf7ee;color:#167c45;border-color:#bee2cb}
+    .accept-no{background:#fff0f1;color:#bc3d4f;border-color:#f2c2c8}
+    .accept-pending{background:#fff7e7;color:#996100;border-color:#f2ddb0}
+    .muted{color:var(--muted)}
+    .money{font-variant-numeric:tabular-nums; white-space:nowrap}
+    .small{font-size:.85rem}
+    .selection-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      background:var(--accent-soft);
+      color:var(--accent-2);
+      border:1px solid #efbec5;
+      border-radius:999px;
+      font-weight:600;
     }
-
-    .badge.lead { background: #f1f5f9; color: var(--gray); border-color: #d9e2ec; }
-    .badge.rfp-review { background: #eff6ff; color: var(--blue); border-color: #bfd7ff; }
-    .badge.quoting { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
-    .badge.submitted { background: #eef4ff; color: #3538cd; border-color: #c7d7fe; }
-    .badge.awarded { background: #ecfdf3; color: var(--green); border-color: #abefc6; }
-    .badge.not-awarded { background: #fff1f0; color: var(--red); border-color: #fecdca; }
-    .badge.booked { background: #f4f3ff; color: var(--purple); border-color: #d9d6fe; }
-    .badge.data-capture { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
-    .badge.processing { background: #fef9c3; color: var(--yellow); border-color: #fde68a; }
-    .badge.delivered { background: #e7f8ee; color: #047857; border-color: #a7f3d0; }
-    .badge.invoiced { background: #f2f4f7; color: #344054; border-color: #d0d5dd; }
-    .badge.closed { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
-
-    .amount { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
-
-    .date-list { display: grid; gap: 4px; min-width: 180px; }
-    .date-list span { color: var(--muted); font-size: 12px; }
-    .date-list b { color: #334155; font-weight: 750; }
-
-    .row-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
-    .empty { padding: 44px 22px; color: var(--muted); text-align: center; }
-    .footer-note { color: var(--muted); font-size: 12px; margin-top: 12px; line-height: 1.4; }
-    .hidden { display: none !important; }
-
-    @media (max-width: 1200px) {
-      .dashboard { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .layout { grid-template-columns: 1fr; }
-      .table-wrap { max-height: unset; }
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(49,18,23,.38);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:60;
     }
-
-    @media (max-width: 900px) {
-      .sync-grid { grid-template-columns: 1fr; }
+    .modal.show{display:flex}
+    .modal-box{
+      width:min(1080px,100%);
+      max-height:90vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:22px;
+      border:1px solid var(--line);
+      box-shadow:0 20px 60px rgba(0,0,0,.18);
     }
-
-    @media (max-width: 760px) {
-      .header-row { flex-direction: column; }
-      .header-actions { justify-content: flex-start; }
-      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .filters { grid-template-columns: 1fr; }
-      .field-grid { grid-template-columns: 1fr; }
+    .modal-sm{width:min(760px,100%)}
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      position:sticky;
+      top:0;
+      background:#fff;
+      z-index:2;
     }
-
-    @media print {
-      body { background: white; }
-      header, .dashboard, .form-panel, .filters, .row-actions, .panel-header button, .header-actions, .sync-panel { display: none !important; }
-      main { max-width: none; padding: 0; }
-      .layout { display: block; }
-      .panel { border: 0; box-shadow: none; }
-      .table-wrap { max-height: none; overflow: visible; }
-      table { min-width: 0; font-size: 10px; }
-      thead th { position: static; }
-      tbody td, thead th { padding: 6px; }
+    .modal-head h3{margin:0}
+    .modal-body{padding:18px 20px}
+    .modal-foot{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      padding:18px 20px;
+      border-top:1px solid var(--line);
+      position:sticky;
+      bottom:0;
+      background:#fff;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,minmax(0,1fr));
+      gap:14px;
+    }
+    .col-12{grid-column:span 12}
+    .col-8{grid-column:span 8}
+    .col-6{grid-column:span 6}
+    .col-4{grid-column:span 4}
+    .col-3{grid-column:span 3}
+    .field label{
+      display:block;
+      font-size:.84rem;
+      color:var(--muted);
+      margin:0 0 6px;
+    }
+    .inline-row{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .helper{
+      color:var(--muted);
+      font-size:.82rem;
+      margin-top:6px;
+    }
+    .sync-status{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:#fff6f7;
+      border:1px solid #f0cfd2;
+      color:#64464f;
+      font-size:.9rem;
+      line-height:1.45;
+    }
+    .toast{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:100;
+      min-width:280px;
+      max-width:440px;
+      padding:14px 16px;
+      border-radius:14px;
+      background:#2d1f23;
+      color:#fff;
+      box-shadow:0 12px 30px rgba(0,0,0,.24);
+      opacity:0;
+      transform:translateY(10px);
+      pointer-events:none;
+      transition:.18s ease;
+    }
+    .toast.show{opacity:1; transform:translateY(0)}
+    .conflict-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      background:#fffafb;
+      margin-bottom:12px;
+    }
+    .conflict-card h4{
+      margin:0 0 8px;
+      font-size:1rem;
+    }
+    .compare{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:10px;
+    }
+    .compare-side{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+    }
+    .compare-side h5{
+      margin:0 0 8px;
+      font-size:.92rem;
+    }
+    .compare-side pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      font-size:.8rem;
+      color:#4f4044;
+      max-height:220px;
+      overflow:auto;
+      font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    }
+    .radio-row{
+      display:flex;
+      gap:14px;
+      margin-top:10px;
+      flex-wrap:wrap;
+    }
+    .radio-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid var(--line-strong);
+      border-radius:999px;
+      padding:8px 12px;
+      background:#fff;
+      cursor:pointer;
+    }
+    .client-pair{
+      display:flex;
+      gap:8px;
+      align-items:stretch;
+    }
+    .client-pair select{flex:1}
+    .empty{
+      padding:40px 20px;
+      text-align:center;
+      color:var(--muted);
+    }
+    .hidden{display:none !important}
+    @media (max-width:1200px){
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width:900px){
+      .topbar{align-items:flex-start; flex-direction:column}
+      .toolbar{justify-content:flex-start}
+      .cards{grid-template-columns:1fr}
+      .compare{grid-template-columns:1fr}
+      .col-8,.col-6,.col-4,.col-3{grid-column:span 12}
+      .brand-logo{width:140px;height:46px}
+    }
+    @media print{
+      .topbar,.modal,.toast{display:none !important}
+      body{background:#fff}
+      .app{max-width:none;padding:0}
+      .panel,.card{box-shadow:none}
+      .table-wrap{max-height:none;overflow:visible}
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="header-row">
+  <div class="app">
+    <div class="topbar">
       <div class="brand">
-        <h1>Job & Proposal Tracker</h1>
-        <p>Track clients, RFPs, proposals, bids, awarded work, booked dates, data capture, processing, delivery, invoicing, and closeout status.</p>
+        <div class="brand-logo" aria-hidden="true"></div>
+        <div class="brand-text">
+          <h1>DSCI Job &amp; Proposal Tracker</h1>
+          <p>Shared proposal, booking, capture, processing, and delivery tracker</p>
+        </div>
       </div>
-      <div class="header-actions">
-        <button type="button" class="primary" id="newRecordTop">New Record</button>
-        <button type="button" id="toggleSyncSettings">Sheet Sync</button>
-        <button type="button" id="pullFromSheet">Pull from Sheet</button>
-        <button type="button" id="pushToSheet">Push to Sheet</button>
-        <button type="button" id="exportCsv">Export CSV</button>
-        <button type="button" id="exportJson">Backup JSON</button>
-        <label class="button-label" for="importJson">Import JSON</label>
-        <input type="file" id="importJson" accept="application/json,.json" />
-        <button type="button" onclick="window.print()">Print</button>
+
+      <div class="toolbar">
+        <button class="icon-btn primary" id="btnNewRecord" title="New Record">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </button>
+        <button class="icon-btn" id="btnEditRecord" title="Edit Selected" disabled>
+          <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        </button>
+        <button class="icon-btn" id="btnCopyRecord" title="Copy Selected" disabled>
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        </button>
+        <button class="icon-btn" id="btnDeleteRecord" title="Delete Selected" disabled>
+          <svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+        </button>
+
+        <div class="spacer"></div>
+
+        <button class="icon-btn" id="btnSync" title="Sync">
+          <svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.36"/><path d="M3 12A9 9 0 0 1 18.5 5.64"/><path d="M21 3v6h-6"/><path d="M3 21v-6h6"/></svg>
+        </button>
+        <button class="icon-btn" id="btnImport" title="Import">
+          <svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+        </button>
+        <button class="icon-btn" id="btnExport" title="Export CSV">
+          <svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="m17 14-5 5-5-5"/><path d="M5 3h14"/></svg>
+        </button>
+        <button class="icon-btn" id="btnBackup" title="Backup JSON">
+          <svg viewBox="0 0 24 24"><path d="M20 7h-9a2 2 0 0 1-2-2V4"/><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M12 11v6"/><path d="m9 14 3 3 3-3"/></svg>
+        </button>
+        <button class="icon-btn" id="btnPrint" title="Print">
+          <svg viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg>
+        </button>
+
+        <div class="spacer"></div>
+
+        <button class="icon-btn settings" id="btnSettings" title="Sheet Sync Settings">
+          <svg viewBox="0 0 24 24"><path d="M12 3v2"/><path d="M12 19v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M3 12h2"/><path d="M19 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/><circle cx="12" cy="12" r="4"/></svg>
+        </button>
       </div>
     </div>
-  </header>
 
-  <main>
-    <section class="dashboard" aria-label="Dashboard summary">
-      <div class="stat-card"><span>Total Records</span><strong id="statTotal">0</strong><em>All jobs and proposals</em></div>
-      <div class="stat-card"><span>Clients</span><strong id="statClients">0</strong><em>Saved client records</em></div>
-      <div class="stat-card"><span>Open Proposals</span><strong id="statOpen">0</strong><em>Not yet awarded/lost</em></div>
-      <div class="stat-card"><span>Awarded / Active</span><strong id="statAwarded">0</strong><em>Won or in progress</em></div>
-      <div class="stat-card"><span>Bid Value</span><strong id="statBidValue">$0</strong><em>Visible records total</em></div>
-      <div class="stat-card"><span>Accepted Value</span><strong id="statAcceptedValue">$0</strong><em>Awarded and active total</em></div>
-    </section>
-
-    <section class="panel sync-panel hidden" id="syncPanel">
-      <div class="panel-header">
-        <div>
-          <h2>Google Sheet Sync</h2>
-          <p>The page is hosted on GitHub. The shared database is stored in your Google Sheet through Apps Script.</p>
+    <div class="content">
+      <div class="cards">
+        <div class="card">
+          <div class="label">Open Records</div>
+          <div class="value" id="statOpen">0</div>
+          <div class="sub">All active jobs and proposals</div>
         </div>
-        <button type="button" class="small" id="hideSyncSettings">Hide</button>
+        <div class="card">
+          <div class="label">Proposals Pending</div>
+          <div class="value" id="statPending">0</div>
+          <div class="sub">Lead and proposal-stage work</div>
+        </div>
+        <div class="card">
+          <div class="label">Booked / Capture</div>
+          <div class="value" id="statBooked">0</div>
+          <div class="sub">Booked and in field operations</div>
+        </div>
+        <div class="card">
+          <div class="label">Processing</div>
+          <div class="value" id="statProcessing">0</div>
+          <div class="sub">Back-end processing in progress</div>
+        </div>
+        <div class="card">
+          <div class="label">Delivered</div>
+          <div class="value" id="statDelivered">0</div>
+          <div class="sub">Completed or delivered records</div>
+        </div>
       </div>
-      <div class="form-body">
-        <div class="sync-grid">
-          <label>Apps Script Web App URL
-            <input id="sheetApiUrl" placeholder="https://script.google.com/.../exec" />
-          </label>
-          <label>API Key
-            <input id="sheetApiKey" type="password" placeholder="The API_KEY from Code.gs" autocomplete="off" />
-          </label>
-        </div>
-        <div class="inline-actions" style="margin-top:12px;">
-          <button type="button" class="primary" id="saveSheetSettings">Save Sync Settings</button>
-          <button type="button" id="testSheetConnection">Test Connection</button>
-          <button type="button" id="clearSheetSettings">Clear Local Sync Settings</button>
-          <button type="button" id="openSheetApiTest">Open API Test URL</button>
-        </div>
-        <div class="sync-status" id="syncStatus">
-          <strong>Sync status</strong>
-          <span>Not connected yet. Enter the API key used in Apps Script, then test the connection.</span>
-        </div>
-        <p class="footer-note">This URL is safe to keep in the HTML. The API key should not be published in the GitHub repo. Each user enters it locally once and it is stored only in that browser.</p>
-      </div>
-    </section>
 
-    <section class="layout">
-      <aside class="panel form-panel" id="formPanel">
-        <div class="panel-header">
-          <div>
-            <h2 id="formTitle">New Record</h2>
-            <p>Select a saved client or create a new client before saving the job/proposal.</p>
-          </div>
-          <button type="button" class="small" id="clearForm">Clear</button>
-        </div>
-        <form class="form-body" id="recordForm">
-          <input type="hidden" id="recordId" />
-          <input type="hidden" id="clientId" />
-
-          <div class="section-title">Client Database</div>
-          <div class="field-grid one">
-            <label>Saved Client
-              <select id="clientSelect">
-                <option value="">Select existing client...</option>
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Jobs Board</h2>
+          <div class="filters">
+            <div class="field search">
+              <input class="input" id="searchInput" type="search" placeholder="Search client, title, location, RFP, notes…" />
+            </div>
+            <div class="field">
+              <select class="select" id="statusFilter">
+                <option value="">All Statuses</option>
+                <option>Lead</option>
+                <option>Proposal</option>
+                <option>Awarded</option>
+                <option>Booked</option>
+                <option>Capture</option>
+                <option>Processing</option>
+                <option>Delivered</option>
+                <option>Closed</option>
               </select>
-            </label>
-          </div>
-          <div class="client-actions" style="margin-top:10px;">
-            <button type="button" class="small primary" id="newClient">Create New Client</button>
-            <button type="button" class="small" id="editSelectedClient">Edit Selected Client</button>
-            <button type="button" class="small danger" id="deleteSelectedClient">Delete Client</button>
-          </div>
-          <div class="client-summary" id="clientSummary">
-            <strong>No client selected</strong>
-            <span>Create a client or choose one from the dropdown.</span>
-          </div>
-
-          <div class="client-editor hidden" id="clientEditor">
-            <h3 id="clientEditorTitle">New Client</h3>
-            <div class="field-grid">
-              <label>Client / Company
-                <input id="client" placeholder="E.g., Halton Region" />
-              </label>
-              <label>Default Contact Name
-                <input id="contactName" placeholder="Client contact" />
-              </label>
-              <label>Email
-                <input id="email" type="email" placeholder="name@example.com" />
-              </label>
-              <label>Phone
-                <input id="phone" placeholder="Phone number" />
-              </label>
             </div>
-            <div class="field-grid one" style="margin-top:12px;">
-              <label>Client Notes
-                <textarea id="clientNotes" placeholder="Billing notes, procurement portal, preferred contact method, standing instructions, etc."></textarea>
-              </label>
-            </div>
-            <div class="inline-actions" style="margin-top:12px;">
-              <button type="button" class="small primary" id="saveClient">Save Client</button>
-              <button type="button" class="small" id="cancelClientEdit">Cancel</button>
+            <div class="field">
+              <span class="selection-badge" id="selectionBadge">0 selected</span>
             </div>
           </div>
-
-          <div class="section-title">Opportunity</div>
-          <div class="field-grid one">
-            <label>Project / RFP Title
-              <input id="projectTitle" required placeholder="Project, RFP, or job name" />
-            </label>
-          </div>
-          <div class="field-grid" style="margin-top:12px;">
-            <label>RFP / Reference Number
-              <input id="rfpNumber" placeholder="RFP, tender, quote, or internal reference" />
-            </label>
-            <label>Location
-              <input id="location" placeholder="Project location" />
-            </label>
-          </div>
-
-          <div class="section-title">Status / Commercial</div>
-          <div class="field-grid">
-            <label>Status
-              <select id="status">
-                <option value="Lead">Lead</option>
-                <option value="RFP Review">RFP Review</option>
-                <option value="Quoting">Quoting</option>
-                <option value="Submitted">Submitted</option>
-                <option value="Awarded">Awarded</option>
-                <option value="Not Awarded">Not Awarded</option>
-                <option value="Booked">Booked</option>
-                <option value="Data Capture">Data Capture</option>
-                <option value="Processing">Processing</option>
-                <option value="Delivered">Delivered</option>
-                <option value="Invoiced">Invoiced</option>
-                <option value="Closed">Closed</option>
-              </select>
-            </label>
-            <label>Accepted?
-              <select id="accepted">
-                <option value="Pending">Pending</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-              </select>
-            </label>
-            <label>Bid Amount
-              <input id="bidAmount" type="number" min="0" step="0.01" placeholder="0.00" />
-            </label>
-            <label>Probability %
-              <input id="probability" type="number" min="0" max="100" step="1" placeholder="0" />
-            </label>
-          </div>
-          <div class="field-grid one" style="margin-top:12px;">
-            <label>What We Bid / Scope Summary
-              <textarea id="scope" placeholder="E.g., LiDAR survey, orthomosaic, DEM, contours, point cloud classification, processing, reporting."></textarea>
-            </label>
-          </div>
-
-          <div class="section-title">Dates</div>
-          <div class="field-grid">
-            <label>RFP Received
-              <input id="rfpReceivedDate" type="date" />
-            </label>
-            <label>Site Visit / Job Walk
-              <input id="siteVisitDate" type="date" />
-            </label>
-            <label>Bid Due
-              <input id="bidDueDate" type="date" />
-            </label>
-            <label>Bid Submitted
-              <input id="bidSubmittedDate" type="date" />
-            </label>
-            <label>Award / Accepted Date
-              <input id="acceptedDate" type="date" />
-            </label>
-            <label>Date Booked
-              <input id="bookedDate" type="date" />
-            </label>
-            <label>Data Capture Date
-              <input id="captureDate" type="date" />
-            </label>
-            <label>Processing Started
-              <input id="processingStartDate" type="date" />
-            </label>
-            <label>Processing Complete
-              <input id="processingCompleteDate" type="date" />
-            </label>
-            <label>Delivery Date
-              <input id="deliveryDate" type="date" />
-            </label>
-            <label>Invoice Date
-              <input id="invoiceDate" type="date" />
-            </label>
-            <label>Follow-up Date
-              <input id="followUpDate" type="date" />
-            </label>
-          </div>
-
-          <div class="section-title">Operations / Delivery</div>
-          <div class="field-grid">
-            <label>Equipment / Platform
-              <input id="equipment" placeholder="M400 + L3, M350 + P1, Skydio X10, etc." />
-            </label>
-            <label>Lead / Assigned To
-              <input id="assignedTo" placeholder="Eric, Michael, subcontractor, etc." />
-            </label>
-          </div>
-          <div class="field-grid one" style="margin-top:12px;">
-            <label>Deliverables
-              <textarea id="deliverables" placeholder="Point cloud, DEM, orthomosaic, contours, report, photos, video, volume calculation, etc."></textarea>
-            </label>
-            <label>Notes / Next Action
-              <textarea id="notes" placeholder="Current issue, client request, next step, missing information, permits, schedule risk, etc."></textarea>
-            </label>
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="primary">Save Record</button>
-            <button type="button" id="duplicateRecord">Duplicate</button>
-            <button type="button" class="danger hidden" id="deleteCurrent">Delete</button>
-          </div>
-          <p class="footer-note">The page keeps a local cache in this browser. Use <b>Pull from Sheet</b> before editing and <b>Push to Sheet</b> after changes.</p>
-        </form>
-      </aside>
-
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2>Current Jobs and Proposals</h2>
-            <p>Search, filter, sort, edit, export, and print.</p>
-          </div>
-          <button type="button" class="small" id="loadSample">Load Sample Rows</button>
         </div>
-
-        <div class="filters">
-          <input id="searchBox" placeholder="Search client, RFP, location, scope, deliverables, notes..." />
-          <select id="statusFilter">
-            <option value="">All statuses</option>
-          </select>
-          <select id="acceptedFilter">
-            <option value="">Accepted: All</option>
-            <option value="Pending">Pending</option>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
-          <select id="dateFilter">
-            <option value="">All dates</option>
-            <option value="overdue">Bid due overdue</option>
-            <option value="due7">Bid due next 7 days</option>
-            <option value="followup7">Follow-up next 7 days</option>
-            <option value="active">Active not delivered</option>
-          </select>
-          <button type="button" id="resetFilters">Reset</button>
-        </div>
-
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th data-sort="client">Client / Project</th>
-                <th data-sort="status">Status</th>
-                <th data-sort="accepted">Accepted</th>
-                <th data-sort="bidAmount">Bid</th>
-                <th data-sort="bidDueDate">Key Dates</th>
-                <th data-sort="scope">What We Bid</th>
-                <th data-sort="deliveryDate">Delivery</th>
-                <th>Actions</th>
+                <th class="sticky checkbox-cell"><input id="selectAllCheckbox" class="checkbox" type="checkbox" title="Select all visible" /></th>
+                <th>Client</th>
+                <th>Project Title</th>
+                <th>Status</th>
+                <th>Accepted</th>
+                <th>Bid</th>
+                <th>Bid Due</th>
+                <th>Booked</th>
+                <th>Capture</th>
+                <th>Processing Start</th>
+                <th>Delivery</th>
+                <th>RFP</th>
+                <th>Location</th>
+                <th>Assigned To</th>
+                <th>Updated</th>
               </tr>
             </thead>
-            <tbody id="recordsBody"></tbody>
+            <tbody id="recordsTbody"></tbody>
           </table>
-          <div id="emptyState" class="empty hidden">No records match the current filters.</div>
+          <div class="empty hidden" id="emptyState">No records match the current filters.</div>
         </div>
-      </section>
-    </section>
-  </main>
+      </div>
+    </div>
+  </div>
+
+  <input type="file" id="importFileInput" accept=".json,application/json" class="hidden" />
+
+  <!-- Record Modal -->
+  <div class="modal" id="recordModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="recordModalTitle">New Record</h3>
+        <button class="icon-btn" type="button" data-close="recordModal" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="recordForm">
+        <div class="modal-body">
+          <div class="grid">
+            <div class="field col-8">
+              <label for="recordClientId">Client</label>
+              <div class="client-pair">
+                <select id="recordClientId" class="select"></select>
+                <button class="icon-btn" type="button" id="btnNewClientInline" title="New Client">
+                  <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="field col-4">
+              <label for="recordAssignedTo">Assigned To</label>
+              <input id="recordAssignedTo" class="input" />
+            </div>
+
+            <div class="field col-8">
+              <label for="recordProjectTitle">Project Title</label>
+              <input id="recordProjectTitle" class="input" required />
+            </div>
+            <div class="field col-4">
+              <label for="recordRfpNumber">RFP / Reference</label>
+              <input id="recordRfpNumber" class="input" />
+            </div>
+
+            <div class="field col-6">
+              <label for="recordLocation">Location</label>
+              <input id="recordLocation" class="input" />
+            </div>
+            <div class="field col-3">
+              <label for="recordStatus">Status</label>
+              <select id="recordStatus" class="select">
+                <option>Lead</option>
+                <option>Proposal</option>
+                <option>Awarded</option>
+                <option>Booked</option>
+                <option>Capture</option>
+                <option>Processing</option>
+                <option>Delivered</option>
+                <option>Closed</option>
+              </select>
+            </div>
+            <div class="field col-3">
+              <label for="recordAccepted">Accepted</label>
+              <select id="recordAccepted" class="select">
+                <option>Pending</option>
+                <option>Yes</option>
+                <option>No</option>
+              </select>
+            </div>
+
+            <div class="field col-3">
+              <label for="recordBidAmount">Bid Amount</label>
+              <input id="recordBidAmount" class="input" type="number" step="0.01" min="0" />
+            </div>
+            <div class="field col-3">
+              <label for="recordProbability">Probability %</label>
+              <input id="recordProbability" class="input" type="number" step="1" min="0" max="100" />
+            </div>
+            <div class="field col-6">
+              <label for="recordEquipment">What We Bid / Equipment</label>
+              <input id="recordEquipment" class="input" placeholder="M400 + L3, P1, Elios, processing, etc." />
+            </div>
+
+            <div class="field col-3">
+              <label for="recordRfpReceivedDate">RFP Received</label>
+              <input id="recordRfpReceivedDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordSiteVisitDate">Site Visit</label>
+              <input id="recordSiteVisitDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordBidDueDate">Bid Due</label>
+              <input id="recordBidDueDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordBidSubmittedDate">Bid Submitted</label>
+              <input id="recordBidSubmittedDate" class="input" type="date" />
+            </div>
+
+            <div class="field col-3">
+              <label for="recordAcceptedDate">Accepted Date</label>
+              <input id="recordAcceptedDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordBookedDate">Date Booked</label>
+              <input id="recordBookedDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordCaptureDate">Data Capture</label>
+              <input id="recordCaptureDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordDeliveryDate">Delivery</label>
+              <input id="recordDeliveryDate" class="input" type="date" />
+            </div>
+
+            <div class="field col-3">
+              <label for="recordProcessingStartDate">Processing Start</label>
+              <input id="recordProcessingStartDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordProcessingCompleteDate">Processing Complete</label>
+              <input id="recordProcessingCompleteDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordInvoiceDate">Invoice Date</label>
+              <input id="recordInvoiceDate" class="input" type="date" />
+            </div>
+            <div class="field col-3">
+              <label for="recordFollowUpDate">Follow-up Date</label>
+              <input id="recordFollowUpDate" class="input" type="date" />
+            </div>
+
+            <div class="field col-12">
+              <label for="recordScope">Scope</label>
+              <textarea id="recordScope" class="textarea"></textarea>
+            </div>
+            <div class="field col-12">
+              <label for="recordDeliverables">Deliverables</label>
+              <textarea id="recordDeliverables" class="textarea"></textarea>
+            </div>
+            <div class="field col-12">
+              <label for="recordNotes">Notes</label>
+              <textarea id="recordNotes" class="textarea"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="icon-btn" type="button" data-close="recordModal">Cancel</button>
+          <button class="icon-btn primary" type="submit">Save Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Client Modal -->
+  <div class="modal" id="clientModal">
+    <div class="modal-box modal-sm">
+      <div class="modal-head">
+        <h3 id="clientModalTitle">New Client</h3>
+        <button class="icon-btn" type="button" data-close="clientModal" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="clientForm">
+        <div class="modal-body">
+          <div class="grid">
+            <div class="field col-12">
+              <label for="clientName">Client Name</label>
+              <input id="clientName" class="input" required />
+            </div>
+            <div class="field col-6">
+              <label for="clientContactName">Contact Name</label>
+              <input id="clientContactName" class="input" />
+            </div>
+            <div class="field col-6">
+              <label for="clientPhone">Phone</label>
+              <input id="clientPhone" class="input" />
+            </div>
+            <div class="field col-12">
+              <label for="clientEmail">Email</label>
+              <input id="clientEmail" class="input" type="email" />
+            </div>
+            <div class="field col-12">
+              <label for="clientNotes">Notes</label>
+              <textarea id="clientNotes" class="textarea"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-foot">
+          <button class="icon-btn" type="button" data-close="clientModal">Cancel</button>
+          <button class="icon-btn primary" type="submit">Save Client</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settingsModal">
+    <div class="modal-box modal-sm">
+      <div class="modal-head">
+        <h3>Sheet Sync Settings</h3>
+        <button class="icon-btn" type="button" data-close="settingsModal" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="grid">
+          <div class="field col-12">
+            <label for="sheetApiUrl">Apps Script Web App URL</label>
+            <input id="sheetApiUrl" class="input" placeholder="https://script.google.com/macros/s/.../exec" />
+          </div>
+          <div class="field col-12">
+            <label for="sheetApiKey">API Key</label>
+            <input id="sheetApiKey" class="input" type="password" />
+          </div>
+        </div>
+
+        <div class="inline-row" style="margin-top:14px; flex-wrap:wrap;">
+          <button class="icon-btn" type="button" id="btnSaveSettings">Save Settings</button>
+          <button class="icon-btn" type="button" id="btnTestConnection">Test Connection</button>
+          <button class="icon-btn" type="button" id="btnOpenApiTest">Open API Test URL</button>
+          <button class="icon-btn" type="button" id="btnClearSettings">Clear Saved Settings</button>
+        </div>
+
+        <div class="sync-status" id="syncStatusBox">
+          Sync is configured through Apps Script. The main <strong>Sync</strong> button now performs a two-way comparison:
+          it reads the sheet first, checks for remote changes since the last sync, shows conflicts if needed, and then writes the merged result.
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="icon-btn" type="button" data-close="settingsModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Conflict Modal -->
+  <div class="modal" id="conflictModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Sync Conflict Review</h3>
+        <button class="icon-btn" type="button" data-close="conflictModal" title="Close">
+          <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="helper" style="margin-bottom:12px">
+          The sheet contains changes that conflict with local changes made since the last successful sync. Review each item and choose which version to keep.
+        </div>
+        <div id="conflictList"></div>
+      </div>
+      <div class="modal-foot">
+        <button class="icon-btn" type="button" data-close="conflictModal">Cancel</button>
+        <button class="icon-btn primary" type="button" id="btnResolveConflicts">Continue Sync</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
 
   <script>
-    const RECORD_STORAGE_KEY = "dsci_job_proposal_tracker_v3_records";
-    const CLIENT_STORAGE_KEY = "dsci_job_proposal_tracker_v3_clients";
-    const SHEET_SYNC_STORAGE_KEY = "dsci_job_proposal_tracker_v3_sheet_sync";
-    const LEGACY_RECORD_STORAGE_KEYS = [
-      "dsci_job_proposal_tracker_v2_records",
-      "dsci_job_proposal_tracker_v1"
-    ];
-    const LEGACY_CLIENT_STORAGE_KEYS = [
-      "dsci_job_proposal_tracker_v2_clients"
-    ];
+    const STORAGE_KEYS = {
+      clients: "dsci_tracker_clients_v3",
+      records: "dsci_tracker_records_v3",
+      settings: "dsci_tracker_sync_settings_v3",
+      syncState: "dsci_tracker_sync_state_v3"
+    };
 
-    const DEFAULT_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyAFJH5YiM6RDYPQEBRzp4srcZN-1QG90VtoF5zfos9XPVnkDYreUtThsKXnf2AK0mY4w/exec";
+    const DEFAULT_SETTINGS = {
+      url: "",
+      key: ""
+    };
 
-    const statusOptions = [
-      "Lead", "RFP Review", "Quoting", "Submitted", "Awarded", "Not Awarded",
-      "Booked", "Data Capture", "Processing", "Delivered", "Invoiced", "Closed"
-    ];
+    const STATUS_ORDER = ["Lead","Proposal","Awarded","Booked","Capture","Processing","Delivered","Closed"];
 
-    const jobFields = [
-      "recordId", "clientId", "client", "contactName", "email", "phone", "projectTitle", "rfpNumber", "location",
-      "status", "accepted", "bidAmount", "probability", "scope", "rfpReceivedDate", "siteVisitDate",
-      "bidDueDate", "bidSubmittedDate", "acceptedDate", "bookedDate", "captureDate", "processingStartDate",
-      "processingCompleteDate", "deliveryDate", "invoiceDate", "followUpDate", "equipment", "assignedTo",
-      "deliverables", "notes"
-    ];
-
-    let records = loadRecords();
-    let clients = loadClients();
-    let sortKey = "bidDueDate";
-    let sortDirection = "asc";
-    let editingClientId = "";
+    const state = {
+      clients: [],
+      records: [],
+      selectedIds: new Set(),
+      search: "",
+      statusFilter: "",
+      editingRecordId: null,
+      editingClientId: null,
+      pendingSyncPlan: null
+    };
 
     const $ = (id) => document.getElementById(id);
 
-    function makeId() {
-      if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
-      return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+    function uid(prefix){
+      if (window.crypto && crypto.randomUUID) return `${prefix}_${crypto.randomUUID()}`;
+      return `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2,10)}`;
     }
 
-    function money(value) {
-      const number = Number(value || 0);
-      return number.toLocaleString("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 });
+    function nowIso(){
+      return new Date().toISOString();
     }
 
-    function safeText(value) {
-      return String(value || "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function todayStr(){
+      return new Date().toISOString().slice(0,10);
     }
 
-    function todayISO() { return new Date().toISOString().slice(0, 10); }
-
-    function addDaysISO(days) {
-      const date = new Date();
-      date.setDate(date.getDate() + days);
-      return date.toISOString().slice(0, 10);
+    function sortByName(arr, key){
+      return [...arr].sort((a,b)=>(String(a[key]||"")).localeCompare(String(b[key]||""), undefined, {sensitivity:"base"}));
     }
 
-    function dateLabel(date) {
-      if (!date) return "—";
-      const parsed = new Date(date + "T00:00:00");
-      if (Number.isNaN(parsed.getTime())) return "—";
-      return parsed.toLocaleDateString("en-CA", { year: "numeric", month: "short", day: "2-digit" });
+    function escapeHtml(str){
+      return String(str ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
     }
 
-    function statusClass(status) {
-      return String(status || "Lead").toLowerCase().replaceAll(" ", "-").replaceAll("/", "-");
+    function formatDate(value){
+      if (!value) return "";
+      if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value;
+      const d = new Date(value);
+      if (isNaN(d)) return String(value);
+      return d.toISOString().slice(0,10);
     }
 
-    function loadArray(key) {
-      try {
-        const parsed = JSON.parse(localStorage.getItem(key));
-        return Array.isArray(parsed) ? parsed : [];
-      } catch {
-        return [];
-      }
+    function formatDateTime(value){
+      if (!value) return "";
+      const d = new Date(value);
+      if (isNaN(d)) return String(value);
+      return d.toLocaleString();
     }
 
-    function loadRecords() {
-      const current = loadArray(RECORD_STORAGE_KEY);
-      if (current.length) return current;
-      for (const key of LEGACY_RECORD_STORAGE_KEYS) {
-        const legacy = loadArray(key);
-        if (legacy.length) return legacy;
-      }
-      return [];
+    function formatMoney(value){
+      if (value === "" || value == null) return "";
+      const n = Number(value);
+      if (Number.isNaN(n)) return String(value);
+      return new Intl.NumberFormat("en-CA", {style:"currency", currency:"CAD", maximumFractionDigits:2}).format(n);
     }
 
-    function loadClients() {
-      const current = loadArray(CLIENT_STORAGE_KEY);
-      if (current.length) return current;
-      for (const key of LEGACY_CLIENT_STORAGE_KEYS) {
-        const legacy = loadArray(key);
-        if (legacy.length) return legacy;
-      }
-      return [];
+    function toast(message){
+      const el = $("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.classList.remove("show"), 2800);
     }
 
-    function saveRecords() {
-      localStorage.setItem(RECORD_STORAGE_KEY, JSON.stringify(records));
+    function openModal(id){ $(id).classList.add("show"); }
+    function closeModal(id){ $(id).classList.remove("show"); }
+
+    function saveLocal(){
+      localStorage.setItem(STORAGE_KEYS.clients, JSON.stringify(state.clients));
+      localStorage.setItem(STORAGE_KEYS.records, JSON.stringify(state.records));
     }
 
-    function saveClients() {
-      localStorage.setItem(CLIENT_STORAGE_KEY, JSON.stringify(clients));
+    function loadLocal(){
+      state.clients = ensureClientArray(JSON.parse(localStorage.getItem(STORAGE_KEYS.clients) || "[]"));
+      state.records = ensureRecordArray(JSON.parse(localStorage.getItem(STORAGE_KEYS.records) || "[]"));
     }
 
-    function loadSheetSyncSettings() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(SHEET_SYNC_STORAGE_KEY)) || {};
-        return {
-          url: saved.url || DEFAULT_SHEET_API_URL,
-          key: saved.key || ""
-        };
-      } catch {
-        return { url: DEFAULT_SHEET_API_URL, key: "" };
-      }
+    function getSettings(){
+      return {...DEFAULT_SETTINGS, ...JSON.parse(localStorage.getItem(STORAGE_KEYS.settings) || "{}")};
     }
 
-    function saveSheetSyncSettingsObject(settings) {
-      localStorage.setItem(SHEET_SYNC_STORAGE_KEY, JSON.stringify(settings));
+    function saveSettings(settings){
+      localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
     }
 
-    function fillSheetSyncSettings() {
-      const settings = loadSheetSyncSettings();
-      $("sheetApiUrl").value = settings.url || DEFAULT_SHEET_API_URL;
-      $("sheetApiKey").value = settings.key || "";
-      updateSyncStatus("Sync status", settings.key ? "Settings are saved locally. Test the connection before using the shared sheet." : "Enter the API key used in Apps Script, then test the connection.");
+    function getSyncState(){
+      return JSON.parse(localStorage.getItem(STORAGE_KEYS.syncState) || '{"clients":{},"records":{},"lastSyncAt":""}');
     }
 
-    function getSheetSyncSettingsFromForm() {
-      const settings = {
-        url: $("sheetApiUrl").value.trim() || DEFAULT_SHEET_API_URL,
-        key: $("sheetApiKey").value.trim()
+    function saveSyncState(syncState){
+      localStorage.setItem(STORAGE_KEYS.syncState, JSON.stringify(syncState));
+    }
+
+    function buildSyncSnapshot(clients, records){
+      const clientMap = {};
+      for (const c of clients) clientMap[c.client_id] = { updated_at: c.updated_at || "", deleted: false };
+      const recordMap = {};
+      for (const r of records) recordMap[r.job_id] = { updated_at: r.updated_at || "", deleted: false };
+      return { clients: clientMap, records: recordMap, lastSyncAt: nowIso() };
+    }
+
+    function defaultClient(){
+      return {
+        client_id: uid("client"),
+        client_name: "",
+        contact_name: "",
+        email: "",
+        phone: "",
+        notes: "",
+        created_at: nowIso(),
+        updated_at: nowIso()
       };
-      if (!settings.url) throw new Error("Enter the Apps Script web app URL.");
-      if (!settings.key) throw new Error("Enter the API key from Apps Script.");
-      return settings;
     }
 
-    function saveSheetSettingsFromForm() {
-      try {
-        const settings = getSheetSyncSettingsFromForm();
-        saveSheetSyncSettingsObject(settings);
-        updateSyncStatus("Settings saved", "The Apps Script URL and API key are saved in this browser only.");
-        alert("Sheet sync settings saved in this browser.");
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-
-    function clearSheetSettings() {
-      if (!confirm("Clear the locally saved Apps Script URL and API key from this browser?")) return;
-      localStorage.removeItem(SHEET_SYNC_STORAGE_KEY);
-      fillSheetSyncSettings();
-      updateSyncStatus("Settings cleared", "The page still contains the default Apps Script URL, but the API key has been cleared.");
-    }
-
-    function updateSyncStatus(title, message) {
-      const box = $("syncStatus");
-      if (!box) return;
-      box.innerHTML = `<strong>${safeText(title)}</strong><span>${safeText(message)}</span>`;
-    }
-
-    function normalizeKey(value) {
-      return String(value || "").trim().toLowerCase();
-    }
-
-    function migrateClientsFromExistingRecords() {
-      let changedClients = false;
-      let changedRecords = false;
-      const byKey = new Map();
-
-      clients.forEach((client) => {
-        const key = normalizeKey(client.name || client.client) + "|" + normalizeKey(client.email);
-        if (key !== "|") byKey.set(key, client);
-      });
-
-      records.forEach((record) => {
-        if (!record.client) return;
-        const key = normalizeKey(record.client) + "|" + normalizeKey(record.email);
-        let client = byKey.get(key);
-        if (!client) {
-          client = {
-            id: record.clientId || makeId(),
-            name: record.client,
-            contactName: record.contactName || "",
-            email: record.email || "",
-            phone: record.phone || "",
-            notes: "",
-            createdAt: record.createdAt || new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-          };
-          clients.push(client);
-          byKey.set(key, client);
-          changedClients = true;
-        }
-        if (!record.clientId) {
-          record.clientId = client.id;
-          changedRecords = true;
-        }
-      });
-
-      if (changedClients) saveClients();
-      if (changedRecords) saveRecords();
-    }
-
-    function getClientById(id) {
-      return clients.find((client) => client.id === id);
-    }
-
-    function sortedClients() {
-      return [...clients].sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
-    }
-
-    function renderClientOptions(selectedId = "") {
-      const select = $("clientSelect");
-      const current = selectedId || select.value || "";
-      select.innerHTML = '<option value="">Select existing client...</option>';
-      sortedClients().forEach((client) => {
-        const option = document.createElement("option");
-        option.value = client.id;
-        option.textContent = client.name || "Unnamed client";
-        select.appendChild(option);
-      });
-      if (current && getClientById(current)) select.value = current;
-    }
-
-    function setClientFields(client = {}) {
-      $("clientId").value = client.id || "";
-      $("client").value = client.name || "";
-      $("contactName").value = client.contactName || "";
-      $("email").value = client.email || "";
-      $("phone").value = client.phone || "";
-      $("clientNotes").value = client.notes || "";
-      updateClientSummary(client.id ? client : null);
-    }
-
-    function updateClientSummary(client) {
-      const summary = $("clientSummary");
-      if (!client) {
-        summary.innerHTML = '<strong>No client selected</strong><span>Create a client or choose one from the dropdown.</span>';
-        return;
-      }
-      const parts = [];
-      if (client.contactName) parts.push(client.contactName);
-      if (client.email) parts.push(client.email);
-      if (client.phone) parts.push(client.phone);
-      if (client.notes) parts.push(client.notes);
-      summary.innerHTML = `<strong>${safeText(client.name || "Unnamed client")}</strong><span>${safeText(parts.join(" • ") || "No contact details saved.")}</span>`;
-    }
-
-    function startNewClient() {
-      editingClientId = "";
-      $("clientEditorTitle").textContent = "New Client";
-      $("clientSelect").value = "";
-      setClientFields({});
-      $("clientEditor").classList.remove("hidden");
-      $("client").focus();
-    }
-
-    function editSelectedClient() {
-      const selectedId = $("clientSelect").value;
-      const client = getClientById(selectedId);
-      if (!client) {
-        alert("Select a client first, or create a new client.");
-        return;
-      }
-      editingClientId = client.id;
-      $("clientEditorTitle").textContent = "Edit Client";
-      setClientFields(client);
-      $("clientEditor").classList.remove("hidden");
-      $("client").focus();
-    }
-
-    function saveClientFromEditor() {
-      const name = $("client").value.trim();
-      if (!name) {
-        alert("Enter a client/company name before saving the client.");
-        return;
-      }
-
-      const existing = editingClientId ? getClientById(editingClientId) : null;
-      const id = existing?.id || makeId();
-      const client = {
-        id,
-        name,
-        contactName: $("contactName").value.trim(),
-        email: $("email").value.trim(),
-        phone: $("phone").value.trim(),
-        notes: $("clientNotes").value.trim(),
-        createdAt: existing?.createdAt || new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-
-      const index = clients.findIndex((item) => item.id === id);
-      if (index >= 0) clients[index] = client;
-      else clients.push(client);
-
-      records = records.map((record) => {
-        if (record.clientId !== id) return record;
-        return {
-          ...record,
-          client: client.name,
-          contactName: client.contactName,
-          email: client.email,
-          phone: client.phone,
-          updatedAt: new Date().toISOString()
-        };
-      });
-
-      saveClients();
-      saveRecords();
-      renderClientOptions(id);
-      $("clientSelect").value = id;
-      editingClientId = id;
-      setClientFields(client);
-      $("clientEditor").classList.add("hidden");
-      render();
-    }
-
-    function deleteSelectedClient() {
-      const selectedId = $("clientSelect").value;
-      const client = getClientById(selectedId);
-      if (!client) {
-        alert("Select a client to delete.");
-        return;
-      }
-      const linkedCount = records.filter((record) => record.clientId === selectedId).length;
-      const message = linkedCount
-        ? `Delete ${client.name}? This client is linked to ${linkedCount} job/proposal record(s). The job records will remain, but the saved client link will be removed.`
-        : `Delete ${client.name}?`;
-      if (!confirm(message)) return;
-
-      clients = clients.filter((item) => item.id !== selectedId);
-      records = records.map((record) => {
-        if (record.clientId !== selectedId) return record;
-        return { ...record, clientId: "", updatedAt: new Date().toISOString() };
-      });
-      saveClients();
-      saveRecords();
-      renderClientOptions("");
-      setClientFields({});
-      $("clientSelect").value = "";
-      $("clientEditor").classList.add("hidden");
-      render();
-    }
-
-    function handleClientSelect() {
-      const selectedId = $("clientSelect").value;
-      const client = getClientById(selectedId);
-      editingClientId = selectedId || "";
-      if (client) {
-        setClientFields(client);
-        $("clientEditor").classList.add("hidden");
-      } else {
-        setClientFields({});
-        $("clientEditor").classList.add("hidden");
-      }
-    }
-
-    function getFormData() {
-      const selectedClient = getClientById($("clientSelect").value) || null;
-      const clientName = selectedClient?.name || $("client").value.trim();
-      if (!clientName) {
-        alert("Select an existing client or create a new client before saving the record.");
-        return null;
-      }
-
-      const data = {};
-      jobFields.forEach((field) => {
-        const el = $(field);
-        if (!el) return;
-        data[field] = el.value.trim();
-      });
-
-      data.id = data.recordId || makeId();
-      data.clientId = selectedClient?.id || data.clientId || "";
-      data.client = selectedClient?.name || data.client || clientName;
-      data.contactName = selectedClient?.contactName || data.contactName || "";
-      data.email = selectedClient?.email || data.email || "";
-      data.phone = selectedClient?.phone || data.phone || "";
-      data.bidAmount = data.bidAmount ? Number(data.bidAmount) : 0;
-      data.probability = data.probability ? Number(data.probability) : 0;
-      data.updatedAt = new Date().toISOString();
-      delete data.recordId;
-      return data;
-    }
-
-    function setFormData(record) {
-      jobFields.forEach((field) => {
-        const el = $(field);
-        if (!el) return;
-        if (field === "recordId") el.value = record?.id || "";
-        else el.value = record?.[field] ?? "";
-      });
-
-      const client = getClientById(record?.clientId || "");
-      renderClientOptions(record?.clientId || "");
-      if (client) {
-        $("clientSelect").value = client.id;
-        setClientFields(client);
-        editingClientId = client.id;
-      } else if (record?.client) {
-        setClientFields({
-          id: "",
-          name: record.client,
-          contactName: record.contactName || "",
-          email: record.email || "",
-          phone: record.phone || "",
-          notes: ""
-        });
-        updateClientSummary({
-          name: record.client,
-          contactName: record.contactName || "",
-          email: record.email || "",
-          phone: record.phone || "",
-          notes: ""
-        });
-      } else {
-        setClientFields({});
-      }
-
-      $("clientEditor").classList.add("hidden");
-      $("formTitle").textContent = record?.id ? "Edit Record" : "New Record";
-      $("deleteCurrent").classList.toggle("hidden", !record?.id);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function clearForm() {
-      $("recordForm").reset();
-      $("recordId").value = "";
-      $("clientId").value = "";
-      $("status").value = "Lead";
-      $("accepted").value = "Pending";
-      $("clientSelect").value = "";
-      $("clientEditor").classList.add("hidden");
-      editingClientId = "";
-      updateClientSummary(null);
-      $("formTitle").textContent = "New Record";
-      $("deleteCurrent").classList.add("hidden");
-    }
-
-    function upsertRecord(record) {
-      const index = records.findIndex((item) => item.id === record.id);
-      if (index >= 0) {
-        record.createdAt = records[index].createdAt || new Date().toISOString();
-        records[index] = record;
-      } else {
-        record.createdAt = new Date().toISOString();
-        records.unshift(record);
-      }
-      saveRecords();
-      render();
-    }
-
-    function deleteRecord(id) {
-      if (!id) return;
-      const record = records.find((item) => item.id === id);
-      const label = record ? `${record.client || "this client"} / ${record.projectTitle || "this project"}` : "this record";
-      if (!confirm(`Delete ${label}?`)) return;
-      records = records.filter((item) => item.id !== id);
-      saveRecords();
-      clearForm();
-      render();
-    }
-
-    function duplicateById(id) {
-      const record = records.find((item) => item.id === id);
-      if (!record) return;
-      const duplicate = {
-        ...record,
-        id: makeId(),
-        projectTitle: `${record.projectTitle || "Untitled"} - Copy`,
+    function defaultRecord(){
+      return {
+        job_id: uid("job"),
+        client_id: "",
+        project_title: "",
+        rfp_number: "",
+        location: "",
         status: "Lead",
         accepted: "Pending",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
+        bid_amount: "",
+        probability: "",
+        scope: "",
+        rfp_received_date: "",
+        site_visit_date: "",
+        bid_due_date: "",
+        bid_submitted_date: "",
+        accepted_date: "",
+        booked_date: "",
+        capture_date: "",
+        processing_start_date: "",
+        processing_complete_date: "",
+        delivery_date: "",
+        invoice_date: "",
+        follow_up_date: "",
+        equipment: "",
+        assigned_to: "",
+        deliverables: "",
+        notes: "",
+        created_at: nowIso(),
+        updated_at: nowIso()
       };
-      records.unshift(duplicate);
-      saveRecords();
-      setFormData(duplicate);
-      render();
     }
 
-    function getFilteredRecords() {
-      const q = $("searchBox").value.trim().toLowerCase();
-      const status = $("statusFilter").value;
-      const accepted = $("acceptedFilter").value;
-      const dateFilter = $("dateFilter").value;
-      const today = todayISO();
-      const next7 = addDaysISO(7);
+    function ensureClientArray(arr){
+      return (Array.isArray(arr) ? arr : []).map(item => {
+        const base = defaultClient();
+        return {
+          ...base,
+          ...item,
+          client_id: item.client_id || uid("client"),
+          created_at: item.created_at || base.created_at,
+          updated_at: item.updated_at || item.created_at || base.updated_at
+        };
+      });
+    }
 
-      let result = records.filter((record) => {
-        const searchBlob = [
-          record.client, record.contactName, record.email, record.phone, record.projectTitle, record.rfpNumber,
-          record.location, record.status, record.accepted, record.scope, record.equipment, record.assignedTo,
-          record.deliverables, record.notes
+    function ensureRecordArray(arr){
+      return (Array.isArray(arr) ? arr : []).map(item => {
+        const base = defaultRecord();
+        return {
+          ...base,
+          ...item,
+          job_id: item.job_id || uid("job"),
+          created_at: item.created_at || base.created_at,
+          updated_at: item.updated_at || item.created_at || base.updated_at
+        };
+      });
+    }
+
+    function getClientName(clientId){
+      const c = state.clients.find(x => x.client_id === clientId);
+      return c ? c.client_name : "";
+    }
+
+    function filteredRecords(){
+      const q = state.search.trim().toLowerCase();
+      return sortRecords(state.records).filter(rec => {
+        if (state.statusFilter && rec.status !== state.statusFilter) return false;
+        if (!q) return true;
+        const hay = [
+          getClientName(rec.client_id),
+          rec.project_title,
+          rec.location,
+          rec.rfp_number,
+          rec.notes,
+          rec.scope,
+          rec.assigned_to,
+          rec.deliverables,
+          rec.equipment
         ].join(" ").toLowerCase();
-
-        if (q && !searchBlob.includes(q)) return false;
-        if (status && record.status !== status) return false;
-        if (accepted && record.accepted !== accepted) return false;
-
-        if (dateFilter === "overdue") {
-          if (!record.bidDueDate || record.bidDueDate >= today || ["Awarded", "Not Awarded", "Delivered", "Invoiced", "Closed"].includes(record.status)) return false;
-        }
-        if (dateFilter === "due7") {
-          if (!record.bidDueDate || record.bidDueDate < today || record.bidDueDate > next7) return false;
-        }
-        if (dateFilter === "followup7") {
-          if (!record.followUpDate || record.followUpDate < today || record.followUpDate > next7) return false;
-        }
-        if (dateFilter === "active") {
-          if (!["Awarded", "Booked", "Data Capture", "Processing"].includes(record.status)) return false;
-        }
-        return true;
+        return hay.includes(q);
       });
-
-      result.sort((a, b) => {
-        const av = a[sortKey] ?? "";
-        const bv = b[sortKey] ?? "";
-        if (sortKey === "bidAmount" || sortKey === "probability") {
-          return sortDirection === "asc" ? Number(av) - Number(bv) : Number(bv) - Number(av);
-        }
-        return sortDirection === "asc"
-          ? String(av).localeCompare(String(bv))
-          : String(bv).localeCompare(String(av));
-      });
-
-      return result;
     }
 
-    function renderStats(visibleRecords) {
-      const awardedStatuses = ["Awarded", "Booked", "Data Capture", "Processing", "Delivered", "Invoiced", "Closed"];
-      const openStatuses = ["Lead", "RFP Review", "Quoting", "Submitted"];
-      const totalBid = visibleRecords.reduce((sum, record) => sum + Number(record.bidAmount || 0), 0);
-      const acceptedValue = visibleRecords
-        .filter((record) => record.accepted === "Yes" || awardedStatuses.includes(record.status))
-        .reduce((sum, record) => sum + Number(record.bidAmount || 0), 0);
-
-      $("statTotal").textContent = visibleRecords.length;
-      $("statClients").textContent = clients.length;
-      $("statOpen").textContent = visibleRecords.filter((record) => openStatuses.includes(record.status)).length;
-      $("statAwarded").textContent = visibleRecords.filter((record) => awardedStatuses.includes(record.status)).length;
-      $("statBidValue").textContent = money(totalBid);
-      $("statAcceptedValue").textContent = money(acceptedValue);
+    function sortRecords(records){
+      return [...records].sort((a,b) => {
+        const statusDiff = STATUS_ORDER.indexOf(a.status) - STATUS_ORDER.indexOf(b.status);
+        if (statusDiff !== 0) return statusDiff;
+        const dueA = a.bid_due_date || a.booked_date || a.capture_date || "9999-12-31";
+        const dueB = b.bid_due_date || b.booked_date || b.capture_date || "9999-12-31";
+        if (dueA !== dueB) return dueA.localeCompare(dueB);
+        return String(a.project_title || "").localeCompare(String(b.project_title || ""));
+      });
     }
 
-    function renderTable(visibleRecords) {
-      const body = $("recordsBody");
-      body.innerHTML = "";
+    function renderAll(){
+      renderStats();
+      renderClientOptions();
+      renderTable();
+      updateToolbarState();
+    }
 
-      if (!visibleRecords.length) {
-        $("emptyState").classList.remove("hidden");
+    function renderStats(){
+      const recs = state.records;
+      $("statOpen").textContent = recs.filter(r => r.status !== "Closed").length;
+      $("statPending").textContent = recs.filter(r => ["Lead","Proposal"].includes(r.status)).length;
+      $("statBooked").textContent = recs.filter(r => ["Booked","Capture"].includes(r.status)).length;
+      $("statProcessing").textContent = recs.filter(r => r.status === "Processing").length;
+      $("statDelivered").textContent = recs.filter(r => ["Delivered","Closed"].includes(r.status)).length;
+    }
+
+    function renderClientOptions(selectedId = null){
+      const select = $("recordClientId");
+      const options = ['<option value="">Select client…</option>']
+        .concat(sortByName(state.clients, "client_name").map(client =>
+          `<option value="${escapeHtml(client.client_id)}">${escapeHtml(client.client_name)}</option>`
+        ));
+      select.innerHTML = options.join("");
+      if (selectedId) select.value = selectedId;
+    }
+
+    function statusClass(status){
+      return {
+        Lead:"status-lead",
+        Proposal:"status-proposal",
+        Awarded:"status-awarded",
+        Booked:"status-booked",
+        Capture:"status-capture",
+        Processing:"status-processing",
+        Delivered:"status-delivered",
+        Closed:"status-closed"
+      }[status] || "status-lead";
+    }
+
+    function acceptClass(value){
+      return {
+        Yes:"accept-yes",
+        No:"accept-no",
+        Pending:"accept-pending"
+      }[value] || "accept-pending";
+    }
+
+    function renderTable(){
+      const rows = filteredRecords();
+      const tbody = $("recordsTbody");
+      const empty = $("emptyState");
+
+      if (!rows.length){
+        tbody.innerHTML = "";
+        empty.classList.remove("hidden");
+      } else {
+        empty.classList.add("hidden");
+      }
+
+      tbody.innerHTML = rows.map(rec => {
+        const checked = state.selectedIds.has(rec.job_id);
+        return `
+          <tr data-id="${escapeHtml(rec.job_id)}" class="${checked ? 'selected' : ''}">
+            <td class="sticky checkbox-cell">
+              <input class="checkbox row-checkbox" type="checkbox" ${checked ? "checked" : ""} data-id="${escapeHtml(rec.job_id)}" />
+            </td>
+            <td>${escapeHtml(getClientName(rec.client_id) || "—")}</td>
+            <td>
+              <div><strong>${escapeHtml(rec.project_title || "Untitled Record")}</strong></div>
+              <div class="small muted">${escapeHtml(rec.equipment || "")}</div>
+            </td>
+            <td><span class="status-pill ${statusClass(rec.status)}">${escapeHtml(rec.status)}</span></td>
+            <td><span class="accept-pill ${acceptClass(rec.accepted)}">${escapeHtml(rec.accepted)}</span></td>
+            <td class="money">${escapeHtml(formatMoney(rec.bid_amount))}</td>
+            <td>${escapeHtml(formatDate(rec.bid_due_date))}</td>
+            <td>${escapeHtml(formatDate(rec.booked_date))}</td>
+            <td>${escapeHtml(formatDate(rec.capture_date))}</td>
+            <td>${escapeHtml(formatDate(rec.processing_start_date))}</td>
+            <td>${escapeHtml(formatDate(rec.delivery_date))}</td>
+            <td>${escapeHtml(rec.rfp_number || "")}</td>
+            <td>${escapeHtml(rec.location || "")}</td>
+            <td>${escapeHtml(rec.assigned_to || "")}</td>
+            <td class="small muted">${escapeHtml(formatDateTime(rec.updated_at))}</td>
+          </tr>
+        `;
+      }).join("");
+
+      $("selectionBadge").textContent = `${state.selectedIds.size} selected`;
+      const visibleIds = rows.map(r => r.job_id);
+      const selectedVisibleCount = visibleIds.filter(id => state.selectedIds.has(id)).length;
+      $("selectAllCheckbox").checked = visibleIds.length > 0 && selectedVisibleCount === visibleIds.length;
+      $("selectAllCheckbox").indeterminate = selectedVisibleCount > 0 && selectedVisibleCount < visibleIds.length;
+
+      tbody.querySelectorAll("tr").forEach(row => {
+        row.addEventListener("click", (e) => {
+          if (e.target.closest(".row-checkbox")) return;
+          const id = row.dataset.id;
+          toggleSelection(id);
+        });
+      });
+
+      tbody.querySelectorAll(".row-checkbox").forEach(cb => {
+        cb.addEventListener("click", (e) => e.stopPropagation());
+        cb.addEventListener("change", () => toggleSelection(cb.dataset.id, cb.checked));
+      });
+    }
+
+    function updateToolbarState(){
+      const count = state.selectedIds.size;
+      $("btnEditRecord").disabled = count !== 1;
+      $("btnCopyRecord").disabled = count !== 1;
+      $("btnDeleteRecord").disabled = count < 1;
+      $("selectionBadge").textContent = `${count} selected`;
+    }
+
+    function toggleSelection(id, forceValue){
+      const has = state.selectedIds.has(id);
+      const shouldSelect = typeof forceValue === "boolean" ? forceValue : !has;
+      if (shouldSelect) state.selectedIds.add(id);
+      else state.selectedIds.delete(id);
+      renderTable();
+      updateToolbarState();
+    }
+
+    function clearSelection(){
+      state.selectedIds.clear();
+      renderTable();
+      updateToolbarState();
+    }
+
+    function openRecordModal(record = null){
+      const rec = record ? {...record} : defaultRecord();
+      state.editingRecordId = record ? record.job_id : null;
+      $("recordModalTitle").textContent = record ? "Edit Record" : "New Record";
+
+      renderClientOptions(rec.client_id);
+      $("recordAssignedTo").value = rec.assigned_to || "";
+      $("recordProjectTitle").value = rec.project_title || "";
+      $("recordRfpNumber").value = rec.rfp_number || "";
+      $("recordLocation").value = rec.location || "";
+      $("recordStatus").value = rec.status || "Lead";
+      $("recordAccepted").value = rec.accepted || "Pending";
+      $("recordBidAmount").value = rec.bid_amount || "";
+      $("recordProbability").value = rec.probability || "";
+      $("recordEquipment").value = rec.equipment || "";
+      $("recordRfpReceivedDate").value = formatDate(rec.rfp_received_date);
+      $("recordSiteVisitDate").value = formatDate(rec.site_visit_date);
+      $("recordBidDueDate").value = formatDate(rec.bid_due_date);
+      $("recordBidSubmittedDate").value = formatDate(rec.bid_submitted_date);
+      $("recordAcceptedDate").value = formatDate(rec.accepted_date);
+      $("recordBookedDate").value = formatDate(rec.booked_date);
+      $("recordCaptureDate").value = formatDate(rec.capture_date);
+      $("recordDeliveryDate").value = formatDate(rec.delivery_date);
+      $("recordProcessingStartDate").value = formatDate(rec.processing_start_date);
+      $("recordProcessingCompleteDate").value = formatDate(rec.processing_complete_date);
+      $("recordInvoiceDate").value = formatDate(rec.invoice_date);
+      $("recordFollowUpDate").value = formatDate(rec.follow_up_date);
+      $("recordScope").value = rec.scope || "";
+      $("recordDeliverables").value = rec.deliverables || "";
+      $("recordNotes").value = rec.notes || "";
+
+      openModal("recordModal");
+    }
+
+    function collectRecordForm(){
+      const existing = state.records.find(r => r.job_id === state.editingRecordId);
+      const base = existing ? {...existing} : defaultRecord();
+      return {
+        ...base,
+        client_id: $("recordClientId").value,
+        assigned_to: $("recordAssignedTo").value.trim(),
+        project_title: $("recordProjectTitle").value.trim(),
+        rfp_number: $("recordRfpNumber").value.trim(),
+        location: $("recordLocation").value.trim(),
+        status: $("recordStatus").value,
+        accepted: $("recordAccepted").value,
+        bid_amount: $("recordBidAmount").value,
+        probability: $("recordProbability").value,
+        equipment: $("recordEquipment").value.trim(),
+        rfp_received_date: $("recordRfpReceivedDate").value,
+        site_visit_date: $("recordSiteVisitDate").value,
+        bid_due_date: $("recordBidDueDate").value,
+        bid_submitted_date: $("recordBidSubmittedDate").value,
+        accepted_date: $("recordAcceptedDate").value,
+        booked_date: $("recordBookedDate").value,
+        capture_date: $("recordCaptureDate").value,
+        delivery_date: $("recordDeliveryDate").value,
+        processing_start_date: $("recordProcessingStartDate").value,
+        processing_complete_date: $("recordProcessingCompleteDate").value,
+        invoice_date: $("recordInvoiceDate").value,
+        follow_up_date: $("recordFollowUpDate").value,
+        scope: $("recordScope").value.trim(),
+        deliverables: $("recordDeliverables").value.trim(),
+        notes: $("recordNotes").value.trim(),
+        updated_at: nowIso()
+      };
+    }
+
+    function saveRecordFromForm(e){
+      e.preventDefault();
+      const rec = collectRecordForm();
+      if (!rec.project_title){
+        toast("Project title is required.");
         return;
       }
-      $("emptyState").classList.add("hidden");
-
-      body.innerHTML = visibleRecords.map((record) => `
-        <tr>
-          <td class="client-cell">
-            <strong>${safeText(record.client || "—")}</strong>
-            <span>${safeText(record.projectTitle || "Untitled project")}</span>
-            <span>${safeText(record.rfpNumber || "No RFP/reference")} ${record.location ? "• " + safeText(record.location) : ""}</span>
-          </td>
-          <td><span class="badge ${statusClass(record.status)}">${safeText(record.status || "Lead")}</span></td>
-          <td>${safeText(record.accepted || "Pending")}</td>
-          <td class="amount">${money(record.bidAmount)}</td>
-          <td>
-            <div class="date-list">
-              <span><b>Due:</b> ${dateLabel(record.bidDueDate)}</span>
-              <span><b>Submitted:</b> ${dateLabel(record.bidSubmittedDate)}</span>
-              <span><b>Booked:</b> ${dateLabel(record.bookedDate)}</span>
-              <span><b>Capture:</b> ${dateLabel(record.captureDate)}</span>
-              <span><b>Follow-up:</b> ${dateLabel(record.followUpDate)}</span>
-            </div>
-          </td>
-          <td>${safeText(record.scope || "—").slice(0, 260)}${(record.scope || "").length > 260 ? "…" : ""}</td>
-          <td>
-            <div class="date-list">
-              <span><b>Processing:</b> ${dateLabel(record.processingStartDate)} → ${dateLabel(record.processingCompleteDate)}</span>
-              <span><b>Delivered:</b> ${dateLabel(record.deliveryDate)}</span>
-              <span><b>Invoice:</b> ${dateLabel(record.invoiceDate)}</span>
-              <span>${safeText(record.deliverables || "No deliverables entered").slice(0, 160)}${(record.deliverables || "").length > 160 ? "…" : ""}</span>
-            </div>
-          </td>
-          <td>
-            <div class="row-actions">
-              <button type="button" class="small" onclick="editRecord('${record.id}')">Edit</button>
-              <button type="button" class="small" onclick="duplicateById('${record.id}')">Copy</button>
-              <button type="button" class="small danger" onclick="deleteRecord('${record.id}')">Delete</button>
-            </div>
-          </td>
-        </tr>
-      `).join("");
+      if (rec.client_id && !state.clients.some(c => c.client_id === rec.client_id)){
+        toast("Please select a valid client.");
+        return;
+      }
+      const idx = state.records.findIndex(r => r.job_id === rec.job_id);
+      if (idx >= 0) state.records[idx] = rec;
+      else state.records.push(rec);
+      saveLocal();
+      closeModal("recordModal");
+      renderAll();
+      toast("Record saved.");
     }
 
-    function render() {
-      renderClientOptions($("clientSelect")?.value || "");
-      const visibleRecords = getFilteredRecords();
-      renderStats(visibleRecords);
-      renderTable(visibleRecords);
+    function openClientModal(client = null){
+      const c = client ? {...client} : defaultClient();
+      state.editingClientId = client ? client.client_id : null;
+      $("clientModalTitle").textContent = client ? "Edit Client" : "New Client";
+      $("clientName").value = c.client_name || "";
+      $("clientContactName").value = c.contact_name || "";
+      $("clientEmail").value = c.email || "";
+      $("clientPhone").value = c.phone || "";
+      $("clientNotes").value = c.notes || "";
+      openModal("clientModal");
     }
 
-    function editRecord(id) {
-      const record = records.find((item) => item.id === id);
-      if (record) setFormData(record);
+    function saveClientFromForm(e){
+      e.preventDefault();
+      const existing = state.clients.find(c => c.client_id === state.editingClientId);
+      const base = existing ? {...existing} : defaultClient();
+      const client = {
+        ...base,
+        client_name: $("clientName").value.trim(),
+        contact_name: $("clientContactName").value.trim(),
+        email: $("clientEmail").value.trim(),
+        phone: $("clientPhone").value.trim(),
+        notes: $("clientNotes").value.trim(),
+        updated_at: nowIso()
+      };
+      if (!client.client_name){
+        toast("Client name is required.");
+        return;
+      }
+      const idx = state.clients.findIndex(c => c.client_id === client.client_id);
+      if (idx >= 0) state.clients[idx] = client;
+      else state.clients.push(client);
+      saveLocal();
+      renderClientOptions(client.client_id);
+      closeModal("clientModal");
+      renderAll();
+      $("recordClientId").value = client.client_id;
+      toast("Client saved.");
     }
 
-    function csvEscape(value) {
-      const text = String(value ?? "");
-      if (/[",\n]/.test(text)) return `"${text.replaceAll('"', '""')}"`;
-      return text;
+    function editSelectedRecord(){
+      const id = [...state.selectedIds][0];
+      const rec = state.records.find(r => r.job_id === id);
+      if (rec) openRecordModal(rec);
     }
 
-    function exportCsvFile() {
-      const visibleRecords = getFilteredRecords();
+    function copySelectedRecord(){
+      const id = [...state.selectedIds][0];
+      const rec = state.records.find(r => r.job_id === id);
+      if (!rec) return;
+      const copy = {
+        ...rec,
+        job_id: uid("job"),
+        project_title: rec.project_title ? `${rec.project_title} - Copy` : "Copied Record",
+        created_at: nowIso(),
+        updated_at: nowIso()
+      };
+      state.records.push(copy);
+      saveLocal();
+      clearSelection();
+      state.selectedIds.add(copy.job_id);
+      renderAll();
+      toast("Record copied.");
+    }
+
+    function deleteSelectedRecords(){
+      if (!state.selectedIds.size) return;
+      if (!confirm(`Delete ${state.selectedIds.size} selected record(s)?`)) return;
+      state.records = state.records.filter(r => !state.selectedIds.has(r.job_id));
+      saveLocal();
+      clearSelection();
+      renderAll();
+      toast("Selected records deleted.");
+    }
+
+    function exportCsv(){
+      const rows = filteredRecords();
       const headers = [
-        "Client", "Contact Name", "Email", "Phone", "Project/RFP Title", "RFP/Reference", "Location",
-        "Status", "Accepted", "Bid Amount", "Probability", "What We Bid / Scope", "RFP Received",
-        "Site Visit", "Bid Due", "Bid Submitted", "Accepted Date", "Booked Date", "Capture Date",
-        "Processing Start", "Processing Complete", "Delivery Date", "Invoice Date", "Follow-up Date",
-        "Equipment", "Assigned To", "Deliverables", "Notes"
+        "Client","Project Title","Status","Accepted","Bid Amount","Bid Due","Booked","Capture",
+        "Processing Start","Processing Complete","Delivery","RFP","Location","Assigned To","Equipment","Notes"
       ];
-      const keys = [
-        "client", "contactName", "email", "phone", "projectTitle", "rfpNumber", "location", "status", "accepted",
-        "bidAmount", "probability", "scope", "rfpReceivedDate", "siteVisitDate", "bidDueDate", "bidSubmittedDate",
-        "acceptedDate", "bookedDate", "captureDate", "processingStartDate", "processingCompleteDate", "deliveryDate",
-        "invoiceDate", "followUpDate", "equipment", "assignedTo", "deliverables", "notes"
+      const csvRows = [
+        headers,
+        ...rows.map(r => [
+          getClientName(r.client_id),
+          r.project_title,
+          r.status,
+          r.accepted,
+          r.bid_amount,
+          r.bid_due_date,
+          r.booked_date,
+          r.capture_date,
+          r.processing_start_date,
+          r.processing_complete_date,
+          r.delivery_date,
+          r.rfp_number,
+          r.location,
+          r.assigned_to,
+          r.equipment,
+          r.notes
+        ])
       ];
-      const rows = [headers.map(csvEscape).join(",")]
-        .concat(visibleRecords.map((record) => keys.map((key) => csvEscape(record[key])).join(",")));
-      downloadFile(rows.join("\n"), `DSCI-job-proposal-tracker-${todayISO()}.csv`, "text/csv");
+      const csv = csvRows.map(row => row.map(v => {
+        const s = String(v ?? "");
+        return /[",\n]/.test(s) ? `"${s.replace(/"/g,'""')}"` : s;
+      }).join(",")).join("\n");
+      downloadBlob(new Blob([csv], {type:"text/csv;charset=utf-8;"}), `dsci_jobs_export_${todayStr()}.csv`);
     }
 
-    function exportJsonFile() {
-      downloadFile(JSON.stringify(getBackupObject(), null, 2), `DSCI-job-proposal-tracker-backup-${todayISO()}.json`, "application/json");
+    function exportBackup(){
+      const payload = {
+        exported_at: nowIso(),
+        clients: state.clients,
+        records: state.records,
+        syncState: getSyncState()
+      };
+      downloadBlob(new Blob([JSON.stringify(payload,null,2)], {type:"application/json"}), `dsci_tracker_backup_${todayStr()}.json`);
     }
 
-    function downloadFile(content, filename, type) {
-      const blob = new Blob([content], { type });
+    function importBackup(file){
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          const payload = JSON.parse(reader.result);
+          if (!payload || (!Array.isArray(payload.clients) && !Array.isArray(payload.records))) {
+            throw new Error("Invalid backup format.");
+          }
+          if (!confirm("Import this backup and replace current local data?")) return;
+          state.clients = ensureClientArray(payload.clients || []);
+          state.records = ensureRecordArray(payload.records || []);
+          saveLocal();
+          if (payload.syncState) saveSyncState(payload.syncState);
+          clearSelection();
+          renderAll();
+          toast("Backup imported.");
+        }catch(err){
+          alert(`Import failed: ${err.message}`);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function downloadBlob(blob, filename){
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
@@ -1326,243 +1457,78 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
-    function getBackupObject() {
+    function populateSettingsForm(){
+      const settings = getSettings();
+      $("sheetApiUrl").value = settings.url || "";
+      $("sheetApiKey").value = settings.key || "";
+    }
+
+    function readSettingsForm(){
       return {
-        app: "DSCI Job & Proposal Tracker",
-        version: 3,
-        exportedAt: new Date().toISOString(),
-        clients,
-        records
+        url: $("sheetApiUrl").value.trim(),
+        key: $("sheetApiKey").value.trim()
       };
     }
 
-    function applyImportedData(imported) {
-      let importedRecords = [];
-      let importedClients = [];
-
-      if (Array.isArray(imported)) {
-        importedRecords = imported;
-      } else if (imported && Array.isArray(imported.records)) {
-        importedRecords = imported.records;
-        importedClients = Array.isArray(imported.clients) ? imported.clients : [];
-      } else {
-        throw new Error("JSON backup must contain records, or be an array of records.");
-      }
-
-      const cleanedClients = importedClients.map((client) => ({
-        id: client.id || makeId(),
-        name: client.name || client.client || "Unnamed client",
-        contactName: client.contactName || "",
-        email: client.email || "",
-        phone: client.phone || "",
-        notes: client.notes || "",
-        createdAt: client.createdAt || new Date().toISOString(),
-        updatedAt: client.updatedAt || new Date().toISOString()
-      }));
-
-      const cleanedRecords = importedRecords.map((record) => ({
-        ...record,
-        id: record.id || makeId(),
-        clientId: record.clientId || "",
-        client: record.client || "",
-        status: record.status || "Lead",
-        accepted: record.accepted || "Pending",
-        bidAmount: Number(record.bidAmount || 0),
-        probability: Number(record.probability || 0),
-        updatedAt: record.updatedAt || new Date().toISOString(),
-        createdAt: record.createdAt || new Date().toISOString()
-      }));
-
-      records = cleanedRecords;
-      clients = cleanedClients;
-      migrateClientsFromExistingRecords();
-      saveRecords();
-      saveClients();
-      renderClientOptions();
-      clearForm();
-      render();
+    function updateSyncStatus(message){
+      $("syncStatusBox").innerHTML = message;
     }
 
-    function importJsonFile(file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const imported = JSON.parse(event.target.result);
-          const recordCount = Array.isArray(imported) ? imported.length : Array.isArray(imported.records) ? imported.records.length : 0;
-          const clientCount = Array.isArray(imported.clients) ? imported.clients.length : 0;
-          if (!confirm(`Import ${recordCount} records and ${clientCount} clients? This will replace the current browser data.`)) return;
-          applyImportedData(imported);
-        } catch (error) {
-          alert(`Import failed: ${error.message}`);
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function clientToSheetRow(client) {
-      return {
-        client_id: client.id || makeId(),
-        client_name: client.name || "",
-        contact_name: client.contactName || "",
-        email: client.email || "",
-        phone: client.phone || "",
-        notes: client.notes || "",
-        created_at: client.createdAt || new Date().toISOString(),
-        updated_at: client.updatedAt || new Date().toISOString()
-      };
-    }
-
-    function sheetRowToClient(row) {
-      return {
-        id: row.client_id || makeId(),
-        name: row.client_name || "Unnamed client",
-        contactName: row.contact_name || "",
-        email: row.email || "",
-        phone: row.phone || "",
-        notes: row.notes || "",
-        createdAt: row.created_at || new Date().toISOString(),
-        updatedAt: row.updated_at || new Date().toISOString()
-      };
-    }
-
-    function jobToSheetRow(record) {
-      return {
-        job_id: record.id || makeId(),
-        client_id: record.clientId || "",
-        project_title: record.projectTitle || "",
-        rfp_number: record.rfpNumber || "",
-        location: record.location || "",
-        status: record.status || "Lead",
-        accepted: record.accepted || "Pending",
-        bid_amount: record.bidAmount || "",
-        probability: record.probability || "",
-        scope: record.scope || "",
-        rfp_received_date: record.rfpReceivedDate || "",
-        site_visit_date: record.siteVisitDate || "",
-        bid_due_date: record.bidDueDate || "",
-        bid_submitted_date: record.bidSubmittedDate || "",
-        accepted_date: record.acceptedDate || "",
-        booked_date: record.bookedDate || "",
-        capture_date: record.captureDate || "",
-        processing_start_date: record.processingStartDate || "",
-        processing_complete_date: record.processingCompleteDate || "",
-        delivery_date: record.deliveryDate || "",
-        invoice_date: record.invoiceDate || "",
-        follow_up_date: record.followUpDate || "",
-        equipment: record.equipment || "",
-        assigned_to: record.assignedTo || "",
-        deliverables: record.deliverables || "",
-        notes: record.notes || "",
-        created_at: record.createdAt || new Date().toISOString(),
-        updated_at: record.updatedAt || new Date().toISOString()
-      };
-    }
-
-    function sheetRowToJob(row) {
-      const client = clients.find((item) => item.id === row.client_id);
-      return {
-        id: row.job_id || makeId(),
-        clientId: row.client_id || "",
-        client: client?.name || row.client_name || "",
-        contactName: client?.contactName || "",
-        email: client?.email || "",
-        phone: client?.phone || "",
-        projectTitle: row.project_title || "",
-        rfpNumber: row.rfp_number || "",
-        location: row.location || "",
-        status: row.status || "Lead",
-        accepted: row.accepted || "Pending",
-        bidAmount: Number(row.bid_amount || 0),
-        probability: Number(row.probability || 0),
-        scope: row.scope || "",
-        rfpReceivedDate: row.rfp_received_date || "",
-        siteVisitDate: row.site_visit_date || "",
-        bidDueDate: row.bid_due_date || "",
-        bidSubmittedDate: row.bid_submitted_date || "",
-        acceptedDate: row.accepted_date || "",
-        bookedDate: row.booked_date || "",
-        captureDate: row.capture_date || "",
-        processingStartDate: row.processing_start_date || "",
-        processingCompleteDate: row.processing_complete_date || "",
-        deliveryDate: row.delivery_date || "",
-        invoiceDate: row.invoice_date || "",
-        followUpDate: row.follow_up_date || "",
-        equipment: row.equipment || "",
-        assignedTo: row.assigned_to || "",
-        deliverables: row.deliverables || "",
-        notes: row.notes || "",
-        createdAt: row.created_at || new Date().toISOString(),
-        updatedAt: row.updated_at || new Date().toISOString()
-      };
-    }
-
-    function buildSheetApiReadUrl(settings) {
+    function buildApiReadUrl(settings, withCallback = false){
       const url = new URL(settings.url);
       url.searchParams.set("action", "read");
       url.searchParams.set("key", settings.key);
+      if (withCallback) url.searchParams.set("callback", withCallback);
+      url.searchParams.set("_", String(Date.now()));
       return url.toString();
     }
 
-    function openSheetApiTestUrl() {
-      try {
-        const settings = getSheetSyncSettingsFromForm();
-        saveSheetSyncSettingsObject(settings);
-        window.open(buildSheetApiReadUrl(settings), "_blank", "noopener,noreferrer");
-      } catch (error) {
-        alert(error.message);
-      }
-    }
-
-    function jsonpSheetReadRequest() {
-      const settings = getSheetSyncSettingsFromForm();
-      saveSheetSyncSettingsObject(settings);
+    function jsonpSheetReadRequest(){
+      const settings = readSettingsForm();
+      if (!settings.url || !settings.key) throw new Error("Enter the Apps Script URL and API key first.");
+      saveSettings(settings);
 
       return new Promise((resolve, reject) => {
         const callbackName = "dsciTrackerJsonp_" + Date.now() + "_" + Math.random().toString(36).slice(2);
         let script = null;
 
-        const timeout = window.setTimeout(() => {
-          cleanup();
-          reject(new Error("Sheet read timed out. Confirm the Apps Script doGet function supports JSONP callback responses."));
-        }, 20000);
-
-        function cleanup() {
-          window.clearTimeout(timeout);
+        const cleanup = () => {
           delete window[callbackName];
           if (script && script.parentNode) script.parentNode.removeChild(script);
-        }
-
-        window[callbackName] = (result) => {
-          cleanup();
-          if (!result || !result.ok) {
-            reject(new Error((result && result.error) || "Unknown sheet API error."));
-            return;
-          }
-          resolve(result);
+          clearTimeout(timer);
         };
 
-        const url = new URL(settings.url);
-        url.searchParams.set("action", "read");
-        url.searchParams.set("key", settings.key);
-        url.searchParams.set("callback", callbackName);
-        url.searchParams.set("_", String(Date.now()));
+        const timer = setTimeout(() => {
+          cleanup();
+          reject(new Error("Unable to load App Script JSON response."));
+        }, 20000);
+
+        window[callbackName] = (data) => {
+          cleanup();
+          if (!data || !data.ok) {
+            reject(new Error((data && data.error) || "Unknown read error."));
+            return;
+          }
+          resolve(data);
+        };
 
         script = document.createElement("script");
-        script.src = url.toString();
+        script.src = buildApiReadUrl(settings, callbackName);
         script.onerror = () => {
           cleanup();
-          reject(new Error("Unable to load Apps Script JSONP response. Check deployment access and the web app URL."));
+          reject(new Error("Unable to load App Script JSON response."));
         };
         document.body.appendChild(script);
       });
     }
 
-    function formPostToSheet(action, payload = {}) {
-      const settings = getSheetSyncSettingsFromForm();
-      saveSheetSyncSettingsObject(settings);
+    function formPostToSheet(action, payload = {}){
+      const settings = readSettingsForm();
+      if (!settings.url || !settings.key) throw new Error("Enter the Apps Script URL and API key first.");
+      saveSettings(settings);
 
       return new Promise((resolve) => {
         const frameName = "dsciTrackerPostFrame_" + Date.now();
@@ -1589,267 +1555,355 @@
         form.appendChild(input);
         document.body.appendChild(form);
 
-        let resolved = false;
+        let done = false;
         const finish = () => {
-          if (resolved) return;
-          resolved = true;
-          window.setTimeout(() => {
+          if (done) return;
+          done = true;
+          setTimeout(() => {
             if (form.parentNode) form.parentNode.removeChild(form);
             if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
-          }, 1000);
-          resolve({ ok: true });
+          }, 600);
+          resolve({ ok:true });
         };
 
         iframe.onload = finish;
         form.submit();
-        window.setTimeout(finish, 3500);
+        setTimeout(finish, 3500);
       });
     }
 
-    async function testSheetConnection() {
-      try {
-        updateSyncStatus("Testing connection", "Contacting Apps Script...");
+    async function testConnection(){
+      try{
+        updateSyncStatus("Testing connection…");
         const result = await jsonpSheetReadRequest();
-        const clientCount = result.data?.clients?.length || 0;
-        const jobCount = result.data?.jobs?.length || 0;
-        updateSyncStatus("Connected", `Apps Script responded. Sheet contains ${clientCount} client(s) and ${jobCount} job/proposal record(s).`);
-        alert("Sheet connection works.");
-      } catch (error) {
-        updateSyncStatus("Connection failed", error.message);
-        alert(error.message);
+        const c = result.data?.clients?.length || 0;
+        const r = result.data?.jobs?.length || 0;
+        updateSyncStatus(`Connection successful. Remote sheet contains <strong>${c}</strong> client(s) and <strong>${r}</strong> record(s).`);
+        toast("Connection successful.");
+      }catch(err){
+        updateSyncStatus(`<strong>Connection failed:</strong> ${escapeHtml(err.message)}`);
+        alert(`Connection failed: ${err.message}`);
       }
     }
 
-    async function pullFromSheet() {
-      try {
-        updateSyncStatus("Pulling from Sheet", "Reading clients and jobs from Google Sheets...");
-        const result = await jsonpSheetReadRequest();
-        const sheetClients = result.data?.clients || [];
-        const sheetJobs = result.data?.jobs || [];
+    function openApiTestUrl(){
+      try{
+        const settings = readSettingsForm();
+        if (!settings.url || !settings.key) throw new Error("Enter the Apps Script URL and API key first.");
+        saveSettings(settings);
+        window.open(buildApiReadUrl(settings), "_blank", "noopener,noreferrer");
+      }catch(err){
+        alert(err.message);
+      }
+    }
 
-        if (!confirm(`Replace local browser data with ${sheetClients.length} clients and ${sheetJobs.length} jobs from the Google Sheet?`)) {
-          updateSyncStatus("Pull cancelled", "No local data was changed.");
+    function itemChangedSinceBase(baseEntry, item){
+      if (!baseEntry) return !!item;
+      if (baseEntry.deleted) return !!item;
+      if (!item) return true;
+      return String(item.updated_at || "") !== String(baseEntry.updated_at || "");
+    }
+
+    function summarizeItem(kind, item){
+      if (!item) return "(Deleted)";
+      if (kind === "clients"){
+        return `${item.client_name || "Unnamed Client"}\nupdated_at: ${item.updated_at || ""}\ncontact: ${item.contact_name || ""}\nemail: ${item.email || ""}\nphone: ${item.phone || ""}\nnotes: ${item.notes || ""}`;
+      }
+      return `${item.project_title || "Untitled Record"}\nupdated_at: ${item.updated_at || ""}\nclient: ${getClientName(item.client_id) || item.client_id || ""}\nstatus: ${item.status || ""}\naccepted: ${item.accepted || ""}\nbid: ${item.bid_amount || ""}\nlocation: ${item.location || ""}\nrfp: ${item.rfp_number || ""}\nbooked: ${item.booked_date || ""}\ncapture: ${item.capture_date || ""}\ndelivery: ${item.delivery_date || ""}\nnotes: ${item.notes || ""}`;
+    }
+
+    function mergeCollection({localItems, remoteItems, baseMap, idField, kind}){
+      const localIndex = new Map(localItems.map(i => [i[idField], i]));
+      const remoteIndex = new Map(remoteItems.map(i => [i[idField], i]));
+      const ids = new Set([...localIndex.keys(), ...remoteIndex.keys(), ...Object.keys(baseMap || {})]);
+
+      const merged = [];
+      const conflicts = [];
+
+      for (const id of ids){
+        const base = (baseMap || {})[id] || null;
+        const local = localIndex.get(id) || null;
+        const remote = remoteIndex.get(id) || null;
+        const localChanged = itemChangedSinceBase(base, local);
+        const remoteChanged = itemChangedSinceBase(base, remote);
+
+        if (!base){
+          if (local && !remote){ merged.push(local); continue; }
+          if (!local && remote){ merged.push(remote); continue; }
+          if (local && remote){
+            if (String(local.updated_at || "") === String(remote.updated_at || "")){
+              merged.push(local);
+            } else {
+              conflicts.push({ kind, idField, id, local, remote, reason: "Created locally and remotely since the last sync." });
+            }
+          }
+          continue;
+        }
+
+        if (!localChanged && !remoteChanged){
+          if (local) merged.push(local);
+          else if (remote) merged.push(remote);
+          continue;
+        }
+
+        if (localChanged && !remoteChanged){
+          if (local) merged.push(local);
+          continue;
+        }
+
+        if (!localChanged && remoteChanged){
+          if (remote) merged.push(remote);
+          continue;
+        }
+
+        if (localChanged && remoteChanged){
+          if (local && remote && String(local.updated_at || "") === String(remote.updated_at || "")){
+            merged.push(local);
+          } else {
+            conflicts.push({ kind, idField, id, local, remote, reason: "Changed locally and remotely since the last sync." });
+          }
+        }
+      }
+
+      return { merged, conflicts };
+    }
+
+    function sortMergedCollections(clients, records){
+      const sortedClients = sortByName(clients, "client_name");
+      const sortedRecords = sortRecords(records);
+      return { clients: sortedClients, records: sortedRecords };
+    }
+
+    function renderConflictModal(conflicts){
+      const container = $("conflictList");
+      container.innerHTML = conflicts.map((conflict, index) => {
+        const label = conflict.kind === "clients"
+          ? (conflict.local?.client_name || conflict.remote?.client_name || conflict.id)
+          : (conflict.local?.project_title || conflict.remote?.project_title || conflict.id);
+        const localUpdated = conflict.local?.updated_at || "";
+        const remoteUpdated = conflict.remote?.updated_at || "";
+        const defaultChoice = (!conflict.remote || (localUpdated && localUpdated >= remoteUpdated)) ? "local" : "remote";
+
+        return `
+          <div class="conflict-card" data-index="${index}">
+            <h4>${escapeHtml(label)}</h4>
+            <div class="small muted">${escapeHtml(conflict.reason)}</div>
+
+            <div class="compare">
+              <div class="compare-side">
+                <h5>Local version</h5>
+                <pre>${escapeHtml(summarizeItem(conflict.kind, conflict.local))}</pre>
+              </div>
+              <div class="compare-side">
+                <h5>Remote version</h5>
+                <pre>${escapeHtml(summarizeItem(conflict.kind, conflict.remote))}</pre>
+              </div>
+            </div>
+
+            <div class="radio-row">
+              <label class="radio-chip">
+                <input type="radio" name="conflict_${index}" value="local" ${defaultChoice === "local" ? "checked" : ""}>
+                Keep local
+              </label>
+              <label class="radio-chip">
+                <input type="radio" name="conflict_${index}" value="remote" ${defaultChoice === "remote" ? "checked" : ""}>
+                Keep remote
+              </label>
+            </div>
+          </div>
+        `;
+      }).join("");
+      openModal("conflictModal");
+    }
+
+    async function runSync(){
+      try{
+        const settings = getSettings();
+        if (!settings.url || !settings.key){
+          openModal("settingsModal");
+          updateSyncStatus("Enter the Apps Script URL and API key, then test the connection.");
           return;
         }
 
-        clients = sheetClients.map(sheetRowToClient);
-        records = sheetJobs.map(sheetRowToJob);
-        migrateClientsFromExistingRecords();
-        saveClients();
-        saveRecords();
-        renderClientOptions();
-        clearForm();
-        render();
-        updateSyncStatus("Pull complete", `Loaded ${clients.length} client(s) and ${records.length} job/proposal record(s) from Google Sheets.`);
-      } catch (error) {
-        updateSyncStatus("Pull failed", error.message);
-        alert(error.message);
-      }
-    }
+        $("sheetApiUrl").value = settings.url;
+        $("sheetApiKey").value = settings.key;
 
-    async function pushToSheet() {
-      try {
-        if (!confirm("Push the current local browser data to the Google Sheet? This replaces all rows in the Clients and Jobs tabs.")) return;
-        updateSyncStatus("Pushing to Sheet", "Writing local clients and jobs to Google Sheets...");
-        const payload = {
-          clients: clients.map(clientToSheetRow),
-          jobs: records.map(jobToSheetRow),
-          settings: []
+        updateSyncStatus("Reading remote sheet…");
+        const remoteResult = await jsonpSheetReadRequest();
+        const remoteClients = ensureClientArray(remoteResult.data?.clients || []);
+        const remoteRecords = ensureRecordArray(remoteResult.data?.jobs || []);
+
+        const syncState = getSyncState();
+
+        const clientMerge = mergeCollection({
+          localItems: state.clients,
+          remoteItems: remoteClients,
+          baseMap: syncState.clients || {},
+          idField: "client_id",
+          kind: "clients"
+        });
+
+        const recordMerge = mergeCollection({
+          localItems: state.records,
+          remoteItems: remoteRecords,
+          baseMap: syncState.records || {},
+          idField: "job_id",
+          kind: "records"
+        });
+
+        const {clients: mergedClients, records: mergedRecords} = sortMergedCollections(clientMerge.merged, recordMerge.merged);
+        const conflicts = [...clientMerge.conflicts, ...recordMerge.conflicts];
+
+        state.pendingSyncPlan = {
+          mergedClients,
+          mergedRecords,
+          conflicts
         };
-        await formPostToSheet("replaceAll", payload);
-        updateSyncStatus("Push sent", `Sent ${clients.length} client(s) and ${records.length} job/proposal record(s) to Google Sheets. Pull from Sheet to verify the saved rows.`);
-        alert("Data sent to Google Sheets. Use Pull from Sheet to verify.");
-      } catch (error) {
-        updateSyncStatus("Push failed", error.message);
-        alert(error.message);
+
+        if (conflicts.length){
+          updateSyncStatus(`Found <strong>${conflicts.length}</strong> conflict(s). Review them before writing back to the sheet.`);
+          renderConflictModal(conflicts);
+          return;
+        }
+
+        await finalizeSync(mergedClients, mergedRecords);
+      }catch(err){
+        updateSyncStatus(`<strong>Sync failed:</strong> ${escapeHtml(err.message)}`);
+        alert(`Sync failed: ${err.message}`);
       }
     }
 
-    function populateStatusFilters() {
-      const filter = $("statusFilter");
-      statusOptions.forEach((status) => {
-        const option = document.createElement("option");
-        option.value = status;
-        option.textContent = status;
-        filter.appendChild(option);
+    async function finalizeSync(mergedClients, mergedRecords){
+      updateSyncStatus("Writing merged data to remote sheet…");
+      await formPostToSheet("replaceAll", {
+        clients: mergedClients,
+        jobs: mergedRecords,
+        settings: []
+      });
+
+      state.clients = ensureClientArray(mergedClients);
+      state.records = ensureRecordArray(mergedRecords);
+      saveLocal();
+      saveSyncState(buildSyncSnapshot(state.clients, state.records));
+      state.pendingSyncPlan = null;
+      closeModal("conflictModal");
+      renderAll();
+      updateSyncStatus(`Sync complete. Saved <strong>${state.clients.length}</strong> client(s) and <strong>${state.records.length}</strong> record(s).`);
+      toast("Sync complete.");
+    }
+
+    async function resolveConflictsAndContinue(){
+      const plan = state.pendingSyncPlan;
+      if (!plan) return;
+
+      const mergedClientsMap = new Map(plan.mergedClients.map(c => [c.client_id, c]));
+      const mergedRecordsMap = new Map(plan.mergedRecords.map(r => [r.job_id, r]));
+
+      plan.conflicts.forEach((conflict, index) => {
+        const choice = document.querySelector(`input[name="conflict_${index}"]:checked`)?.value || "local";
+        const picked = choice === "local" ? conflict.local : conflict.remote;
+        const map = conflict.kind === "clients" ? mergedClientsMap : mergedRecordsMap;
+        map.delete(conflict.id);
+        if (picked){
+          map.set(conflict.id, picked);
+        }
+      });
+
+      const {clients: finalClients, records: finalRecords} = sortMergedCollections(
+        [...mergedClientsMap.values()],
+        [...mergedRecordsMap.values()]
+      );
+
+      await finalizeSync(finalClients, finalRecords);
+    }
+
+    function initEvents(){
+      $("btnNewRecord").addEventListener("click", () => openRecordModal());
+      $("btnEditRecord").addEventListener("click", editSelectedRecord);
+      $("btnCopyRecord").addEventListener("click", copySelectedRecord);
+      $("btnDeleteRecord").addEventListener("click", deleteSelectedRecords);
+      $("btnSync").addEventListener("click", runSync);
+      $("btnImport").addEventListener("click", () => $("importFileInput").click());
+      $("btnExport").addEventListener("click", exportCsv);
+      $("btnBackup").addEventListener("click", exportBackup);
+      $("btnPrint").addEventListener("click", () => window.print());
+      $("btnSettings").addEventListener("click", () => {
+        populateSettingsForm();
+        openModal("settingsModal");
+      });
+
+      $("btnSaveSettings").addEventListener("click", () => {
+        const settings = readSettingsForm();
+        saveSettings(settings);
+        updateSyncStatus("Settings saved locally in this browser.");
+        toast("Settings saved.");
+      });
+      $("btnTestConnection").addEventListener("click", testConnection);
+      $("btnOpenApiTest").addEventListener("click", openApiTestUrl);
+      $("btnClearSettings").addEventListener("click", () => {
+        localStorage.removeItem(STORAGE_KEYS.settings);
+        populateSettingsForm();
+        updateSyncStatus("Saved sync settings cleared from this browser.");
+        toast("Saved sync settings cleared.");
+      });
+
+      $("recordForm").addEventListener("submit", saveRecordFromForm);
+      $("clientForm").addEventListener("submit", saveClientFromForm);
+      $("btnNewClientInline").addEventListener("click", () => openClientModal());
+      $("btnResolveConflicts").addEventListener("click", resolveConflictsAndContinue);
+
+      $("searchInput").addEventListener("input", (e) => {
+        state.search = e.target.value;
+        renderTable();
+      });
+
+      $("statusFilter").addEventListener("change", (e) => {
+        state.statusFilter = e.target.value;
+        renderTable();
+      });
+
+      $("selectAllCheckbox").addEventListener("change", (e) => {
+        const visibleIds = filteredRecords().map(r => r.job_id);
+        if (e.target.checked){
+          visibleIds.forEach(id => state.selectedIds.add(id));
+        } else {
+          visibleIds.forEach(id => state.selectedIds.delete(id));
+        }
+        renderTable();
+        updateToolbarState();
+      });
+
+      $("importFileInput").addEventListener("change", (e) => {
+        const file = e.target.files?.[0];
+        if (file) importBackup(file);
+        e.target.value = "";
+      });
+
+      document.querySelectorAll("[data-close]").forEach(btn => {
+        btn.addEventListener("click", () => closeModal(btn.dataset.close));
+      });
+
+      document.querySelectorAll(".modal").forEach(modal => {
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) modal.classList.remove("show");
+        });
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          document.querySelectorAll(".modal.show").forEach(m => m.classList.remove("show"));
+        }
       });
     }
 
-    function loadSampleRows() {
-      if (records.length && !confirm("Add sample rows to the existing tracker?")) return;
-      const sampleClientOne = {
-        id: makeId(),
-        name: "Example Client",
-        contactName: "Client Contact",
-        email: "contact@example.com",
-        phone: "",
-        notes: "Example procurement/client record.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      const sampleClientTwo = {
-        id: makeId(),
-        name: "Example Contractor",
-        contactName: "Estimator",
-        email: "",
-        phone: "",
-        notes: "Example contractor/client record.",
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString()
-      };
-      clients = [sampleClientOne, sampleClientTwo].concat(clients);
-      records = [
-        {
-          id: makeId(),
-          clientId: sampleClientOne.id,
-          client: sampleClientOne.name,
-          contactName: sampleClientOne.contactName,
-          email: sampleClientOne.email,
-          phone: sampleClientOne.phone,
-          projectTitle: "Road Corridor LiDAR Survey",
-          rfpNumber: "RFP-2026-001",
-          location: "Hamilton, ON",
-          status: "Submitted",
-          accepted: "Pending",
-          bidAmount: 8799,
-          probability: 50,
-          scope: "Aerial LiDAR survey, classified point cloud, bare-earth DEM, contours, and summary report.",
-          rfpReceivedDate: todayISO(),
-          siteVisitDate: "",
-          bidDueDate: addDaysISO(7),
-          bidSubmittedDate: todayISO(),
-          acceptedDate: "",
-          bookedDate: "",
-          captureDate: "",
-          processingStartDate: "",
-          processingCompleteDate: "",
-          deliveryDate: "",
-          invoiceDate: "",
-          followUpDate: addDaysISO(3),
-          equipment: "M400 + Zenmuse L3",
-          assignedTo: "Eric",
-          deliverables: "LAS/LAZ point cloud, DEM GeoTIFF, contour CAD/GIS files, PDF report.",
-          notes: "Follow up after client technical review.",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        },
-        {
-          id: makeId(),
-          clientId: sampleClientTwo.id,
-          client: sampleClientTwo.name,
-          contactName: sampleClientTwo.contactName,
-          email: sampleClientTwo.email,
-          phone: sampleClientTwo.phone,
-          projectTitle: "Stockpile Volume Survey",
-          rfpNumber: "Quote Request",
-          location: "Ontario",
-          status: "Awarded",
-          accepted: "Yes",
-          bidAmount: 4750,
-          probability: 100,
-          scope: "Drone data capture, surface model, stockpile volume calculations, and deliverable package.",
-          rfpReceivedDate: "",
-          siteVisitDate: "",
-          bidDueDate: "",
-          bidSubmittedDate: "",
-          acceptedDate: todayISO(),
-          bookedDate: addDaysISO(10),
-          captureDate: addDaysISO(10),
-          processingStartDate: "",
-          processingCompleteDate: "",
-          deliveryDate: "",
-          invoiceDate: "",
-          followUpDate: "",
-          equipment: "M350 / M400 mapping platform",
-          assignedTo: "Michael / Eric",
-          deliverables: "Volume report, orthomosaic, surface model, point cloud if required.",
-          notes: "Confirm access and site contact before mobilization.",
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }
-      ].concat(records);
-      saveClients();
-      saveRecords();
-      renderClientOptions();
-      render();
+    function boot(){
+      loadLocal();
+      initEvents();
+      populateSettingsForm();
+      renderAll();
     }
 
-    $("recordForm").addEventListener("submit", (event) => {
-      event.preventDefault();
-      const record = getFormData();
-      if (!record) return;
-      upsertRecord(record);
-      setFormData(record);
-    });
-
-    $("clearForm").addEventListener("click", clearForm);
-    $("newRecordTop").addEventListener("click", clearForm);
-    $("deleteCurrent").addEventListener("click", () => deleteRecord($("recordId").value));
-    $("duplicateRecord").addEventListener("click", () => {
-      const id = $("recordId").value;
-      if (id) duplicateById(id);
-    });
-    $("newClient").addEventListener("click", startNewClient);
-    $("editSelectedClient").addEventListener("click", editSelectedClient);
-    $("saveClient").addEventListener("click", saveClientFromEditor);
-    $("cancelClientEdit").addEventListener("click", () => {
-      $("clientEditor").classList.add("hidden");
-      handleClientSelect();
-    });
-    $("deleteSelectedClient").addEventListener("click", deleteSelectedClient);
-    $("clientSelect").addEventListener("change", handleClientSelect);
-    $("exportCsv").addEventListener("click", exportCsvFile);
-    $("exportJson").addEventListener("click", exportJsonFile);
-    $("importJson").addEventListener("change", (event) => {
-      const file = event.target.files?.[0];
-      if (file) importJsonFile(file);
-      event.target.value = "";
-    });
-    $("loadSample").addEventListener("click", loadSampleRows);
-
-    $("toggleSyncSettings").addEventListener("click", () => {
-      fillSheetSyncSettings();
-      $("syncPanel").classList.toggle("hidden");
-    });
-    $("hideSyncSettings").addEventListener("click", () => $("syncPanel").classList.add("hidden"));
-    $("saveSheetSettings").addEventListener("click", saveSheetSettingsFromForm);
-    $("testSheetConnection").addEventListener("click", testSheetConnection);
-    $("clearSheetSettings").addEventListener("click", clearSheetSettings);
-    $("openSheetApiTest").addEventListener("click", openSheetApiTestUrl);
-    $("pullFromSheet").addEventListener("click", pullFromSheet);
-    $("pushToSheet").addEventListener("click", pushToSheet);
-
-    ["searchBox", "statusFilter", "acceptedFilter", "dateFilter"].forEach((id) => {
-      $(id).addEventListener("input", render);
-      $(id).addEventListener("change", render);
-    });
-
-    $("resetFilters").addEventListener("click", () => {
-      $("searchBox").value = "";
-      $("statusFilter").value = "";
-      $("acceptedFilter").value = "";
-      $("dateFilter").value = "";
-      render();
-    });
-
-    document.querySelectorAll("th[data-sort]").forEach((th) => {
-      th.addEventListener("click", () => {
-        const key = th.dataset.sort;
-        if (sortKey === key) sortDirection = sortDirection === "asc" ? "desc" : "asc";
-        else {
-          sortKey = key;
-          sortDirection = "asc";
-        }
-        render();
-      });
-    });
-
-    migrateClientsFromExistingRecords();
-    fillSheetSyncSettings();
-    populateStatusFilters();
-    renderClientOptions();
-    clearForm();
-    render();
+    boot();
   </script>
 </body>
 </html>
