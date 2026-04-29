@@ -434,6 +434,7 @@
           <button type="button" class="primary" id="saveSheetSettings">Save Sync Settings</button>
           <button type="button" id="testSheetConnection">Test Connection</button>
           <button type="button" id="clearSheetSettings">Clear Local Sync Settings</button>
+          <button type="button" id="openSheetApiTest">Open API Test URL</button>
         </div>
         <div class="sync-status" id="syncStatus">
           <strong>Sync status</strong>
@@ -1498,7 +1499,42 @@
       };
     }
 
-    async function sheetRequest(action, payload = {}) {
+    function buildSheetApiReadUrl(settings) {
+      const url = new URL(settings.url);
+      url.searchParams.set("action", "read");
+      url.searchParams.set("key", settings.key);
+      return url.toString();
+    }
+
+    async function sheetReadRequest() {
+      const settings = getSheetSyncSettingsFromForm();
+      saveSheetSyncSettingsObject(settings);
+
+      const response = await fetch(buildSheetApiReadUrl(settings), {
+        method: "GET",
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        const text = await response.text().catch(() => "");
+        throw new Error(`Sheet read failed: ${response.status} ${response.statusText}${text ? " - " + text.slice(0, 180) : ""}`);
+      }
+
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch {
+        throw new Error(`Apps Script did not return JSON. It may be showing a login, permissions, or deployment page instead. Response begins: ${text.slice(0, 180)}`);
+      }
+
+      if (!result.ok) {
+        throw new Error(result.error || "Unknown sheet API error.");
+      }
+      return result;
+    }
+
+    async function sheetWriteRequest(action, payload = {}) {
       const settings = getSheetSyncSettingsFromForm();
       saveSheetSyncSettingsObject(settings);
 
@@ -1514,21 +1550,38 @@
       });
 
       if (!response.ok) {
-        throw new Error(`Sheet request failed: ${response.status} ${response.statusText}`);
+        const text = await response.text().catch(() => "");
+        throw new Error(`Sheet write failed: ${response.status} ${response.statusText}${text ? " - " + text.slice(0, 180) : ""}`);
       }
 
-      const result = await response.json();
+      const text = await response.text();
+      let result;
+      try {
+        result = JSON.parse(text);
+      } catch {
+        throw new Error(`Apps Script did not return JSON. It may be showing a login, permissions, or deployment page instead. Response begins: ${text.slice(0, 180)}`);
+      }
+
       if (!result.ok) {
         throw new Error(result.error || "Unknown sheet API error.");
       }
       return result;
     }
 
+    function openSheetApiTestUrl() {
+      try {
+        const settings = getSheetSyncSettingsFromForm();
+        saveSheetSyncSettingsObject(settings);
+        window.open(buildSheetApiReadUrl(settings), "_blank", "noopener,noreferrer");
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
     async function testSheetConnection() {
       try {
         updateSyncStatus("Testing connection", "Contacting Apps Script...");
-        const result = await sheetRequest("read");
-        const clientCount = result.data?.clients?.length || 0;
+        const result = await sheetReadRequest();       const clientCount = result.data?.clients?.length || 0;
         const jobCount = result.data?.jobs?.length || 0;
         updateSyncStatus("Connected", `Apps Script responded. Sheet contains ${clientCount} client(s) and ${jobCount} job/proposal record(s).`);
         alert("Sheet connection works.");
@@ -1574,7 +1627,7 @@
           jobs: records.map(jobToSheetRow),
           settings: []
         };
-        await sheetRequest("replaceAll", payload);
+        await sheetWriteRequest("replaceAll", payload);
         updateSyncStatus("Push complete", `Saved ${clients.length} client(s) and ${records.length} job/proposal record(s) to Google Sheets.`);
         alert("Data pushed to Google Sheets.");
       } catch (error) {
@@ -1733,6 +1786,7 @@
     $("saveSheetSettings").addEventListener("click", saveSheetSettingsFromForm);
     $("testSheetConnection").addEventListener("click", testSheetConnection);
     $("clearSheetSettings").addEventListener("click", clearSheetSettings);
+    $("openSheetApiTest").addEventListener("click", openSheetApiTestUrl);
     $("pullFromSheet").addEventListener("click", pullFromSheet);
     $("pushToSheet").addEventListener("click", pushToSheet);
 
