@@ -686,7 +686,7 @@
       "dsci_job_proposal_tracker_v2_clients"
     ];
 
-    const DEFAULT_SHEET_API_URL = "https://script.google.com/a/macros/droneservicescanadainc.com/s/AKfycbyAFJH5YiM6RDYPQEBRzp4srcZN-1QG90VtoF5zfos9XPVnkDYreUtThsKXnf2AK0mY4w/exec";
+    const DEFAULT_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbyAFJH5YiM6RDYPQEBRzp4srcZN-1QG90VtoF5zfos9XPVnkDYreUtThsKXnf2AK0mY4w/exec";
 
     const statusOptions = [
       "Lead", "RFP Review", "Quoting", "Submitted", "Awarded", "Not Awarded",
@@ -1581,7 +1581,8 @@
     async function testSheetConnection() {
       try {
         updateSyncStatus("Testing connection", "Contacting Apps Script...");
-        const result = await sheetReadRequest();       const clientCount = result.data?.clients?.length || 0;
+        const result = await sheetReadRequest();
+        const clientCount = result.data?.clients?.length || 0;
         const jobCount = result.data?.jobs?.length || 0;
         updateSyncStatus("Connected", `Apps Script responded. Sheet contains ${clientCount} client(s) and ${jobCount} job/proposal record(s).`);
         alert("Sheet connection works.");
@@ -1594,7 +1595,7 @@
     async function pullFromSheet() {
       try {
         updateSyncStatus("Pulling from Sheet", "Reading clients and jobs from Google Sheets...");
-        const result = await sheetRequest("read");
+        const result = await sheetReadRequest();
         const sheetClients = result.data?.clients || [];
         const sheetJobs = result.data?.jobs || [];
 
