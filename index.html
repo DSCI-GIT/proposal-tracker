@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DSCI Job & Proposal Tracker</title>
+  <style>
+    :root {
+      --bg: #f5f7fa;
+      --panel: #ffffff;
+      --text: #1f2933;
+      --muted: #64748b;
+      --border: #d7dee8;
+      --border-strong: #b8c2d0;
+      --accent: #1f6feb;
+      --accent-dark: #174ea6;
+      --green: #0f8a5f;
+      --red: #b42318;
+      --yellow: #9a6700;
+      --blue: #155eef;
+      --purple: #6941c6;
+      --gray: #475467;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #eef3f9 0%, var(--bg) 260px);
+      color: var(--text);
+    }
+
+    header {
+      padding: 28px clamp(18px, 4vw, 46px) 18px;
+      border-bottom: 1px solid rgba(215, 222, 232, 0.8);
+    }
+
+    .header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(26px, 3vw, 42px);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+
+    .brand p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 780px;
+    }
+
+    .header-actions, .inline-actions, .form-actions, .client-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header-actions { justify-content: flex-end; }
+
+    main {
+      max-width: 1560px;
+      margin: 0 auto;
+      padding: 22px clamp(18px, 4vw, 46px) 46px;
+    }
+
+    button, .button-label {
+      border: 1px solid var(--border-strong);
+      background: #fff;
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 650;
+      cursor: pointer;
+      transition: 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1;
+      user-select: none;
+    }
+
+    button:hover, .button-label:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    }
+
+    button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    button.primary:hover { background: var(--accent-dark); }
+    button.danger { border-color: #f3b4ae; color: var(--red); background: #fff7f6; }
+    button.small { padding: 7px 10px; border-radius: 10px; font-size: 12px; }
+    input[type="file"] { display: none; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.86);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+      min-height: 96px;
+    }
+
+    .stat-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .stat-card strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 29px;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .stat-card em {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      font-style: normal;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(390px, 460px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .panel-header h2 { margin: 0; font-size: 18px; letter-spacing: -0.02em; }
+    .panel-header p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+    .form-body { padding: 18px; }
+
+    .section-title {
+      margin: 20px 0 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      color: #334155;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .section-title:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .field-grid.one { grid-template-columns: 1fr; }
+
+    label {
+      display: grid;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 750;
+      color: #475569;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--border-strong);
+      border-radius: 11px;
+      padding: 10px 11px;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      outline: none;
+      transition: 0.12s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.12);
+    }
+
+    textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
+
+    .client-summary, .client-editor {
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+
+    .client-summary strong {
+      display: block;
+      font-size: 14px;
+      color: #111827;
+    }
+
+    .client-summary span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .client-editor {
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.5);
+    }
+
+    .client-editor h3 {
+      margin: 0 0 12px;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    .form-actions { margin-top: 18px; }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr 0.8fr auto;
+      gap: 10px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: #fbfcfe;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      max-height: calc(100vh - 365px);
+      min-height: 420px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 1180px;
+      font-size: 13px;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8fafc;
+      color: #475569;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    tbody td {
+      padding: 12px;
+      border-bottom: 1px solid #e9eef5;
+      vertical-align: top;
+      color: #263445;
+    }
+
+    tbody tr:hover { background: #f8fbff; }
+
+    .client-cell strong { display: block; font-size: 14px; color: #111827; }
+    .client-cell span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .badge.lead { background: #f1f5f9; color: var(--gray); border-color: #d9e2ec; }
+    .badge.rfp-review { background: #eff6ff; color: var(--blue); border-color: #bfd7ff; }
+    .badge.quoting { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+    .badge.submitted { background: #eef4ff; color: #3538cd; border-color: #c7d7fe; }
+    .badge.awarded { background: #ecfdf3; color: var(--green); border-color: #abefc6; }
+    .badge.not-awarded { background: #fff1f0; color: var(--red); border-color: #fecdca; }
+    .badge.booked { background: #f4f3ff; color: var(--purple); border-color: #d9d6fe; }
+    .badge.data-capture { background: #e0f2fe; color: #0369a1; border-color: #bae6fd; }
+    .badge.processing { background: #fef9c3; color: var(--yellow); border-color: #fde68a; }
+    .badge.delivered { background: #e7f8ee; color: #047857; border-color: #a7f3d0; }
+    .badge.invoiced { background: #f2f4f7; color: #344054; border-color: #d0d5dd; }
+    .badge.closed { background: #e5e7eb; color: #374151; border-color: #d1d5db; }
+
+    .amount { font-variant-numeric: tabular-nums; white-space: nowrap; font-weight: 700; }
+
+    .date-list { display: grid; gap: 4px; min-width: 180px; }
+    .date-list span { color: var(--muted); font-size: 12px; }
+    .date-list b { color: #334155; font-weight: 750; }
+
+    .row-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
+    .empty { padding: 44px 22px; color: var(--muted); text-align: center; }
+    .footer-note { color: var(--muted); font-size: 12px; margin-top: 12px; line-height: 1.4; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 1200px) {
+      .dashboard { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .layout { grid-template-columns: 1fr; }
+      .table-wrap { max-height: unset; }
+    }
+
+    @media (max-width: 760px) {
+      .header-row { flex-direction: column; }
+      .header-actions { justify-content: flex-start; }
+      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .filters { grid-template-columns: 1fr; }
+      .field-grid { grid-template-columns: 1fr; }
+    }
+
+    @media print {
+      body { background: white; }
+      header, .dashboard, .form-panel, .filters, .row-actions, .panel-header button, .header-actions { display: none !important; }
+      main { max-width: none; padding: 0; }
+      .layout { display: block; }
+      .panel { border: 0; box-shadow: none; }
+      .table-wrap { max-height: none; overflow: visible; }
+      table { min-width: 0; font-size: 10px; }
+      thead th { position: static; }
+      tbody td, thead th { padding: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-row">
+      <div class="brand">
+        <h1>Job & Proposal Tracker</h1>
+        <p>Track clients, RFPs, proposals, bids, awarded work, booked dates, data capture, processing, delivery, invoicing, and closeout status.</p>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="primary" id="newRecordTop">New Record</button>
+        <button type="button" id="exportCsv">Export CSV</button>
+        <button type="button" id="exportJson">Backup JSON</button>
+        <label class="button-label" for="importJson">Import JSON</label>
+        <input type="file" id="importJson" accept="application/json,.json" />
+        <button type="button" onclick="window.print()">Print</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="dashboard" aria-label="Dashboard summary">
+      <div class="stat-card"><span>Total Records</span><strong id="statTotal">0</strong><em>All jobs and proposals</em></div>
+      <div class="stat-card"><span>Clients</span><strong id="statClients">0</strong><em>Saved client records</em></div>
+      <div class="stat-card"><span>Open Proposals</span><strong id="statOpen">0</strong><em>Not yet awarded/lost</em></div>
+      <div class="stat-card"><span>Awarded / Active</span><strong id="statAwarded">0</strong><em>Won or in progress</em></div>
+      <div class="stat-card"><span>Bid Value</span><strong id="statBidValue">$0</strong><em>Visible records total</em></div>
+      <div class="stat-card"><span>Accepted Value</span><strong id="statAcceptedValue">$0</strong><em>Awarded and active total</em></div>
+    </section>
+
+    <section class="layout">
+      <aside class="panel form-panel" id="formPanel">
+        <div class="panel-header">
+          <div>
+            <h2 id="formTitle">New Record</h2>
+            <p>Select a saved client or create a new client before saving the job/proposal.</p>
+          </div>
+          <button type="button" class="small" id="clearForm">Clear</button>
+        </div>
+        <form class="form-body" id="recordForm">
+          <input type="hidden" id="recordId" />
+          <input type="hidden" id="clientId" />
+
+          <div class="section-title">Client Database</div>
+          <div class="field-grid one">
+            <label>Saved Client
+              <select id="clientSelect">
+                <option value="">Select existing client...</option>
+              </select>
+            </label>
+          </div>
+          <div class="client-actions" style="margin-top:10px;">
+            <button type="button" class="small primary" id="newClient">Create New Client</button>
+            <button type="button" class="small" id="editSelectedClient">Edit Selected Client</button>
+            <button type="button" class="small danger" id="deleteSelectedClient">Delete Client</button>
+          </div>
+          <div class="client-summary" id="clientSummary">
+            <strong>No client selected</strong>
+            <span>Create a client or choose one from the dropdown.</span>
+          </div>
+
+          <div class="client-editor hidden" id="clientEditor">
+            <h3 id="clientEditorTitle">New Client</h3>
+            <div class="field-grid">
+              <label>Client / Company
+                <input id="client" placeholder="E.g., Halton Region" />
+              </label>
+              <label>Default Contact Name
+                <input id="contactName" placeholder="Client contact" />
+              </label>
+              <label>Email
+                <input id="email" type="email" placeholder="name@example.com" />
+              </label>
+              <label>Phone
+                <input id="phone" placeholder="Phone number" />
+              </label>
+            </div>
+            <div class="field-grid one" style="margin-top:12px;">
+              <label>Client Notes
+                <textarea id="clientNotes" placeholder="Billing notes, procurement portal, preferred contact method, standing instructions, etc."></textarea>
+              </label>
+            </div>
+            <div class="inline-actions" style="margin-top:12px;">
+              <button type="button" class="small primary" id="saveClient">Save Client</button>
+              <button type="button" class="small" id="cancelClientEdit">Cancel</button>
+            </div>
+          </div>
+
+          <div class="section-title">Opportunity</div>
+          <div class="field-grid one">
+            <label>Project / RFP Title
+              <input id="projectTitle" required placeholder="Project, RFP, or job name" />
+            </label>
+          </div>
+          <div class="field-grid" style="margin-top:12px;">
+            <label>RFP / Reference Number
+              <input id="rfpNumber" placeholder="RFP, tender, quote, or internal reference" />
+            </label>
+            <label>Location
+              <input id="location" placeholder="Project location" />
+            </label>
+          </div>
+
+          <div class="section-title">Status / Commercial</div>
+          <div class="field-grid">
+            <label>Status
+              <select id="status">
+                <option value="Lead">Lead</option>
+                <option value="RFP Review">RFP Review</option>
+                <option value="Quoting">Quoting</option>
+                <option value="Submitted">Submitted</option>
+                <option value="Awarded">Awarded</option>
+                <option value="Not Awarded">Not Awarded</option>
+                <option value="Booked">Booked</option>
+                <option value="Data Capture">Data Capture</option>
+                <option value="Processing">Processing</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Invoiced">Invoiced</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </label>
+            <label>Accepted?
+              <select id="accepted">
+                <option value="Pending">Pending</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </label>
+            <label>Bid Amount
+              <input id="bidAmount" type="number" min="0" step="0.01" placeholder="0.00" />
+            </label>
+            <label>Probability %
+              <input id="probability" type="number" min="0" max="100" step="1" placeholder="0" />
+            </label>
+          </div>
+          <div class="field-grid one" style="margin-top:12px;">
+            <label>What We Bid / Scope Summary
+              <textarea id="scope" placeholder="E.g., LiDAR survey, orthomosaic, DEM, contours, point cloud classification, processing, reporting."></textarea>
+            </label>
+          </div>
+
+          <div class="section-title">Dates</div>
+          <div class="field-grid">
+            <label>RFP Received
+              <input id="rfpReceivedDate" type="date" />
+            </label>
+            <label>Site Visit / Job Walk
+              <input id="siteVisitDate" type="date" />
+            </label>
+            <label>Bid Due
+              <input id="bidDueDate" type="date" />
+            </label>
+            <label>Bid Submitted
+              <input id="bidSubmittedDate" type="date" />
+            </label>
+            <label>Award / Accepted Date
+              <input id="acceptedDate" type="date" />
+            </label>
+            <label>Date Booked
+              <input id="bookedDate" type="date" />
+            </label>
+            <label>Data Capture Date
+              <input id="captureDate" type="date" />
+            </label>
+            <label>Processing Started
+              <input id="processingStartDate" type="date" />
+            </label>
+            <label>Processing Complete
+              <input id="processingCompleteDate" type="date" />
+            </label>
+            <label>Delivery Date
+              <input id="deliveryDate" type="date" />
+            </label>
+            <label>Invoice Date
+              <input id="invoiceDate" type="date" />
+            </label>
+            <label>Follow-up Date
+              <input id="followUpDate" type="date" />
+            </label>
+          </div>
+
+          <div class="section-title">Operations / Delivery</div>
+          <div class="field-grid">
+            <label>Equipment / Platform
+              <input id="equipment" placeholder="M400 + L3, M350 + P1, Skydio X10, etc." />
+            </label>
+            <label>Lead / Assigned To
+              <input id="assignedTo" placeholder="Eric, Michael, subcontractor, etc." />
+            </label>
+          </div>
+          <div class="field-grid one" style="margin-top:12px;">
+            <label>Deliverables
+              <textarea id="deliverables" placeholder="Point cloud, DEM, orthomosaic, contours, report, photos, video, volume calculation, etc."></textarea>
+            </label>
+            <label>Notes / Next Action
+              <textarea id="notes" placeholder="Current issue, client request, next step, missing information, permits, schedule risk, etc."></textarea>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="primary">Save Record</button>
+            <button type="button" id="duplicateRecord">Duplicate</button>
+            <button type="button" class="danger hidden" id="deleteCurrent">Delete</button>
+          </div>
+          <p class="footer-note">Client records and job records are saved in this browser. Use <b>Backup JSON</b> regularly. The backup includes both clients and jobs.</p>
+        </form>
+      </aside>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h2>Current Jobs and Proposals</h2>
+            <p>Search, filter, sort, edit, export, and print.</p>
+          </div>
+          <button type="button" class="small" id="loadSample">Load Sample Rows</button>
+        </div>
+
+        <div class="filters">
+          <input id="searchBox" placeholder="Search client, RFP, location, scope, deliverables, notes..." />
+          <select id="statusFilter">
+            <option value="">All statuses</option>
+          </select>
+          <select id="acceptedFilter">
+            <option value="">Accepted: All</option>
+            <option value="Pending">Pending</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <select id="dateFilter">
+            <option value="">All dates</option>
+            <option value="overdue">Bid due overdue</option>
+            <option value="due7">Bid due next 7 days</option>
+            <option value="followup7">Follow-up next 7 days</option>
+            <option value="active">Active not delivered</option>
+          </select>
+          <button type="button" id="resetFilters">Reset</button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-sort="client">Client / Project</th>
+                <th data-sort="status">Status</th>
+                <th data-sort="accepted">Accepted</th>
+                <th data-sort="bidAmount">Bid</th>
+                <th data-sort="bidDueDate">Key Dates</th>
+                <th data-sort="scope">What We Bid</th>
+                <th data-sort="deliveryDate">Delivery</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recordsBody"></tbody>
+          </table>
+          <div id="emptyState" class="empty hidden">No records match the current filters.</div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const RECORD_STORAGE_KEY = "dsci_job_proposal_tracker_v2_records";
+    const CLIENT_STORAGE_KEY = "dsci_job_proposal_tracker_v2_clients";
+    const LEGACY_STORAGE_KEY = "dsci_job_proposal_tracker_v1";
+
+    const statusOptions = [
+      "Lead", "RFP Review", "Quoting", "Submitted", "Awarded", "Not Awarded",
+      "Booked", "Data Capture", "Processing", "Delivered", "Invoiced", "Closed"
+    ];
+
+    const jobFields = [
+      "recordId", "clientId", "client", "contactName", "email", "phone", "projectTitle", "rfpNumber", "location",
+      "status", "accepted", "bidAmount", "probability", "scope", "rfpReceivedDate", "siteVisitDate",
+      "bidDueDate", "bidSubmittedDate", "acceptedDate", "bookedDate", "captureDate", "processingStartDate",
+      "processingCompleteDate", "deliveryDate", "invoiceDate", "followUpDate", "equipment", "assignedTo",
+      "deliverables", "notes"
+    ];
+
+    let records = loadRecords();
+    let clients = loadClients();
+    let sortKey = "bidDueDate";
+    let sortDirection = "asc";
+    let editingClientId = "";
+
+    const $ = (id) => document.getElementById(id);
+
+    function makeId() {
+      if (window.crypto && typeof window.crypto.randomUUID === "function") return window.crypto.randomUUID();
+      return "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 10);
+    }
+
+    function money(value) {
+      const number = Number(value || 0);
+      return number.toLocaleString("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 });
+    }
+
+    function safeText(value) {
+      return String(value || "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+    function addDaysISO(days) {
+      const date = new Date();
+      date.setDate(date.getDate() + days);
+      return date.toISOString().slice(0, 10);
+    }
+
+    function dateLabel(date) {
+      if (!date) return "—";
+      const parsed = new Date(date + "T00:00:00");
+      if (Number.isNaN(parsed.getTime())) return "—";
+      return parsed.toLocaleDateString("en-CA", { year: "numeric", month: "short", day: "2-digit" });
+    }
+
+    function statusClass(status) {
+      return String(status || "Lead").toLowerCase().replaceAll(" ", "-").replaceAll("/", "-");
+    }
+
+    function loadArray(key) {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(key));
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function loadRecords() {
+      const current = loadArray(RECORD_STORAGE_KEY);
+      if (current.length) return current;
+      return loadArray(LEGACY_STORAGE_KEY);
+    }
+
+    function loadClients() {
+      return loadArray(CLIENT_STORAGE_KEY);
+    }
+
+    function saveRecords() {
+      localStorage.setItem(RECORD_STORAGE_KEY, JSON.stringify(records));
+    }
+
+    function saveClients() {
+      localStorage.setItem(CLIENT_STORAGE_KEY, JSON.stringify(clients));
+    }
+
+    function normalizeKey(value) {
+      return String(value || "").trim().toLowerCase();
+    }
+
+    function migrateClientsFromExistingRecords() {
+      let changedClients = false;
+      let changedRecords = false;
+      const byKey = new Map();
+
+      clients.forEach((client) => {
+        const key = normalizeKey(client.name || client.client) + "|" + normalizeKey(client.email);
+        if (key !== "|") byKey.set(key, client);
+      });
+
+      records.forEach((record) => {
+        if (!record.client) return;
+        const key = normalizeKey(record.client) + "|" + normalizeKey(record.email);
+        let client = byKey.get(key);
+        if (!client) {
+          client = {
+            id: record.clientId || makeId(),
+            name: record.client,
+            contactName: record.contactName || "",
+            email: record.email || "",
+            phone: record.phone || "",
+            notes: "",
+            createdAt: record.createdAt || new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+          };
+          clients.push(client);
+          byKey.set(key, client);
+          changedClients = true;
+        }
+        if (!record.clientId) {
+          record.clientId = client.id;
+          changedRecords = true;
+        }
+      });
+
+      if (changedClients) saveClients();
+      if (changedRecords) saveRecords();
+    }
+
+    function getClientById(id) {
+      return clients.find((client) => client.id === id);
+    }
+
+    function sortedClients() {
+      return [...clients].sort((a, b) => String(a.name || "").localeCompare(String(b.name || "")));
+    }
+
+    function renderClientOptions(selectedId = "") {
+      const select = $("clientSelect");
+      const current = selectedId || select.value || "";
+      select.innerHTML = '<option value="">Select existing client...</option>';
+      sortedClients().forEach((client) => {
+        const option = document.createElement("option");
+        option.value = client.id;
+        option.textContent = client.name || "Unnamed client";
+        select.appendChild(option);
+      });
+      if (current && getClientById(current)) select.value = current;
+    }
+
+    function setClientFields(client = {}) {
+      $("clientId").value = client.id || "";
+      $("client").value = client.name || "";
+      $("contactName").value = client.contactName || "";
+      $("email").value = client.email || "";
+      $("phone").value = client.phone || "";
+      $("clientNotes").value = client.notes || "";
+      updateClientSummary(client.id ? client : null);
+    }
+
+    function updateClientSummary(client) {
+      const summary = $("clientSummary");
+      if (!client) {
+        summary.innerHTML = '<strong>No client selected</strong><span>Create a client or choose one from the dropdown.</span>';
+        return;
+      }
+      const parts = [];
+      if (client.contactName) parts.push(client.contactName);
+      if (client.email) parts.push(client.email);
+      if (client.phone) parts.push(client.phone);
+      if (client.notes) parts.push(client.notes);
+      summary.innerHTML = `<strong>${safeText(client.name || "Unnamed client")}</strong><span>${safeText(parts.join(" • ") || "No contact details saved.")}</span>`;
+    }
+
+    function startNewClient() {
+      editingClientId = "";
+      $("clientEditorTitle").textContent = "New Client";
+      $("clientSelect").value = "";
+      setClientFields({});
+      $("clientEditor").classList.remove("hidden");
+      $("client").focus();
+    }
+
+    function editSelectedClient() {
+      const selectedId = $("clientSelect").value;
+      const client = getClientById(selectedId);
+      if (!client) {
+        alert("Select a client first, or create a new client.");
+        return;
+      }
+      editingClientId = client.id;
+      $("clientEditorTitle").textContent = "Edit Client";
+      setClientFields(client);
+      $("clientEditor").classList.remove("hidden");
+      $("client").focus();
+    }
+
+    function saveClientFromEditor() {
+      const name = $("client").value.trim();
+      if (!name) {
+        alert("Enter a client/company name before saving the client.");
+        return;
+      }
+
+      const existing = editingClientId ? getClientById(editingClientId) : null;
+      const id = existing?.id || makeId();
+      const client = {
+        id,
+        name,
+        contactName: $("contactName").value.trim(),
+        email: $("email").value.trim(),
+        phone: $("phone").value.trim(),
+        notes: $("clientNotes").value.trim(),
+        createdAt: existing?.createdAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+
+      const index = clients.findIndex((item) => item.id === id);
+      if (index >= 0) clients[index] = client;
+      else clients.push(client);
+
+      records = records.map((record) => {
+        if (record.clientId !== id) return record;
+        return {
+          ...record,
+          client: client.name,
+          contactName: client.contactName,
+          email: client.email,
+          phone: client.phone,
+          updatedAt: new Date().toISOString()
+        };
+      });
+
+      saveClients();
+      saveRecords();
+      renderClientOptions(id);
+      $("clientSelect").value = id;
+      editingClientId = id;
+      setClientFields(client);
+      $("clientEditor").classList.add("hidden");
+      render();
+    }
+
+    function deleteSelectedClient() {
+      const selectedId = $("clientSelect").value;
+      const client = getClientById(selectedId);
+      if (!client) {
+        alert("Select a client to delete.");
+        return;
+      }
+      const linkedCount = records.filter((record) => record.clientId === selectedId).length;
+      const message = linkedCount
+        ? `Delete ${client.name}? This client is linked to ${linkedCount} job/proposal record(s). The job records will remain, but the saved client link will be removed.`
+        : `Delete ${client.name}?`;
+      if (!confirm(message)) return;
+
+      clients = clients.filter((item) => item.id !== selectedId);
+      records = records.map((record) => {
+        if (record.clientId !== selectedId) return record;
+        return { ...record, clientId: "", updatedAt: new Date().toISOString() };
+      });
+      saveClients();
+      saveRecords();
+      renderClientOptions("");
+      setClientFields({});
+      $("clientSelect").value = "";
+      $("clientEditor").classList.add("hidden");
+      render();
+    }
+
+    function handleClientSelect() {
+      const selectedId = $("clientSelect").value;
+      const client = getClientById(selectedId);
+      editingClientId = selectedId || "";
+      if (client) {
+        setClientFields(client);
+        $("clientEditor").classList.add("hidden");
+      } else {
+        setClientFields({});
+        $("clientEditor").classList.add("hidden");
+      }
+    }
+
+    function getFormData() {
+      const selectedClient = getClientById($("clientSelect").value) || null;
+      const clientName = selectedClient?.name || $("client").value.trim();
+      if (!clientName) {
+        alert("Select an existing client or create a new client before saving the record.");
+        return null;
+      }
+
+      const data = {};
+      jobFields.forEach((field) => {
+        const el = $(field);
+        if (!el) return;
+        data[field] = el.value.trim();
+      });
+
+      data.id = data.recordId || makeId();
+      data.clientId = selectedClient?.id || data.clientId || "";
+      data.client = selectedClient?.name || data.client || clientName;
+      data.contactName = selectedClient?.contactName || data.contactName || "";
+      data.email = selectedClient?.email || data.email || "";
+      data.phone = selectedClient?.phone || data.phone || "";
+      data.bidAmount = data.bidAmount ? Number(data.bidAmount) : 0;
+      data.probability = data.probability ? Number(data.probability) : 0;
+      data.updatedAt = new Date().toISOString();
+      delete data.recordId;
+      return data;
+    }
+
+    function setFormData(record) {
+      jobFields.forEach((field) => {
+        const el = $(field);
+        if (!el) return;
+        if (field === "recordId") el.value = record?.id || "";
+        else el.value = record?.[field] ?? "";
+      });
+
+      const client = getClientById(record?.clientId || "");
+      renderClientOptions(record?.clientId || "");
+      if (client) {
+        $("clientSelect").value = client.id;
+        setClientFields(client);
+        editingClientId = client.id;
+      } else if (record?.client) {
+        setClientFields({
+          id: "",
+          name: record.client,
+          contactName: record.contactName || "",
+          email: record.email || "",
+          phone: record.phone || "",
+          notes: ""
+        });
+        updateClientSummary({
+          name: record.client,
+          contactName: record.contactName || "",
+          email: record.email || "",
+          phone: record.phone || "",
+          notes: ""
+        });
+      } else {
+        setClientFields({});
+      }
+
+      $("clientEditor").classList.add("hidden");
+      $("formTitle").textContent = record?.id ? "Edit Record" : "New Record";
+      $("deleteCurrent").classList.toggle("hidden", !record?.id);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function clearForm() {
+      $("recordForm").reset();
+      $("recordId").value = "";
+      $("clientId").value = "";
+      $("status").value = "Lead";
+      $("accepted").value = "Pending";
+      $("clientSelect").value = "";
+      $("clientEditor").classList.add("hidden");
+      editingClientId = "";
+      updateClientSummary(null);
+      $("formTitle").textContent = "New Record";
+      $("deleteCurrent").classList.add("hidden");
+    }
+
+    function upsertRecord(record) {
+      const index = records.findIndex((item) => item.id === record.id);
+      if (index >= 0) {
+        record.createdAt = records[index].createdAt || new Date().toISOString();
+        records[index] = record;
+      } else {
+        record.createdAt = new Date().toISOString();
+        records.unshift(record);
+      }
+      saveRecords();
+      render();
+    }
+
+    function deleteRecord(id) {
+      if (!id) return;
+      const record = records.find((item) => item.id === id);
+      const label = record ? `${record.client || "this client"} / ${record.projectTitle || "this project"}` : "this record";
+      if (!confirm(`Delete ${label}?`)) return;
+      records = records.filter((item) => item.id !== id);
+      saveRecords();
+      clearForm();
+      render();
+    }
+
+    function duplicateById(id) {
+      const record = records.find((item) => item.id === id);
+      if (!record) return;
+      const duplicate = {
+        ...record,
+        id: makeId(),
+        projectTitle: `${record.projectTitle || "Untitled"} - Copy`,
+        status: "Lead",
+        accepted: "Pending",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      records.unshift(duplicate);
+      saveRecords();
+      setFormData(duplicate);
+      render();
+    }
+
+    function getFilteredRecords() {
+      const q = $("searchBox").value.trim().toLowerCase();
+      const status = $("statusFilter").value;
+      const accepted = $("acceptedFilter").value;
+      const dateFilter = $("dateFilter").value;
+      const today = todayISO();
+      const next7 = addDaysISO(7);
+
+      let result = records.filter((record) => {
+        const searchBlob = [
+          record.client, record.contactName, record.email, record.phone, record.projectTitle, record.rfpNumber,
+          record.location, record.status, record.accepted, record.scope, record.equipment, record.assignedTo,
+          record.deliverables, record.notes
+        ].join(" ").toLowerCase();
+
+        if (q && !searchBlob.includes(q)) return false;
+        if (status && record.status !== status) return false;
+        if (accepted && record.accepted !== accepted) return false;
+
+        if (dateFilter === "overdue") {
+          if (!record.bidDueDate || record.bidDueDate >= today || ["Awarded", "Not Awarded", "Delivered", "Invoiced", "Closed"].includes(record.status)) return false;
+        }
+        if (dateFilter === "due7") {
+          if (!record.bidDueDate || record.bidDueDate < today || record.bidDueDate > next7) return false;
+        }
+        if (dateFilter === "followup7") {
+          if (!record.followUpDate || record.followUpDate < today || record.followUpDate > next7) return false;
+        }
+        if (dateFilter === "active") {
+          if (!["Awarded", "Booked", "Data Capture", "Processing"].includes(record.status)) return false;
+        }
+        return true;
+      });
+
+      result.sort((a, b) => {
+        const av = a[sortKey] ?? "";
+        const bv = b[sortKey] ?? "";
+        if (sortKey === "bidAmount" || sortKey === "probability") {
+          return sortDirection === "asc" ? Number(av) - Number(bv) : Number(bv) - Number(av);
+        }
+        return sortDirection === "asc"
+          ? String(av).localeCompare(String(bv))
+          : String(bv).localeCompare(String(av));
+      });
+
+      return result;
+    }
+
+    function renderStats(visibleRecords) {
+      const awardedStatuses = ["Awarded", "Booked", "Data Capture", "Processing", "Delivered", "Invoiced", "Closed"];
+      const openStatuses = ["Lead", "RFP Review", "Quoting", "Submitted"];
+      const totalBid = visibleRecords.reduce((sum, record) => sum + Number(record.bidAmount || 0), 0);
+      const acceptedValue = visibleRecords
+        .filter((record) => record.accepted === "Yes" || awardedStatuses.includes(record.status))
+        .reduce((sum, record) => sum + Number(record.bidAmount || 0), 0);
+
+      $("statTotal").textContent = visibleRecords.length;
+      $("statClients").textContent = clients.length;
+      $("statOpen").textContent = visibleRecords.filter((record) => openStatuses.includes(record.status)).length;
+      $("statAwarded").textContent = visibleRecords.filter((record) => awardedStatuses.includes(record.status)).length;
+      $("statBidValue").textContent = money(totalBid);
+      $("statAcceptedValue").textContent = money(acceptedValue);
+    }
+
+    function renderTable(visibleRecords) {
+      const body = $("recordsBody");
+      body.innerHTML = "";
+
+      if (!visibleRecords.length) {
+        $("emptyState").classList.remove("hidden");
+        return;
+      }
+      $("emptyState").classList.add("hidden");
+
+      body.innerHTML = visibleRecords.map((record) => `
+        <tr>
+          <td class="client-cell">
+            <strong>${safeText(record.client || "—")}</strong>
+            <span>${safeText(record.projectTitle || "Untitled project")}</span>
+            <span>${safeText(record.rfpNumber || "No RFP/reference")} ${record.location ? "• " + safeText(record.location) : ""}</span>
+          </td>
+          <td><span class="badge ${statusClass(record.status)}">${safeText(record.status || "Lead")}</span></td>
+          <td>${safeText(record.accepted || "Pending")}</td>
+          <td class="amount">${money(record.bidAmount)}</td>
+          <td>
+            <div class="date-list">
+              <span><b>Due:</b> ${dateLabel(record.bidDueDate)}</span>
+              <span><b>Submitted:</b> ${dateLabel(record.bidSubmittedDate)}</span>
+              <span><b>Booked:</b> ${dateLabel(record.bookedDate)}</span>
+              <span><b>Capture:</b> ${dateLabel(record.captureDate)}</span>
+              <span><b>Follow-up:</b> ${dateLabel(record.followUpDate)}</span>
+            </div>
+          </td>
+          <td>${safeText(record.scope || "—").slice(0, 260)}${(record.scope || "").length > 260 ? "…" : ""}</td>
+          <td>
+            <div class="date-list">
+              <span><b>Processing:</b> ${dateLabel(record.processingStartDate)} → ${dateLabel(record.processingCompleteDate)}</span>
+              <span><b>Delivered:</b> ${dateLabel(record.deliveryDate)}</span>
+              <span><b>Invoice:</b> ${dateLabel(record.invoiceDate)}</span>
+              <span>${safeText(record.deliverables || "No deliverables entered").slice(0, 160)}${(record.deliverables || "").length > 160 ? "…" : ""}</span>
+            </div>
+          </td>
+          <td>
+            <div class="row-actions">
+              <button type="button" class="small" onclick="editRecord('${record.id}')">Edit</button>
+              <button type="button" class="small" onclick="duplicateById('${record.id}')">Copy</button>
+              <button type="button" class="small danger" onclick="deleteRecord('${record.id}')">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function render() {
+      renderClientOptions($("clientSelect")?.value || "");
+      const visibleRecords = getFilteredRecords();
+      renderStats(visibleRecords);
+      renderTable(visibleRecords);
+    }
+
+    function editRecord(id) {
+      const record = records.find((item) => item.id === id);
+      if (record) setFormData(record);
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? "");
+      if (/[",\n]/.test(text)) return `"${text.replaceAll('"', '""')}"`;
+      return text;
+    }
+
+    function exportCsvFile() {
+      const visibleRecords = getFilteredRecords();
+      const headers = [
+        "Client", "Contact Name", "Email", "Phone", "Project/RFP Title", "RFP/Reference", "Location",
+        "Status", "Accepted", "Bid Amount", "Probability", "What We Bid / Scope", "RFP Received",
+        "Site Visit", "Bid Due", "Bid Submitted", "Accepted Date", "Booked Date", "Capture Date",
+        "Processing Start", "Processing Complete", "Delivery Date", "Invoice Date", "Follow-up Date",
+        "Equipment", "Assigned To", "Deliverables", "Notes"
+      ];
+      const keys = [
+        "client", "contactName", "email", "phone", "projectTitle", "rfpNumber", "location", "status", "accepted",
+        "bidAmount", "probability", "scope", "rfpReceivedDate", "siteVisitDate", "bidDueDate", "bidSubmittedDate",
+        "acceptedDate", "bookedDate", "captureDate", "processingStartDate", "processingCompleteDate", "deliveryDate",
+        "invoiceDate", "followUpDate", "equipment", "assignedTo", "deliverables", "notes"
+      ];
+      const rows = [headers.map(csvEscape).join(",")]
+        .concat(visibleRecords.map((record) => keys.map((key) => csvEscape(record[key])).join(",")));
+      downloadFile(rows.join("\n"), `DSCI-job-proposal-tracker-${todayISO()}.csv`, "text/csv");
+    }
+
+    function exportJsonFile() {
+      const backup = {
+        app: "DSCI Job & Proposal Tracker",
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        clients,
+        records
+      };
+      downloadFile(JSON.stringify(backup, null, 2), `DSCI-job-proposal-tracker-backup-${todayISO()}.json`, "application/json");
+    }
+
+    function downloadFile(content, filename, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function importJsonFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const imported = JSON.parse(event.target.result);
+          let importedRecords = [];
+          let importedClients = [];
+
+          if (Array.isArray(imported)) {
+            importedRecords = imported;
+          } else if (imported && Array.isArray(imported.records)) {
+            importedRecords = imported.records;
+            importedClients = Array.isArray(imported.clients) ? imported.clients : [];
+          } else {
+            throw new Error("JSON backup must contain records, or be an array of records.");
+          }
+
+          const cleanedClients = importedClients.map((client) => ({
+            id: client.id || makeId(),
+            name: client.name || client.client || "Unnamed client",
+            contactName: client.contactName || "",
+            email: client.email || "",
+            phone: client.phone || "",
+            notes: client.notes || "",
+            createdAt: client.createdAt || new Date().toISOString(),
+            updatedAt: client.updatedAt || new Date().toISOString()
+          }));
+
+          const cleanedRecords = importedRecords.map((record) => ({
+            ...record,
+            id: record.id || makeId(),
+            clientId: record.clientId || "",
+            client: record.client || "",
+            status: record.status || "Lead",
+            accepted: record.accepted || "Pending",
+            bidAmount: Number(record.bidAmount || 0),
+            probability: Number(record.probability || 0),
+            updatedAt: record.updatedAt || new Date().toISOString(),
+            createdAt: record.createdAt || new Date().toISOString()
+          }));
+
+          if (!confirm(`Import ${cleanedRecords.length} records and ${cleanedClients.length} clients? This will replace the current browser data.`)) return;
+          records = cleanedRecords;
+          clients = cleanedClients;
+          migrateClientsFromExistingRecords();
+          saveRecords();
+          saveClients();
+          renderClientOptions();
+          clearForm();
+          render();
+        } catch (error) {
+          alert(`Import failed: ${error.message}`);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function populateStatusFilters() {
+      const filter = $("statusFilter");
+      statusOptions.forEach((status) => {
+        const option = document.createElement("option");
+        option.value = status;
+        option.textContent = status;
+        filter.appendChild(option);
+      });
+    }
+
+    function loadSampleRows() {
+      if (records.length && !confirm("Add sample rows to the existing tracker?")) return;
+      const sampleClientOne = {
+        id: makeId(),
+        name: "Example Client",
+        contactName: "Client Contact",
+        email: "contact@example.com",
+        phone: "",
+        notes: "Example procurement/client record.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      const sampleClientTwo = {
+        id: makeId(),
+        name: "Example Contractor",
+        contactName: "Estimator",
+        email: "",
+        phone: "",
+        notes: "Example contractor/client record.",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      clients = [sampleClientOne, sampleClientTwo].concat(clients);
+      records = [
+        {
+          id: makeId(),
+          clientId: sampleClientOne.id,
+          client: sampleClientOne.name,
+          contactName: sampleClientOne.contactName,
+          email: sampleClientOne.email,
+          phone: sampleClientOne.phone,
+          projectTitle: "Road Corridor LiDAR Survey",
+          rfpNumber: "RFP-2026-001",
+          location: "Hamilton, ON",
+          status: "Submitted",
+          accepted: "Pending",
+          bidAmount: 8799,
+          probability: 50,
+          scope: "Aerial LiDAR survey, classified point cloud, bare-earth DEM, contours, and summary report.",
+          rfpReceivedDate: todayISO(),
+          siteVisitDate: "",
+          bidDueDate: addDaysISO(7),
+          bidSubmittedDate: todayISO(),
+          acceptedDate: "",
+          bookedDate: "",
+          captureDate: "",
+          processingStartDate: "",
+          processingCompleteDate: "",
+          deliveryDate: "",
+          invoiceDate: "",
+          followUpDate: addDaysISO(3),
+          equipment: "M400 + Zenmuse L3",
+          assignedTo: "Eric",
+          deliverables: "LAS/LAZ point cloud, DEM GeoTIFF, contour CAD/GIS files, PDF report.",
+          notes: "Follow up after client technical review.",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        },
+        {
+          id: makeId(),
+          clientId: sampleClientTwo.id,
+          client: sampleClientTwo.name,
+          contactName: sampleClientTwo.contactName,
+          email: sampleClientTwo.email,
+          phone: sampleClientTwo.phone,
+          projectTitle: "Stockpile Volume Survey",
+          rfpNumber: "Quote Request",
+          location: "Ontario",
+          status: "Awarded",
+          accepted: "Yes",
+          bidAmount: 4750,
+          probability: 100,
+          scope: "Drone data capture, surface model, stockpile volume calculations, and deliverable package.",
+          rfpReceivedDate: "",
+          siteVisitDate: "",
+          bidDueDate: "",
+          bidSubmittedDate: "",
+          acceptedDate: todayISO(),
+          bookedDate: addDaysISO(10),
+          captureDate: addDaysISO(10),
+          processingStartDate: "",
+          processingCompleteDate: "",
+          deliveryDate: "",
+          invoiceDate: "",
+          followUpDate: "",
+          equipment: "M350 / M400 mapping platform",
+          assignedTo: "Michael / Eric",
+          deliverables: "Volume report, orthomosaic, surface model, point cloud if required.",
+          notes: "Confirm access and site contact before mobilization.",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        }
+      ].concat(records);
+      saveClients();
+      saveRecords();
+      renderClientOptions();
+      render();
+    }
+
+    $("recordForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const record = getFormData();
+      if (!record) return;
+      upsertRecord(record);
+      setFormData(record);
+    });
+
+    $("clearForm").addEventListener("click", clearForm);
+    $("newRecordTop").addEventListener("click", clearForm);
+    $("deleteCurrent").addEventListener("click", () => deleteRecord($("recordId").value));
+    $("duplicateRecord").addEventListener("click", () => {
+      const id = $("recordId").value;
+      if (id) duplicateById(id);
+    });
+    $("newClient").addEventListener("click", startNewClient);
+    $("editSelectedClient").addEventListener("click", editSelectedClient);
+    $("saveClient").addEventListener("click", saveClientFromEditor);
+    $("cancelClientEdit").addEventListener("click", () => {
+      $("clientEditor").classList.add("hidden");
+      handleClientSelect();
+    });
+    $("deleteSelectedClient").addEventListener("click", deleteSelectedClient);
+    $("clientSelect").addEventListener("change", handleClientSelect);
+    $("exportCsv").addEventListener("click", exportCsvFile);
+    $("exportJson").addEventListener("click", exportJsonFile);
+    $("importJson").addEventListener("change", (event) => {
+      const file = event.target.files?.[0];
+      if (file) importJsonFile(file);
+      event.target.value = "";
+    });
+    $("loadSample").addEventListener("click", loadSampleRows);
+
+    ["searchBox", "statusFilter", "acceptedFilter", "dateFilter"].forEach((id) => {
+      $(id).addEventListener("input", render);
+      $(id).addEventListener("change", render);
+    });
+
+    $("resetFilters").addEventListener("click", () => {
+      $("searchBox").value = "";
+      $("statusFilter").value = "";
+      $("acceptedFilter").value = "";
+      $("dateFilter").value = "";
+      render();
+    });
+
+    document.querySelectorAll("th[data-sort]").forEach((th) => {
+      th.addEventListener("click", () => {
+        const key = th.dataset.sort;
+        if (sortKey === key) sortDirection = sortDirection === "asc" ? "desc" : "asc";
+        else {
+          sortKey = key;
+          sortDirection = "asc";
+        }
+        render();
+      });
+    });
+
+    migrateClientsFromExistingRecords();
+    populateStatusFilters();
+    renderClientOptions();
+    clearForm();
+    render();
+  </script>
+</body>
+</html>
