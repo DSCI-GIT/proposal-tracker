@@ -1506,68 +1506,6 @@
       return url.toString();
     }
 
-    async function sheetReadRequest() {
-      const settings = getSheetSyncSettingsFromForm();
-      saveSheetSyncSettingsObject(settings);
-
-      const response = await fetch(buildSheetApiReadUrl(settings), {
-        method: "GET",
-        cache: "no-store"
-      });
-
-      if (!response.ok) {
-        const text = await response.text().catch(() => "");
-        throw new Error(`Sheet read failed: ${response.status} ${response.statusText}${text ? " - " + text.slice(0, 180) : ""}`);
-      }
-
-      const text = await response.text();
-      let result;
-      try {
-        result = JSON.parse(text);
-      } catch {
-        throw new Error(`Apps Script did not return JSON. It may be showing a login, permissions, or deployment page instead. Response begins: ${text.slice(0, 180)}`);
-      }
-
-      if (!result.ok) {
-        throw new Error(result.error || "Unknown sheet API error.");
-      }
-      return result;
-    }
-
-    async function sheetWriteRequest(action, payload = {}) {
-      const settings = getSheetSyncSettingsFromForm();
-      saveSheetSyncSettingsObject(settings);
-
-      const body = {
-        key: settings.key,
-        action,
-        ...payload
-      };
-
-      const response = await fetch(settings.url, {
-        method: "POST",
-        body: JSON.stringify(body)
-      });
-
-      if (!response.ok) {
-        const text = await response.text().catch(() => "");
-        throw new Error(`Sheet write failed: ${response.status} ${response.statusText}${text ? " - " + text.slice(0, 180) : ""}`);
-      }
-
-      const text = await response.text();
-      let result;
-      try {
-        result = JSON.parse(text);
-      } catch {
-        throw new Error(`Apps Script did not return JSON. It may be showing a login, permissions, or deployment page instead. Response begins: ${text.slice(0, 180)}`);
-      }
-
-      if (!result.ok) {
-        throw new Error(result.error || "Unknown sheet API error.");
-      }
-      return result;
-    }
-
     function openSheetApiTestUrl() {
       try {
         const settings = getSheetSyncSettingsFromForm();
@@ -1578,10 +1516,100 @@
       }
     }
 
+    function jsonpSheetReadRequest() {
+      const settings = getSheetSyncSettingsFromForm();
+      saveSheetSyncSettingsObject(settings);
+
+      return new Promise((resolve, reject) => {
+        const callbackName = "dsciTrackerJsonp_" + Date.now() + "_" + Math.random().toString(36).slice(2);
+        let script = null;
+
+        const timeout = window.setTimeout(() => {
+          cleanup();
+          reject(new Error("Sheet read timed out. Confirm the Apps Script doGet function supports JSONP callback responses."));
+        }, 20000);
+
+        function cleanup() {
+          window.clearTimeout(timeout);
+          delete window[callbackName];
+          if (script && script.parentNode) script.parentNode.removeChild(script);
+        }
+
+        window[callbackName] = (result) => {
+          cleanup();
+          if (!result || !result.ok) {
+            reject(new Error((result && result.error) || "Unknown sheet API error."));
+            return;
+          }
+          resolve(result);
+        };
+
+        const url = new URL(settings.url);
+        url.searchParams.set("action", "read");
+        url.searchParams.set("key", settings.key);
+        url.searchParams.set("callback", callbackName);
+        url.searchParams.set("_", String(Date.now()));
+
+        script = document.createElement("script");
+        script.src = url.toString();
+        script.onerror = () => {
+          cleanup();
+          reject(new Error("Unable to load Apps Script JSONP response. Check deployment access and the web app URL."));
+        };
+        document.body.appendChild(script);
+      });
+    }
+
+    function formPostToSheet(action, payload = {}) {
+      const settings = getSheetSyncSettingsFromForm();
+      saveSheetSyncSettingsObject(settings);
+
+      return new Promise((resolve) => {
+        const frameName = "dsciTrackerPostFrame_" + Date.now();
+        const iframe = document.createElement("iframe");
+        iframe.name = frameName;
+        iframe.style.display = "none";
+        document.body.appendChild(iframe);
+
+        const form = document.createElement("form");
+        form.method = "POST";
+        form.action = settings.url;
+        form.target = frameName;
+        form.style.display = "none";
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "payload";
+        input.value = JSON.stringify({
+          key: settings.key,
+          action,
+          ...payload
+        });
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+
+        let resolved = false;
+        const finish = () => {
+          if (resolved) return;
+          resolved = true;
+          window.setTimeout(() => {
+            if (form.parentNode) form.parentNode.removeChild(form);
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+          }, 1000);
+          resolve({ ok: true });
+        };
+
+        iframe.onload = finish;
+        form.submit();
+        window.setTimeout(finish, 3500);
+      });
+    }
+
     async function testSheetConnection() {
       try {
         updateSyncStatus("Testing connection", "Contacting Apps Script...");
-        const result = await sheetReadRequest();
+        const result = await jsonpSheetReadRequest();
         const clientCount = result.data?.clients?.length || 0;
         const jobCount = result.data?.jobs?.length || 0;
         updateSyncStatus("Connected", `Apps Script responded. Sheet contains ${clientCount} client(s) and ${jobCount} job/proposal record(s).`);
@@ -1595,7 +1623,7 @@
     async function pullFromSheet() {
       try {
         updateSyncStatus("Pulling from Sheet", "Reading clients and jobs from Google Sheets...");
-        const result = await sheetReadRequest();
+        const result = await jsonpSheetReadRequest();
         const sheetClients = result.data?.clients || [];
         const sheetJobs = result.data?.jobs || [];
 
@@ -1628,9 +1656,9 @@
           jobs: records.map(jobToSheetRow),
           settings: []
         };
-        await sheetWriteRequest("replaceAll", payload);
-        updateSyncStatus("Push complete", `Saved ${clients.length} client(s) and ${records.length} job/proposal record(s) to Google Sheets.`);
-        alert("Data pushed to Google Sheets.");
+        await formPostToSheet("replaceAll", payload);
+        updateSyncStatus("Push sent", `Sent ${clients.length} client(s) and ${records.length} job/proposal record(s) to Google Sheets. Pull from Sheet to verify the saved rows.`);
+        alert("Data sent to Google Sheets. Use Pull from Sheet to verify.");
       } catch (error) {
         updateSyncStatus("Push failed", error.message);
         alert(error.message);
