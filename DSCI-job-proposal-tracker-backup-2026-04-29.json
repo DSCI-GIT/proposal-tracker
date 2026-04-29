@@ -1,0 +1,53 @@
+{
+  "app": "DSCI Job & Proposal Tracker",
+  "version": 2,
+  "exportedAt": "2026-04-29T15:22:41.607Z",
+  "clients": [
+    {
+      "id": "74bbd8fe-6f5a-4b3a-bcfd-66e43b2053d1",
+      "name": "Halton Region",
+      "contactName": "Doug St.Louis",
+      "email": "Douglas.St.Louis@halton.ca",
+      "phone": "905-208-0246",
+      "notes": "",
+      "createdAt": "2026-04-29T15:17:53.335Z",
+      "updatedAt": "2026-04-29T15:17:53.335Z"
+    }
+  ],
+  "records": [
+    {
+      "clientId": "74bbd8fe-6f5a-4b3a-bcfd-66e43b2053d1",
+      "client": "Halton Region",
+      "contactName": "Doug St.Louis",
+      "email": "Douglas.St.Louis@halton.ca",
+      "phone": "905-208-0246",
+      "projectTitle": "401/Steeles Milton",
+      "rfpNumber": "",
+      "location": "Milton",
+      "status": "Submitted",
+      "accepted": "Pending",
+      "bidAmount": 8770,
+      "probability": 0,
+      "scope": "",
+      "rfpReceivedDate": "2026-04-16",
+      "siteVisitDate": "",
+      "bidDueDate": "2026-04-24",
+      "bidSubmittedDate": "2026-04-24",
+      "acceptedDate": "",
+      "bookedDate": "",
+      "captureDate": "",
+      "processingStartDate": "",
+      "processingCompleteDate": "",
+      "deliveryDate": "",
+      "invoiceDate": "",
+      "followUpDate": "",
+      "equipment": "M400 + L3",
+      "assignedTo": "Eric",
+      "deliverables": "Point Cloud, DEM, Contours",
+      "notes": "",
+      "id": "773717db-4f02-403e-a75d-7dc8e65fbbc7",
+      "updatedAt": "2026-04-29T15:22:20.097Z",
+      "createdAt": "2026-04-29T15:22:20.097Z"
+    }
+  ]
+}
