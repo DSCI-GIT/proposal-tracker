@@ -6,20 +6,20 @@
   <title>DSCI Job & Proposal Tracker</title>
   <style>
     :root{
-      --bg:#fff7f7;
-      --panel:#ffffff;
-      --panel-2:#fff0f1;
-      --line:#f0cfd2;
-      --line-strong:#e6b1b8;
-      --text:#2a1f23;
-      --muted:#7a656a;
-      --accent:#d64252;
-      --accent-2:#b8263e;
-      --accent-soft:#ffe5e8;
-      --good:#1f8f56;
-      --warn:#c17a00;
-      --bad:#c03d3d;
-      --shadow:0 10px 30px rgba(182,38,62,.10);
+      --bg:#14080b;
+      --panel:#211014;
+      --panel-2:#30161c;
+      --line:#542832;
+      --line-strong:#7a3442;
+      --text:#f8eef0;
+      --muted:#c7a6ad;
+      --accent:#e04a5f;
+      --accent-2:#ff6f82;
+      --accent-soft:#3a171f;
+      --good:#42c77d;
+      --warn:#f0a339;
+      --bad:#ff6f75;
+      --shadow:0 12px 34px rgba(0,0,0,.38);
       --radius:16px;
       --radius-sm:12px;
       --toolbar-h:74px;
@@ -30,7 +30,7 @@
     body{
       margin:0;
       font-family:Inter,Segoe UI,Arial,sans-serif;
-      background:linear-gradient(180deg,#fff8f8 0%,#fff4f5 100%);
+      background:radial-gradient(circle at top left,#3a111a 0%,#19090d 34%,#0e0608 100%);
       color:var(--text);
     }
     button,input,select,textarea{font:inherit}
@@ -40,7 +40,7 @@
       position:sticky;
       top:0;
       z-index:20;
-      background:rgba(255,247,247,.9);
+      background:rgba(27,10,14,.92);
       backdrop-filter:blur(10px);
       border:1px solid var(--line);
       border-radius:20px;
@@ -72,7 +72,7 @@
       min-width:44px;
       border:none;
       border-radius:14px;
-      background:var(--panel);
+      background:#2a1218;
       color:var(--text);
       box-shadow:0 0 0 1px var(--line) inset;
       display:inline-flex;
@@ -83,9 +83,9 @@
       cursor:pointer;
       transition:.18s ease;
     }
-    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(182,38,62,.08),0 0 0 1px var(--line) inset}
+    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(0,0,0,.28),0 0 0 1px var(--line-strong) inset}
     .icon-btn.primary{background:linear-gradient(180deg,#e45363,#c92f47);color:#fff;box-shadow:none}
-    .icon-btn.settings{background:var(--accent-soft);color:var(--accent-2);box-shadow:0 0 0 1px #f2b9c0 inset}
+    .icon-btn.settings{background:#3a171f;color:#ff8796;box-shadow:0 0 0 1px #7a3442 inset}
     .icon-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 0 0 1px var(--line) inset}
     .icon-btn svg{width:18px;height:18px;display:block;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
     .spacer{width:8px}
@@ -98,22 +98,22 @@
     .card .sub{color:var(--muted);font-size:.84rem;margin-top:6px}
 
     .panel{background:var(--panel);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
-    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fffdfd,#fff5f6)}
+    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#2a1117,#1c0b10)}
     .panel-head h2{margin:0;font-size:1.05rem}
     .filters{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .filters .field{display:flex;align-items:center;gap:8px}
     .search{min-width:260px;flex:1 1 280px}
-    .input,.select,.textarea{width:100%;border:1px solid var(--line-strong);background:#fff;border-radius:12px;padding:10px 12px;color:var(--text);outline:none}
+    .input,.select,.textarea{width:100%;border:1px solid var(--line-strong);background:#180a0e;border-radius:12px;padding:10px 12px;color:var(--text);outline:none}
     .textarea{min-height:96px;resize:vertical}
     .input:focus,.select:focus,.textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(214,66,82,.10)}
 
     .table-wrap{overflow:auto;max-height:calc(100vh - 280px)}
     table{width:100%;border-collapse:separate;border-spacing:0;min-width:1240px}
-    thead th{position:sticky;top:0;z-index:3;background:#fff7f8;color:#5d4a4f;text-align:left;font-size:.83rem;font-weight:700;letter-spacing:.02em;border-bottom:1px solid var(--line);padding:12px 10px;white-space:nowrap}
+    thead th{position:sticky;top:0;z-index:3;background:#2a1117;color:#f3d6dc;text-align:left;font-size:.83rem;font-weight:700;letter-spacing:.02em;border-bottom:1px solid var(--line);padding:12px 10px;white-space:nowrap}
     tbody td{padding:12px 10px;border-bottom:1px solid #f3dfe2;vertical-align:top;font-size:.93rem}
-    tbody tr{cursor:pointer;background:#fff}
-    tbody tr:hover{background:#fff6f7}
-    tbody tr.selected{background:#ffecef}
+    tbody tr{cursor:pointer;background:#211014}
+    tbody tr:hover{background:#30161c}
+    tbody tr.selected{background:#4a1e29}
     th.sticky,td.sticky{position:sticky;left:0;background:inherit;z-index:2}
     thead th.sticky{z-index:4}
     .checkbox-cell{width:48px}
@@ -182,11 +182,7 @@
       </div>
 
       <div class="toolbar">
-        <button class="icon-btn primary" id="btnNewRecord" title="New Record"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
-        <button class="icon-btn" id="btnEditRecord" title="Edit Selected" disabled><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
-        <button class="icon-btn" id="btnCopyRecord" title="Copy Selected" disabled><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
-        <button class="icon-btn" id="btnDeleteRecord" title="Delete Selected" disabled><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
-        <div class="spacer"></div>
+        
         <button class="icon-btn" id="btnSync" title="Sync"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 0 1-15.5 6.36"/><path d="M3 12A9 9 0 0 1 18.5 5.64"/><path d="M21 3v6h-6"/><path d="M3 21v-6h6"/></svg></button>
         <button class="icon-btn" id="btnImport" title="Import"><svg viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg></button>
         <button class="icon-btn" id="btnExport" title="Export CSV"><svg viewBox="0 0 24 24"><path d="M12 21V9"/><path d="m17 14-5 5-5-5"/><path d="M5 3h14"/></svg></button>
@@ -208,7 +204,13 @@
 
       <div class="panel">
         <div class="panel-head">
-          <h2>Jobs Board</h2>
+          <div class="inline-row" style="gap:10px;flex-wrap:wrap">
+            <h2>Jobs Board</h2>
+            <button class="icon-btn primary" id="btnNewRecord" title="New Record"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+            <button class="icon-btn" id="btnEditRecord" title="Edit Selected" disabled><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></button>
+            <button class="icon-btn" id="btnCopyRecord" title="Copy Selected" disabled><svg viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+            <button class="icon-btn" id="btnDeleteRecord" title="Delete Selected" disabled><svg viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+          </div>
           <div class="filters">
             <div class="field search"><input class="input" id="searchInput" type="search" placeholder="Search client, title, location, RFP, notes…" /></div>
             <div class="field"><select class="select" id="statusFilter"><option value="">All Statuses</option><option>Lead</option><option>Proposal</option><option>Awarded</option><option>Booked</option><option>Capture</option><option>Processing</option><option>Delivered</option><option>Closed</option></select></div>
@@ -220,7 +222,7 @@
             <thead>
               <tr>
                 <th class="sticky checkbox-cell"><input id="selectAllCheckbox" class="checkbox" type="checkbox" title="Select all visible" /></th>
-                <th>Client</th><th>Project Title</th><th>Status</th><th>Accepted</th><th>Bid</th><th>Bid Due</th><th>Booked</th><th>Capture</th><th>Processing Start</th><th>Delivery</th><th>RFP</th><th>Location</th><th>Assigned To</th><th>Updated</th>
+                <th>Client</th><th>DSCI Job #</th><th>Project Title</th><th>Status</th><th>Accepted</th><th>Bid</th><th>Bid Due</th><th>Booked</th><th>Capture</th><th>Processing Start</th><th>Delivery</th><th>RFP</th><th>Location</th><th>Assigned To</th><th>Updated</th>
               </tr>
             </thead>
             <tbody id="recordsTbody"></tbody>
@@ -241,7 +243,8 @@
           <div class="grid">
             <div class="field col-8"><label for="recordClientId">Client</label><div class="client-pair"><select id="recordClientId" class="select"></select><button class="icon-btn" type="button" id="btnNewClientInline" title="New Client"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
             <div class="field col-4"><label for="recordAssignedTo">Assigned To</label><input id="recordAssignedTo" class="input" /></div>
-            <div class="field col-8"><label for="recordProjectTitle">Project Title</label><input id="recordProjectTitle" class="input" required /></div>
+            <div class="field col-4"><label for="recordJobNumber">DSCI Job Number</label><input id="recordJobNumber" class="input" placeholder="Auto-filled; editable" /></div>
+            <div class="field col-4"><label for="recordProjectTitle">Project Title</label><input id="recordProjectTitle" class="input" required /></div>
             <div class="field col-4"><label for="recordRfpNumber">RFP / Reference</label><input id="recordRfpNumber" class="input" /></div>
             <div class="field col-6"><label for="recordLocation">Location</label><input id="recordLocation" class="input" /></div>
             <div class="field col-3"><label for="recordStatus">Status</label><select id="recordStatus" class="select"><option>Lead</option><option>Proposal</option><option>Awarded</option><option>Booked</option><option>Capture</option><option>Processing</option><option>Delivered</option><option>Closed</option></select></div>
@@ -323,9 +326,9 @@
     function openModal(id){$(id).classList.add("show")}function closeModal(id){$(id).classList.remove("show")}
 
     function defaultClient(){return{client_id:uid("client"),client_name:"",contact_name:"",email:"",phone:"",notes:"",created_at:nowIso(),updated_at:nowIso()}}
-    function defaultRecord(){return{job_id:uid("job"),client_id:"",project_title:"",rfp_number:"",location:"",status:"Lead",accepted:"Pending",bid_amount:"",probability:"",scope:"",rfp_received_date:"",site_visit_date:"",bid_due_date:"",bid_submitted_date:"",accepted_date:"",booked_date:"",capture_date:"",processing_start_date:"",processing_complete_date:"",delivery_date:"",invoice_date:"",follow_up_date:"",equipment:"",assigned_to:"",deliverables:"",notes:"",created_at:nowIso(),updated_at:nowIso()}}
+    function defaultRecord(){return{job_id:uid("job"),client_id:"",job_number:"",project_title:"",rfp_number:"",location:"",status:"Lead",accepted:"Pending",bid_amount:"",probability:"",scope:"",rfp_received_date:"",site_visit_date:"",bid_due_date:"",bid_submitted_date:"",accepted_date:"",booked_date:"",capture_date:"",processing_start_date:"",processing_complete_date:"",delivery_date:"",invoice_date:"",follow_up_date:"",equipment:"",assigned_to:"",deliverables:"",notes:"",created_at:nowIso(),updated_at:nowIso()}}
     function ensureClientArray(arr){return(Array.isArray(arr)?arr:[]).map(item=>{const b=defaultClient();return{...b,...item,client_id:item.client_id||item.id||uid("client"),client_name:item.client_name||item.name||item.client||"Unnamed Client",contact_name:item.contact_name||item.contactName||"",created_at:item.created_at||item.createdAt||b.created_at,updated_at:item.updated_at||item.updatedAt||item.created_at||item.createdAt||b.updated_at}})}
-    function ensureRecordArray(arr){return(Array.isArray(arr)?arr:[]).map(item=>{const b=defaultRecord();return{...b,...item,job_id:item.job_id||item.id||uid("job"),client_id:item.client_id||item.clientId||"",project_title:item.project_title||item.projectTitle||"",rfp_number:item.rfp_number||item.rfpNumber||"",bid_amount:item.bid_amount??item.bidAmount??"",rfp_received_date:item.rfp_received_date||item.rfpReceivedDate||"",site_visit_date:item.site_visit_date||item.siteVisitDate||"",bid_due_date:item.bid_due_date||item.bidDueDate||"",bid_submitted_date:item.bid_submitted_date||item.bidSubmittedDate||"",accepted_date:item.accepted_date||item.acceptedDate||"",booked_date:item.booked_date||item.bookedDate||"",capture_date:item.capture_date||item.captureDate||"",processing_start_date:item.processing_start_date||item.processingStartDate||"",processing_complete_date:item.processing_complete_date||item.processingCompleteDate||"",delivery_date:item.delivery_date||item.deliveryDate||"",invoice_date:item.invoice_date||item.invoiceDate||"",follow_up_date:item.follow_up_date||item.followUpDate||"",assigned_to:item.assigned_to||item.assignedTo||"",created_at:item.created_at||item.createdAt||b.created_at,updated_at:item.updated_at||item.updatedAt||item.created_at||item.createdAt||b.updated_at}})}
+    function ensureRecordArray(arr){return(Array.isArray(arr)?arr:[]).map(item=>{const b=defaultRecord();return{...b,...item,job_id:item.job_id||item.id||uid("job"),client_id:item.client_id||item.clientId||"",job_number:item.job_number||item.jobNumber||"",project_title:item.project_title||item.projectTitle||"",rfp_number:item.rfp_number||item.rfpNumber||"",bid_amount:item.bid_amount??item.bidAmount??"",rfp_received_date:item.rfp_received_date||item.rfpReceivedDate||"",site_visit_date:item.site_visit_date||item.siteVisitDate||"",bid_due_date:item.bid_due_date||item.bidDueDate||"",bid_submitted_date:item.bid_submitted_date||item.bidSubmittedDate||"",accepted_date:item.accepted_date||item.acceptedDate||"",booked_date:item.booked_date||item.bookedDate||"",capture_date:item.capture_date||item.captureDate||"",processing_start_date:item.processing_start_date||item.processingStartDate||"",processing_complete_date:item.processing_complete_date||item.processingCompleteDate||"",delivery_date:item.delivery_date||item.deliveryDate||"",invoice_date:item.invoice_date||item.invoiceDate||"",follow_up_date:item.follow_up_date||item.followUpDate||"",assigned_to:item.assigned_to||item.assignedTo||"",created_at:item.created_at||item.createdAt||b.created_at,updated_at:item.updated_at||item.updatedAt||item.created_at||item.createdAt||b.updated_at}})}
 
     function saveLocal(){localStorage.setItem(STORAGE_KEYS.clients,JSON.stringify(state.clients));localStorage.setItem(STORAGE_KEYS.records,JSON.stringify(state.records))}
     function loadJson(key,fallback){try{return JSON.parse(localStorage.getItem(key)||fallback)}catch{return JSON.parse(fallback)}}
@@ -337,6 +340,9 @@
     function buildSyncSnapshot(clients,records){const cm={};for(const c of clients)cm[c.client_id]={updated_at:c.updated_at||"",deleted:false};const rm={};for(const r of records)rm[r.job_id]={updated_at:r.updated_at||"",deleted:false};return{clients:cm,records:rm,lastSyncAt:nowIso()}}
 
     function getClientName(id){return(state.clients.find(c=>c.client_id===id)||{}).client_name||""}
+    function clientAbbrev(clientName){const cleaned=String(clientName||"").toUpperCase().replace(/&/g," AND ").replace(/[^A-Z0-9 ]/g," ").trim();const words=cleaned.split(new RegExp("\s+")).filter(Boolean);if(!words.length)return"CLNT";if(words.length===1)return words[0].slice(0,4);let abbr=words.map(w=>w[0]).join("").slice(0,4);if(abbr.length<3)abbr=(words.join("")).slice(0,4);return abbr.slice(0,4)}
+    function generateJobNumber(record={}){const date=record.rfp_received_date||$("recordRfpReceivedDate")?.value||todayStr();const yy=String(date).slice(2,4)||todayStr().slice(2,4);const mm=String(date).slice(5,7)||todayStr().slice(5,7);const clientId=record.client_id||$("recordClientId")?.value||"";const clientName=getClientName(clientId)||"Client";const abbr=clientAbbrev(clientName);const year=String(date).slice(0,4)||todayStr().slice(0,4);const count=state.records.filter(r=>r.client_id===clientId&&String(r.rfp_received_date||"").slice(0,4)===year&&r.job_id!==record.job_id).length+1;return `DS${yy}${mm}-${abbr}${count}`}
+    function maybeAutoFillJobNumber(){const input=$("recordJobNumber");if(!input)return;if(!input.value.trim())input.value=generateJobNumber({job_id:state.editingRecordId||"",client_id:$("recordClientId").value,rfp_received_date:$("recordRfpReceivedDate").value})}
     function sortRecords(records){return[...records].sort((a,b)=>{const sd=STATUS_ORDER.indexOf(a.status)-STATUS_ORDER.indexOf(b.status);if(sd!==0)return sd;const da=a.bid_due_date||a.booked_date||a.capture_date||"9999-12-31";const db=b.bid_due_date||b.booked_date||b.capture_date||"9999-12-31";if(da!==db)return da.localeCompare(db);return String(a.project_title||"").localeCompare(String(b.project_title||""))})}
     function filteredRecords(){const q=state.search.trim().toLowerCase();return sortRecords(state.records).filter(r=>{if(state.statusFilter&&r.status!==state.statusFilter)return false;if(!q)return true;return[getClientName(r.client_id),r.project_title,r.location,r.rfp_number,r.notes,r.scope,r.assigned_to,r.deliverables,r.equipment].join(" ").toLowerCase().includes(q)})}
     function statusClass(status){return"status-"+String(status||"Lead").toLowerCase().replaceAll(" ","-")}
@@ -345,13 +351,13 @@
     function renderAll(){renderStats();renderClientOptions();renderTable();updateToolbarState()}
     function renderStats(){const r=state.records;$("statOpen").textContent=r.filter(x=>x.status!=="Closed").length;$("statPending").textContent=r.filter(x=>["Lead","Proposal"].includes(x.status)).length;$("statBooked").textContent=r.filter(x=>["Booked","Capture"].includes(x.status)).length;$("statProcessing").textContent=r.filter(x=>x.status==="Processing").length;$("statDelivered").textContent=r.filter(x=>["Delivered","Closed"].includes(x.status)).length}
     function renderClientOptions(selectedId=null){const select=$("recordClientId");select.innerHTML='<option value="">Select client…</option>'+sortByName(state.clients,"client_name").map(c=>`<option value="${escapeHtml(c.client_id)}">${escapeHtml(c.client_name)}</option>`).join("");if(selectedId)select.value=selectedId}
-    function renderTable(){const rows=filteredRecords();const tbody=$("recordsTbody");$("emptyState").classList.toggle("hidden",!!rows.length);tbody.innerHTML=rows.map(r=>{const checked=state.selectedIds.has(r.job_id);return`<tr data-id="${escapeHtml(r.job_id)}" class="${checked?"selected":""}"><td class="sticky checkbox-cell"><input class="checkbox row-checkbox" type="checkbox" ${checked?"checked":""} data-id="${escapeHtml(r.job_id)}" /></td><td>${escapeHtml(getClientName(r.client_id)||"—")}</td><td><div><strong>${escapeHtml(r.project_title||"Untitled Record")}</strong></div><div class="small muted">${escapeHtml(r.equipment||"")}</div></td><td><span class="status-pill ${statusClass(r.status)}">${escapeHtml(r.status)}</span></td><td><span class="accept-pill ${acceptClass(r.accepted)}">${escapeHtml(r.accepted)}</span></td><td class="money">${escapeHtml(formatMoney(r.bid_amount))}</td><td>${escapeHtml(formatDate(r.bid_due_date))}</td><td>${escapeHtml(formatDate(r.booked_date))}</td><td>${escapeHtml(formatDate(r.capture_date))}</td><td>${escapeHtml(formatDate(r.processing_start_date))}</td><td>${escapeHtml(formatDate(r.delivery_date))}</td><td>${escapeHtml(r.rfp_number||"")}</td><td>${escapeHtml(r.location||"")}</td><td>${escapeHtml(r.assigned_to||"")}</td><td class="small muted">${escapeHtml(formatDateTime(r.updated_at))}</td></tr>`}).join("");$("selectionBadge").textContent=`${state.selectedIds.size} selected`;const visibleIds=rows.map(r=>r.job_id);const selectedVisible=visibleIds.filter(id=>state.selectedIds.has(id)).length;$("selectAllCheckbox").checked=visibleIds.length>0&&selectedVisible===visibleIds.length;$("selectAllCheckbox").indeterminate=selectedVisible>0&&selectedVisible<visibleIds.length;tbody.querySelectorAll("tr").forEach(row=>row.addEventListener("click",e=>{if(e.target.closest(".row-checkbox"))return;toggleSelection(row.dataset.id)}));tbody.querySelectorAll(".row-checkbox").forEach(cb=>{cb.addEventListener("click",e=>e.stopPropagation());cb.addEventListener("change",()=>toggleSelection(cb.dataset.id,cb.checked))})}
+    function renderTable(){const rows=filteredRecords();const tbody=$("recordsTbody");$("emptyState").classList.toggle("hidden",!!rows.length);tbody.innerHTML=rows.map(r=>{const checked=state.selectedIds.has(r.job_id);return`<tr data-id="${escapeHtml(r.job_id)}" class="${checked?"selected":""}"><td class="sticky checkbox-cell"><input class="checkbox row-checkbox" type="checkbox" ${checked?"checked":""} data-id="${escapeHtml(r.job_id)}" /></td><td>${escapeHtml(getClientName(r.client_id)||"—")}</td><td><strong>${escapeHtml(r.job_number||"")}</strong></td><td><div><strong>${escapeHtml(r.project_title||"Untitled Record")}</strong></div><div class="small muted">${escapeHtml(r.equipment||"")}</div></td><td><span class="status-pill ${statusClass(r.status)}">${escapeHtml(r.status)}</span></td><td><span class="accept-pill ${acceptClass(r.accepted)}">${escapeHtml(r.accepted)}</span></td><td class="money">${escapeHtml(formatMoney(r.bid_amount))}</td><td>${escapeHtml(formatDate(r.bid_due_date))}</td><td>${escapeHtml(formatDate(r.booked_date))}</td><td>${escapeHtml(formatDate(r.capture_date))}</td><td>${escapeHtml(formatDate(r.processing_start_date))}</td><td>${escapeHtml(formatDate(r.delivery_date))}</td><td>${escapeHtml(r.rfp_number||"")}</td><td>${escapeHtml(r.location||"")}</td><td>${escapeHtml(r.assigned_to||"")}</td><td class="small muted">${escapeHtml(formatDateTime(r.updated_at))}</td></tr>`}).join("");$("selectionBadge").textContent=`${state.selectedIds.size} selected`;const visibleIds=rows.map(r=>r.job_id);const selectedVisible=visibleIds.filter(id=>state.selectedIds.has(id)).length;$("selectAllCheckbox").checked=visibleIds.length>0&&selectedVisible===visibleIds.length;$("selectAllCheckbox").indeterminate=selectedVisible>0&&selectedVisible<visibleIds.length;tbody.querySelectorAll("tr").forEach(row=>row.addEventListener("click",e=>{if(e.target.closest(".row-checkbox"))return;toggleSelection(row.dataset.id)}));tbody.querySelectorAll(".row-checkbox").forEach(cb=>{cb.addEventListener("click",e=>e.stopPropagation());cb.addEventListener("change",()=>toggleSelection(cb.dataset.id,cb.checked))})}
     function updateToolbarState(){const c=state.selectedIds.size;$("btnEditRecord").disabled=c!==1;$("btnCopyRecord").disabled=c!==1;$("btnDeleteRecord").disabled=c<1;$("selectionBadge").textContent=`${c} selected`}
     function toggleSelection(id,force){const should=typeof force==="boolean"?force:!state.selectedIds.has(id);should?state.selectedIds.add(id):state.selectedIds.delete(id);renderTable();updateToolbarState()}
     function clearSelection(){state.selectedIds.clear();renderTable();updateToolbarState()}
 
-    function openRecordModal(record=null){const r=record?{...record}:defaultRecord();state.editingRecordId=record?r.job_id:null;$("recordModalTitle").textContent=record?"Edit Record":"New Record";renderClientOptions(r.client_id);$("recordAssignedTo").value=r.assigned_to||"";$("recordProjectTitle").value=r.project_title||"";$("recordRfpNumber").value=r.rfp_number||"";$("recordLocation").value=r.location||"";$("recordStatus").value=r.status||"Lead";$("recordAccepted").value=r.accepted||"Pending";$("recordBidAmount").value=r.bid_amount||"";$("recordProbability").value=r.probability||"";$("recordEquipment").value=r.equipment||"";$("recordRfpReceivedDate").value=formatDate(r.rfp_received_date);$("recordSiteVisitDate").value=formatDate(r.site_visit_date);$("recordBidDueDate").value=formatDate(r.bid_due_date);$("recordBidSubmittedDate").value=formatDate(r.bid_submitted_date);$("recordAcceptedDate").value=formatDate(r.accepted_date);$("recordBookedDate").value=formatDate(r.booked_date);$("recordCaptureDate").value=formatDate(r.capture_date);$("recordDeliveryDate").value=formatDate(r.delivery_date);$("recordProcessingStartDate").value=formatDate(r.processing_start_date);$("recordProcessingCompleteDate").value=formatDate(r.processing_complete_date);$("recordInvoiceDate").value=formatDate(r.invoice_date);$("recordFollowUpDate").value=formatDate(r.follow_up_date);$("recordScope").value=r.scope||"";$("recordDeliverables").value=r.deliverables||"";$("recordNotes").value=r.notes||"";openModal("recordModal")}
-    function collectRecordForm(){const existing=state.records.find(r=>r.job_id===state.editingRecordId);const b=existing?{...existing}:defaultRecord();return{...b,client_id:$("recordClientId").value,assigned_to:$("recordAssignedTo").value.trim(),project_title:$("recordProjectTitle").value.trim(),rfp_number:$("recordRfpNumber").value.trim(),location:$("recordLocation").value.trim(),status:$("recordStatus").value,accepted:$("recordAccepted").value,bid_amount:$("recordBidAmount").value,probability:$("recordProbability").value,equipment:$("recordEquipment").value.trim(),rfp_received_date:$("recordRfpReceivedDate").value,site_visit_date:$("recordSiteVisitDate").value,bid_due_date:$("recordBidDueDate").value,bid_submitted_date:$("recordBidSubmittedDate").value,accepted_date:$("recordAcceptedDate").value,booked_date:$("recordBookedDate").value,capture_date:$("recordCaptureDate").value,delivery_date:$("recordDeliveryDate").value,processing_start_date:$("recordProcessingStartDate").value,processing_complete_date:$("recordProcessingCompleteDate").value,invoice_date:$("recordInvoiceDate").value,follow_up_date:$("recordFollowUpDate").value,scope:$("recordScope").value.trim(),deliverables:$("recordDeliverables").value.trim(),notes:$("recordNotes").value.trim(),updated_at:nowIso()}}
+    function openRecordModal(record=null){const r=record?{...record}:defaultRecord();state.editingRecordId=record?r.job_id:null;$("recordModalTitle").textContent=record?"Edit Record":"New Record";renderClientOptions(r.client_id);$("recordAssignedTo").value=r.assigned_to||"";$("recordJobNumber").value=r.job_number||generateJobNumber(r);$("recordProjectTitle").value=r.project_title||"";$("recordRfpNumber").value=r.rfp_number||"";$("recordLocation").value=r.location||"";$("recordStatus").value=r.status||"Lead";$("recordAccepted").value=r.accepted||"Pending";$("recordBidAmount").value=r.bid_amount||"";$("recordProbability").value=r.probability||"";$("recordEquipment").value=r.equipment||"";$("recordRfpReceivedDate").value=formatDate(r.rfp_received_date);$("recordSiteVisitDate").value=formatDate(r.site_visit_date);$("recordBidDueDate").value=formatDate(r.bid_due_date);$("recordBidSubmittedDate").value=formatDate(r.bid_submitted_date);$("recordAcceptedDate").value=formatDate(r.accepted_date);$("recordBookedDate").value=formatDate(r.booked_date);$("recordCaptureDate").value=formatDate(r.capture_date);$("recordDeliveryDate").value=formatDate(r.delivery_date);$("recordProcessingStartDate").value=formatDate(r.processing_start_date);$("recordProcessingCompleteDate").value=formatDate(r.processing_complete_date);$("recordInvoiceDate").value=formatDate(r.invoice_date);$("recordFollowUpDate").value=formatDate(r.follow_up_date);$("recordScope").value=r.scope||"";$("recordDeliverables").value=r.deliverables||"";$("recordNotes").value=r.notes||"";openModal("recordModal")}
+    function collectRecordForm(){const existing=state.records.find(r=>r.job_id===state.editingRecordId);const b=existing?{...existing}:defaultRecord();return{...b,client_id:$("recordClientId").value,job_number:$("recordJobNumber").value.trim(),assigned_to:$("recordAssignedTo").value.trim(),project_title:$("recordProjectTitle").value.trim(),rfp_number:$("recordRfpNumber").value.trim(),location:$("recordLocation").value.trim(),status:$("recordStatus").value,accepted:$("recordAccepted").value,bid_amount:$("recordBidAmount").value,probability:$("recordProbability").value,equipment:$("recordEquipment").value.trim(),rfp_received_date:$("recordRfpReceivedDate").value,site_visit_date:$("recordSiteVisitDate").value,bid_due_date:$("recordBidDueDate").value,bid_submitted_date:$("recordBidSubmittedDate").value,accepted_date:$("recordAcceptedDate").value,booked_date:$("recordBookedDate").value,capture_date:$("recordCaptureDate").value,delivery_date:$("recordDeliveryDate").value,processing_start_date:$("recordProcessingStartDate").value,processing_complete_date:$("recordProcessingCompleteDate").value,invoice_date:$("recordInvoiceDate").value,follow_up_date:$("recordFollowUpDate").value,scope:$("recordScope").value.trim(),deliverables:$("recordDeliverables").value.trim(),notes:$("recordNotes").value.trim(),updated_at:nowIso()}}
     function saveRecordFromForm(e){e.preventDefault();const r=collectRecordForm();if(!r.project_title){toast("Project title is required.");return}const i=state.records.findIndex(x=>x.job_id===r.job_id);i>=0?state.records[i]=r:state.records.push(r);saveLocal();closeModal("recordModal");renderAll();toast("Record saved.")}
     function openClientModal(client=null){const c=client?{...client}:defaultClient();state.editingClientId=client?c.client_id:null;$("clientModalTitle").textContent=client?"Edit Client":"New Client";$("clientName").value=c.client_name||"";$("clientContactName").value=c.contact_name||"";$("clientEmail").value=c.email||"";$("clientPhone").value=c.phone||"";$("clientNotes").value=c.notes||"";openModal("clientModal")}
     function saveClientFromForm(e){e.preventDefault();const existing=state.clients.find(c=>c.client_id===state.editingClientId);const b=existing?{...existing}:defaultClient();const c={...b,client_name:$("clientName").value.trim(),contact_name:$("clientContactName").value.trim(),email:$("clientEmail").value.trim(),phone:$("clientPhone").value.trim(),notes:$("clientNotes").value.trim(),updated_at:nowIso()};if(!c.client_name){toast("Client name is required.");return}const i=state.clients.findIndex(x=>x.client_id===c.client_id);i>=0?state.clients[i]=c:state.clients.push(c);saveLocal();closeModal("clientModal");renderAll();$("recordClientId").value=c.client_id;toast("Client saved.")}
@@ -384,7 +390,7 @@
     function initEvents(){
       $("btnNewRecord").addEventListener("click",()=>openRecordModal());$("btnEditRecord").addEventListener("click",editSelectedRecord);$("btnCopyRecord").addEventListener("click",copySelectedRecord);$("btnDeleteRecord").addEventListener("click",deleteSelectedRecords);$("btnSync").addEventListener("click",runSync);$("btnImport").addEventListener("click",()=>$("importFileInput").click());$("btnExport").addEventListener("click",exportCsv);$("btnBackup").addEventListener("click",exportBackup);$("btnPrint").addEventListener("click",()=>window.print());$("btnSettings").addEventListener("click",()=>{populateSettingsForm();openModal("settingsModal")});
       $("btnSaveSettings").addEventListener("click",()=>{saveSettings(readSettingsForm());updateSyncStatus("Settings saved locally in this browser.");toast("Settings saved.")});$("btnTestConnection").addEventListener("click",testConnection);$("btnOpenApiTest").addEventListener("click",openApiTestUrl);$("btnClearSettings").addEventListener("click",()=>{localStorage.removeItem(STORAGE_KEYS.settings);populateSettingsForm();updateSyncStatus("Saved sync settings cleared from this browser.");toast("Saved sync settings cleared.")});
-      $("recordForm").addEventListener("submit",saveRecordFromForm);$("clientForm").addEventListener("submit",saveClientFromForm);$("btnNewClientInline").addEventListener("click",()=>openClientModal());$("btnResolveConflicts").addEventListener("click",resolveConflictsAndContinue);$("searchInput").addEventListener("input",e=>{state.search=e.target.value;renderTable()});$("statusFilter").addEventListener("change",e=>{state.statusFilter=e.target.value;renderTable()});$("selectAllCheckbox").addEventListener("change",e=>{const ids=filteredRecords().map(r=>r.job_id);ids.forEach(id=>e.target.checked?state.selectedIds.add(id):state.selectedIds.delete(id));renderTable();updateToolbarState()});$("importFileInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)importBackup(file);e.target.value=""});
+      $("recordForm").addEventListener("submit",saveRecordFromForm);$("clientForm").addEventListener("submit",saveClientFromForm);$("btnNewClientInline").addEventListener("click",()=>openClientModal());$("recordClientId").addEventListener("change",maybeAutoFillJobNumber);$("recordRfpReceivedDate").addEventListener("change",maybeAutoFillJobNumber);$("btnResolveConflicts").addEventListener("click",resolveConflictsAndContinue);$("searchInput").addEventListener("input",e=>{state.search=e.target.value;renderTable()});$("statusFilter").addEventListener("change",e=>{state.statusFilter=e.target.value;renderTable()});$("selectAllCheckbox").addEventListener("change",e=>{const ids=filteredRecords().map(r=>r.job_id);ids.forEach(id=>e.target.checked?state.selectedIds.add(id):state.selectedIds.delete(id));renderTable();updateToolbarState()});$("importFileInput").addEventListener("change",e=>{const file=e.target.files?.[0];if(file)importBackup(file);e.target.value=""});
       document.querySelectorAll("[data-close]").forEach(btn=>btn.addEventListener("click",()=>closeModal(btn.dataset.close)));document.querySelectorAll(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("show")}));document.addEventListener("keydown",e=>{if(e.key==="Escape")document.querySelectorAll(".modal.show").forEach(m=>m.classList.remove("show"))})
     }
     function boot(){loadLocal();initEvents();populateSettingsForm();renderAll()}boot();
