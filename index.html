@@ -58,7 +58,7 @@
       margin: 8px 0 0;
       color: var(--muted);
       font-size: 15px;
-      max-width: 780px;
+      max-width: 820px;
     }
 
     .header-actions, .inline-actions, .form-actions, .client-actions {
@@ -221,7 +221,7 @@
 
     textarea { min-height: 96px; resize: vertical; line-height: 1.45; }
 
-    .client-summary, .client-editor {
+    .client-summary, .client-editor, .sync-status {
       border: 1px solid var(--border);
       background: #f8fafc;
       border-radius: 14px;
@@ -229,13 +229,13 @@
       margin-top: 12px;
     }
 
-    .client-summary strong {
+    .client-summary strong, .sync-status strong {
       display: block;
       font-size: 14px;
       color: #111827;
     }
 
-    .client-summary span {
+    .client-summary span, .sync-status span {
       display: block;
       margin-top: 4px;
       color: var(--muted);
@@ -252,6 +252,14 @@
       margin: 0 0 12px;
       font-size: 15px;
       letter-spacing: -0.01em;
+    }
+
+    .sync-panel { margin-bottom: 18px; }
+
+    .sync-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 12px;
     }
 
     .form-actions { margin-top: 18px; }
@@ -349,6 +357,10 @@
       .table-wrap { max-height: unset; }
     }
 
+    @media (max-width: 900px) {
+      .sync-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 760px) {
       .header-row { flex-direction: column; }
       .header-actions { justify-content: flex-start; }
@@ -359,7 +371,7 @@
 
     @media print {
       body { background: white; }
-      header, .dashboard, .form-panel, .filters, .row-actions, .panel-header button, .header-actions { display: none !important; }
+      header, .dashboard, .form-panel, .filters, .row-actions, .panel-header button, .header-actions, .sync-panel { display: none !important; }
       main { max-width: none; padding: 0; }
       .layout { display: block; }
       .panel { border: 0; box-shadow: none; }
@@ -379,6 +391,9 @@
       </div>
       <div class="header-actions">
         <button type="button" class="primary" id="newRecordTop">New Record</button>
+        <button type="button" id="toggleSyncSettings">Sheet Sync</button>
+        <button type="button" id="pullFromSheet">Pull from Sheet</button>
+        <button type="button" id="pushToSheet">Push to Sheet</button>
         <button type="button" id="exportCsv">Export CSV</button>
         <button type="button" id="exportJson">Backup JSON</button>
         <label class="button-label" for="importJson">Import JSON</label>
@@ -396,6 +411,36 @@
       <div class="stat-card"><span>Awarded / Active</span><strong id="statAwarded">0</strong><em>Won or in progress</em></div>
       <div class="stat-card"><span>Bid Value</span><strong id="statBidValue">$0</strong><em>Visible records total</em></div>
       <div class="stat-card"><span>Accepted Value</span><strong id="statAcceptedValue">$0</strong><em>Awarded and active total</em></div>
+    </section>
+
+    <section class="panel sync-panel hidden" id="syncPanel">
+      <div class="panel-header">
+        <div>
+          <h2>Google Sheet Sync</h2>
+          <p>The page is hosted on GitHub. The shared database is stored in your Google Sheet through Apps Script.</p>
+        </div>
+        <button type="button" class="small" id="hideSyncSettings">Hide</button>
+      </div>
+      <div class="form-body">
+        <div class="sync-grid">
+          <label>Apps Script Web App URL
+            <input id="sheetApiUrl" placeholder="https://script.google.com/.../exec" />
+          </label>
+          <label>API Key
+            <input id="sheetApiKey" type="password" placeholder="The API_KEY from Code.gs" autocomplete="off" />
+          </label>
+        </div>
+        <div class="inline-actions" style="margin-top:12px;">
+          <button type="button" class="primary" id="saveSheetSettings">Save Sync Settings</button>
+          <button type="button" id="testSheetConnection">Test Connection</button>
+          <button type="button" id="clearSheetSettings">Clear Local Sync Settings</button>
+        </div>
+        <div class="sync-status" id="syncStatus">
+          <strong>Sync status</strong>
+          <span>Not connected yet. Enter the API key used in Apps Script, then test the connection.</span>
+        </div>
+        <p class="footer-note">This URL is safe to keep in the HTML. The API key should not be published in the GitHub repo. Each user enters it locally once and it is stored only in that browser.</p>
+      </div>
     </section>
 
     <section class="layout">
@@ -572,7 +617,7 @@
             <button type="button" id="duplicateRecord">Duplicate</button>
             <button type="button" class="danger hidden" id="deleteCurrent">Delete</button>
           </div>
-          <p class="footer-note">Client records and job records are saved in this browser. Use <b>Backup JSON</b> regularly. The backup includes both clients and jobs.</p>
+          <p class="footer-note">The page keeps a local cache in this browser. Use <b>Pull from Sheet</b> before editing and <b>Push to Sheet</b> after changes.</p>
         </form>
       </aside>
 
@@ -629,9 +674,18 @@
   </main>
 
   <script>
-    const RECORD_STORAGE_KEY = "dsci_job_proposal_tracker_v2_records";
-    const CLIENT_STORAGE_KEY = "dsci_job_proposal_tracker_v2_clients";
-    const LEGACY_STORAGE_KEY = "dsci_job_proposal_tracker_v1";
+    const RECORD_STORAGE_KEY = "dsci_job_proposal_tracker_v3_records";
+    const CLIENT_STORAGE_KEY = "dsci_job_proposal_tracker_v3_clients";
+    const SHEET_SYNC_STORAGE_KEY = "dsci_job_proposal_tracker_v3_sheet_sync";
+    const LEGACY_RECORD_STORAGE_KEYS = [
+      "dsci_job_proposal_tracker_v2_records",
+      "dsci_job_proposal_tracker_v1"
+    ];
+    const LEGACY_CLIENT_STORAGE_KEYS = [
+      "dsci_job_proposal_tracker_v2_clients"
+    ];
+
+    const DEFAULT_SHEET_API_URL = "https://script.google.com/a/macros/droneservicescanadainc.com/s/AKfycbyAFJH5YiM6RDYPQEBRzp4srcZN-1QG90VtoF5zfos9XPVnkDYreUtThsKXnf2AK0mY4w/exec";
 
     const statusOptions = [
       "Lead", "RFP Review", "Quoting", "Submitted", "Awarded", "Not Awarded",
@@ -704,11 +758,21 @@
     function loadRecords() {
       const current = loadArray(RECORD_STORAGE_KEY);
       if (current.length) return current;
-      return loadArray(LEGACY_STORAGE_KEY);
+      for (const key of LEGACY_RECORD_STORAGE_KEYS) {
+        const legacy = loadArray(key);
+        if (legacy.length) return legacy;
+      }
+      return [];
     }
 
     function loadClients() {
-      return loadArray(CLIENT_STORAGE_KEY);
+      const current = loadArray(CLIENT_STORAGE_KEY);
+      if (current.length) return current;
+      for (const key of LEGACY_CLIENT_STORAGE_KEYS) {
+        const legacy = loadArray(key);
+        if (legacy.length) return legacy;
+      }
+      return [];
     }
 
     function saveRecords() {
@@ -717,6 +781,63 @@
 
     function saveClients() {
       localStorage.setItem(CLIENT_STORAGE_KEY, JSON.stringify(clients));
+    }
+
+    function loadSheetSyncSettings() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(SHEET_SYNC_STORAGE_KEY)) || {};
+        return {
+          url: saved.url || DEFAULT_SHEET_API_URL,
+          key: saved.key || ""
+        };
+      } catch {
+        return { url: DEFAULT_SHEET_API_URL, key: "" };
+      }
+    }
+
+    function saveSheetSyncSettingsObject(settings) {
+      localStorage.setItem(SHEET_SYNC_STORAGE_KEY, JSON.stringify(settings));
+    }
+
+    function fillSheetSyncSettings() {
+      const settings = loadSheetSyncSettings();
+      $("sheetApiUrl").value = settings.url || DEFAULT_SHEET_API_URL;
+      $("sheetApiKey").value = settings.key || "";
+      updateSyncStatus("Sync status", settings.key ? "Settings are saved locally. Test the connection before using the shared sheet." : "Enter the API key used in Apps Script, then test the connection.");
+    }
+
+    function getSheetSyncSettingsFromForm() {
+      const settings = {
+        url: $("sheetApiUrl").value.trim() || DEFAULT_SHEET_API_URL,
+        key: $("sheetApiKey").value.trim()
+      };
+      if (!settings.url) throw new Error("Enter the Apps Script web app URL.");
+      if (!settings.key) throw new Error("Enter the API key from Apps Script.");
+      return settings;
+    }
+
+    function saveSheetSettingsFromForm() {
+      try {
+        const settings = getSheetSyncSettingsFromForm();
+        saveSheetSyncSettingsObject(settings);
+        updateSyncStatus("Settings saved", "The Apps Script URL and API key are saved in this browser only.");
+        alert("Sheet sync settings saved in this browser.");
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    function clearSheetSettings() {
+      if (!confirm("Clear the locally saved Apps Script URL and API key from this browser?")) return;
+      localStorage.removeItem(SHEET_SYNC_STORAGE_KEY);
+      fillSheetSyncSettings();
+      updateSyncStatus("Settings cleared", "The page still contains the default Apps Script URL, but the API key has been cleared.");
+    }
+
+    function updateSyncStatus(title, message) {
+      const box = $("syncStatus");
+      if (!box) return;
+      box.innerHTML = `<strong>${safeText(title)}</strong><span>${safeText(message)}</span>`;
     }
 
     function normalizeKey(value) {
@@ -1192,14 +1313,7 @@
     }
 
     function exportJsonFile() {
-      const backup = {
-        app: "DSCI Job & Proposal Tracker",
-        version: 2,
-        exportedAt: new Date().toISOString(),
-        clients,
-        records
-      };
-      downloadFile(JSON.stringify(backup, null, 2), `DSCI-job-proposal-tracker-backup-${todayISO()}.json`, "application/json");
+      downloadFile(JSON.stringify(getBackupObject(), null, 2), `DSCI-job-proposal-tracker-backup-${todayISO()}.json`, "application/json");
     }
 
     function downloadFile(content, filename, type) {
@@ -1214,61 +1328,259 @@
       URL.revokeObjectURL(url);
     }
 
+    function getBackupObject() {
+      return {
+        app: "DSCI Job & Proposal Tracker",
+        version: 3,
+        exportedAt: new Date().toISOString(),
+        clients,
+        records
+      };
+    }
+
+    function applyImportedData(imported) {
+      let importedRecords = [];
+      let importedClients = [];
+
+      if (Array.isArray(imported)) {
+        importedRecords = imported;
+      } else if (imported && Array.isArray(imported.records)) {
+        importedRecords = imported.records;
+        importedClients = Array.isArray(imported.clients) ? imported.clients : [];
+      } else {
+        throw new Error("JSON backup must contain records, or be an array of records.");
+      }
+
+      const cleanedClients = importedClients.map((client) => ({
+        id: client.id || makeId(),
+        name: client.name || client.client || "Unnamed client",
+        contactName: client.contactName || "",
+        email: client.email || "",
+        phone: client.phone || "",
+        notes: client.notes || "",
+        createdAt: client.createdAt || new Date().toISOString(),
+        updatedAt: client.updatedAt || new Date().toISOString()
+      }));
+
+      const cleanedRecords = importedRecords.map((record) => ({
+        ...record,
+        id: record.id || makeId(),
+        clientId: record.clientId || "",
+        client: record.client || "",
+        status: record.status || "Lead",
+        accepted: record.accepted || "Pending",
+        bidAmount: Number(record.bidAmount || 0),
+        probability: Number(record.probability || 0),
+        updatedAt: record.updatedAt || new Date().toISOString(),
+        createdAt: record.createdAt || new Date().toISOString()
+      }));
+
+      records = cleanedRecords;
+      clients = cleanedClients;
+      migrateClientsFromExistingRecords();
+      saveRecords();
+      saveClients();
+      renderClientOptions();
+      clearForm();
+      render();
+    }
+
     function importJsonFile(file) {
       const reader = new FileReader();
       reader.onload = (event) => {
         try {
           const imported = JSON.parse(event.target.result);
-          let importedRecords = [];
-          let importedClients = [];
-
-          if (Array.isArray(imported)) {
-            importedRecords = imported;
-          } else if (imported && Array.isArray(imported.records)) {
-            importedRecords = imported.records;
-            importedClients = Array.isArray(imported.clients) ? imported.clients : [];
-          } else {
-            throw new Error("JSON backup must contain records, or be an array of records.");
-          }
-
-          const cleanedClients = importedClients.map((client) => ({
-            id: client.id || makeId(),
-            name: client.name || client.client || "Unnamed client",
-            contactName: client.contactName || "",
-            email: client.email || "",
-            phone: client.phone || "",
-            notes: client.notes || "",
-            createdAt: client.createdAt || new Date().toISOString(),
-            updatedAt: client.updatedAt || new Date().toISOString()
-          }));
-
-          const cleanedRecords = importedRecords.map((record) => ({
-            ...record,
-            id: record.id || makeId(),
-            clientId: record.clientId || "",
-            client: record.client || "",
-            status: record.status || "Lead",
-            accepted: record.accepted || "Pending",
-            bidAmount: Number(record.bidAmount || 0),
-            probability: Number(record.probability || 0),
-            updatedAt: record.updatedAt || new Date().toISOString(),
-            createdAt: record.createdAt || new Date().toISOString()
-          }));
-
-          if (!confirm(`Import ${cleanedRecords.length} records and ${cleanedClients.length} clients? This will replace the current browser data.`)) return;
-          records = cleanedRecords;
-          clients = cleanedClients;
-          migrateClientsFromExistingRecords();
-          saveRecords();
-          saveClients();
-          renderClientOptions();
-          clearForm();
-          render();
+          const recordCount = Array.isArray(imported) ? imported.length : Array.isArray(imported.records) ? imported.records.length : 0;
+          const clientCount = Array.isArray(imported.clients) ? imported.clients.length : 0;
+          if (!confirm(`Import ${recordCount} records and ${clientCount} clients? This will replace the current browser data.`)) return;
+          applyImportedData(imported);
         } catch (error) {
           alert(`Import failed: ${error.message}`);
         }
       };
       reader.readAsText(file);
+    }
+
+    function clientToSheetRow(client) {
+      return {
+        client_id: client.id || makeId(),
+        client_name: client.name || "",
+        contact_name: client.contactName || "",
+        email: client.email || "",
+        phone: client.phone || "",
+        notes: client.notes || "",
+        created_at: client.createdAt || new Date().toISOString(),
+        updated_at: client.updatedAt || new Date().toISOString()
+      };
+    }
+
+    function sheetRowToClient(row) {
+      return {
+        id: row.client_id || makeId(),
+        name: row.client_name || "Unnamed client",
+        contactName: row.contact_name || "",
+        email: row.email || "",
+        phone: row.phone || "",
+        notes: row.notes || "",
+        createdAt: row.created_at || new Date().toISOString(),
+        updatedAt: row.updated_at || new Date().toISOString()
+      };
+    }
+
+    function jobToSheetRow(record) {
+      return {
+        job_id: record.id || makeId(),
+        client_id: record.clientId || "",
+        project_title: record.projectTitle || "",
+        rfp_number: record.rfpNumber || "",
+        location: record.location || "",
+        status: record.status || "Lead",
+        accepted: record.accepted || "Pending",
+        bid_amount: record.bidAmount || "",
+        probability: record.probability || "",
+        scope: record.scope || "",
+        rfp_received_date: record.rfpReceivedDate || "",
+        site_visit_date: record.siteVisitDate || "",
+        bid_due_date: record.bidDueDate || "",
+        bid_submitted_date: record.bidSubmittedDate || "",
+        accepted_date: record.acceptedDate || "",
+        booked_date: record.bookedDate || "",
+        capture_date: record.captureDate || "",
+        processing_start_date: record.processingStartDate || "",
+        processing_complete_date: record.processingCompleteDate || "",
+        delivery_date: record.deliveryDate || "",
+        invoice_date: record.invoiceDate || "",
+        follow_up_date: record.followUpDate || "",
+        equipment: record.equipment || "",
+        assigned_to: record.assignedTo || "",
+        deliverables: record.deliverables || "",
+        notes: record.notes || "",
+        created_at: record.createdAt || new Date().toISOString(),
+        updated_at: record.updatedAt || new Date().toISOString()
+      };
+    }
+
+    function sheetRowToJob(row) {
+      const client = clients.find((item) => item.id === row.client_id);
+      return {
+        id: row.job_id || makeId(),
+        clientId: row.client_id || "",
+        client: client?.name || row.client_name || "",
+        contactName: client?.contactName || "",
+        email: client?.email || "",
+        phone: client?.phone || "",
+        projectTitle: row.project_title || "",
+        rfpNumber: row.rfp_number || "",
+        location: row.location || "",
+        status: row.status || "Lead",
+        accepted: row.accepted || "Pending",
+        bidAmount: Number(row.bid_amount || 0),
+        probability: Number(row.probability || 0),
+        scope: row.scope || "",
+        rfpReceivedDate: row.rfp_received_date || "",
+        siteVisitDate: row.site_visit_date || "",
+        bidDueDate: row.bid_due_date || "",
+        bidSubmittedDate: row.bid_submitted_date || "",
+        acceptedDate: row.accepted_date || "",
+        bookedDate: row.booked_date || "",
+        captureDate: row.capture_date || "",
+        processingStartDate: row.processing_start_date || "",
+        processingCompleteDate: row.processing_complete_date || "",
+        deliveryDate: row.delivery_date || "",
+        invoiceDate: row.invoice_date || "",
+        followUpDate: row.follow_up_date || "",
+        equipment: row.equipment || "",
+        assignedTo: row.assigned_to || "",
+        deliverables: row.deliverables || "",
+        notes: row.notes || "",
+        createdAt: row.created_at || new Date().toISOString(),
+        updatedAt: row.updated_at || new Date().toISOString()
+      };
+    }
+
+    async function sheetRequest(action, payload = {}) {
+      const settings = getSheetSyncSettingsFromForm();
+      saveSheetSyncSettingsObject(settings);
+
+      const body = {
+        key: settings.key,
+        action,
+        ...payload
+      };
+
+      const response = await fetch(settings.url, {
+        method: "POST",
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Sheet request failed: ${response.status} ${response.statusText}`);
+      }
+
+      const result = await response.json();
+      if (!result.ok) {
+        throw new Error(result.error || "Unknown sheet API error.");
+      }
+      return result;
+    }
+
+    async function testSheetConnection() {
+      try {
+        updateSyncStatus("Testing connection", "Contacting Apps Script...");
+        const result = await sheetRequest("read");
+        const clientCount = result.data?.clients?.length || 0;
+        const jobCount = result.data?.jobs?.length || 0;
+        updateSyncStatus("Connected", `Apps Script responded. Sheet contains ${clientCount} client(s) and ${jobCount} job/proposal record(s).`);
+        alert("Sheet connection works.");
+      } catch (error) {
+        updateSyncStatus("Connection failed", error.message);
+        alert(error.message);
+      }
+    }
+
+    async function pullFromSheet() {
+      try {
+        updateSyncStatus("Pulling from Sheet", "Reading clients and jobs from Google Sheets...");
+        const result = await sheetRequest("read");
+        const sheetClients = result.data?.clients || [];
+        const sheetJobs = result.data?.jobs || [];
+
+        if (!confirm(`Replace local browser data with ${sheetClients.length} clients and ${sheetJobs.length} jobs from the Google Sheet?`)) {
+          updateSyncStatus("Pull cancelled", "No local data was changed.");
+          return;
+        }
+
+        clients = sheetClients.map(sheetRowToClient);
+        records = sheetJobs.map(sheetRowToJob);
+        migrateClientsFromExistingRecords();
+        saveClients();
+        saveRecords();
+        renderClientOptions();
+        clearForm();
+        render();
+        updateSyncStatus("Pull complete", `Loaded ${clients.length} client(s) and ${records.length} job/proposal record(s) from Google Sheets.`);
+      } catch (error) {
+        updateSyncStatus("Pull failed", error.message);
+        alert(error.message);
+      }
+    }
+
+    async function pushToSheet() {
+      try {
+        if (!confirm("Push the current local browser data to the Google Sheet? This replaces all rows in the Clients and Jobs tabs.")) return;
+        updateSyncStatus("Pushing to Sheet", "Writing local clients and jobs to Google Sheets...");
+        const payload = {
+          clients: clients.map(clientToSheetRow),
+          jobs: records.map(jobToSheetRow),
+          settings: []
+        };
+        await sheetRequest("replaceAll", payload);
+        updateSyncStatus("Push complete", `Saved ${clients.length} client(s) and ${records.length} job/proposal record(s) to Google Sheets.`);
+        alert("Data pushed to Google Sheets.");
+      } catch (error) {
+        updateSyncStatus("Push failed", error.message);
+        alert(error.message);
+      }
     }
 
     function populateStatusFilters() {
@@ -1413,6 +1725,17 @@
     });
     $("loadSample").addEventListener("click", loadSampleRows);
 
+    $("toggleSyncSettings").addEventListener("click", () => {
+      fillSheetSyncSettings();
+      $("syncPanel").classList.toggle("hidden");
+    });
+    $("hideSyncSettings").addEventListener("click", () => $("syncPanel").classList.add("hidden"));
+    $("saveSheetSettings").addEventListener("click", saveSheetSettingsFromForm);
+    $("testSheetConnection").addEventListener("click", testSheetConnection);
+    $("clearSheetSettings").addEventListener("click", clearSheetSettings);
+    $("pullFromSheet").addEventListener("click", pullFromSheet);
+    $("pushToSheet").addEventListener("click", pushToSheet);
+
     ["searchBox", "statusFilter", "acceptedFilter", "dateFilter"].forEach((id) => {
       $(id).addEventListener("input", render);
       $(id).addEventListener("change", render);
@@ -1439,6 +1762,7 @@
     });
 
     migrateClientsFromExistingRecords();
+    fillSheetSyncSettings();
     populateStatusFilters();
     renderClientOptions();
     clearForm();
